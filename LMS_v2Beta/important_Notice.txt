@@ -1,0 +1,11 @@
+This is 85% complete. There are other features missing like exporting
+classlist excel file and display information in graphical format.
+
+The organization of the source code are not yet well structured but 
+the better version is on development.
+
+This is a beginner project and the source code are not well cleaned.
+
+I made this program as my starting project when i was learning PyQt 
+Framework, and I am on my way redesigning and improving this project 
+with a better version.

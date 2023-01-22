@@ -1,0 +1,2028 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>gradesSHSsection</class>
+ <widget class="QFrame" name="gradesSHSsection">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1143</width>
+    <height>773</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Frame</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <widget class="QFrame" name="frame">
+     <property name="minimumSize">
+      <size>
+       <width>395</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>395</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
+       <number>0</number>
+      </property>
+      <item>
+       <widget class="QFrame" name="frame_4">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>140</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>170</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QLabel" name="gradeSecSHS">
+           <property name="font">
+            <font>
+             <family>Segoe UI Semibold</family>
+             <pointsize>16</pointsize>
+             <weight>75</weight>
+             <italic>false</italic>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLabel{
+	background-color: rgb(67, 156, 250);
+    border-radius: 10px;
+	color: rgb(255,255,255);
+}</string>
+           </property>
+           <property name="text">
+            <string>Grade and Section</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="strand">
+           <property name="font">
+            <font>
+             <family>Segoe UI Semibold</family>
+             <pointsize>12</pointsize>
+             <weight>75</weight>
+             <italic>true</italic>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLabel{
+	color: rgb(67, 156, 250);
+}</string>
+           </property>
+           <property name="text">
+            <string>Strand</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="advSHS">
+           <property name="font">
+            <font>
+             <family>Segoe UI Semibold</family>
+             <pointsize>12</pointsize>
+             <weight>75</weight>
+             <italic>true</italic>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Adviser: </string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLabel" name="sySHS">
+           <property name="font">
+            <font>
+             <family>Segoe UI Semibold</family>
+             <pointsize>10</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>School Year</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="frame_3">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>95</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>95</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QFormLayout" name="formLayout">
+         <property name="verticalSpacing">
+          <number>14</number>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label">
+           <property name="font">
+            <font>
+             <family>Segoe UI Semibold</family>
+             <pointsize>12</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>LRN:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="font">
+            <font>
+             <family>Segoe UI Semibold</family>
+             <pointsize>12</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Name:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="lrn_SHS">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Segoe UI Semibold</family>
+             <pointsize>11</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLabel{
+border-radius: 10px;
+border: 1px solid rgb(67, 156, 250);
+	background-color: rgb(255, 255, 255);
+}</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLabel" name="name_SHS">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777215</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Segoe UI Semibold</family>
+             <pointsize>11</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLabel{
+border-radius: 10px;
+border: 1px solid rgb(67, 156, 250);
+	background-color: rgb(255, 255, 255);
+}</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_6">
+        <property name="font">
+         <font>
+          <family>Segoe UI</family>
+          <pointsize>9</pointsize>
+          <italic>true</italic>
+         </font>
+        </property>
+        <property name="text">
+         <string>  Select learner from the table</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QTableWidget" name="studentSHSTable">
+        <property name="styleSheet">
+         <string notr="true">QTableWidget{
+border: none;
+	background-color: rgb(255, 255, 255);
+}
+QFrame{
+	background-color:  rgb(255, 255, 255);
+    border: none;
+}
+
+QTableView::item:selected  {
+	color: rgb(255, 255, 255);
+	background-color: rgb(67, 156, 250);
+}
+
+</string>
+        </property>
+        <property name="selectionMode">
+         <enum>QAbstractItemView::SingleSelection</enum>
+        </property>
+        <property name="selectionBehavior">
+         <enum>QAbstractItemView::SelectRows</enum>
+        </property>
+        <attribute name="horizontalHeaderStretchLastSection">
+         <bool>true</bool>
+        </attribute>
+        <attribute name="verticalHeaderVisible">
+         <bool>false</bool>
+        </attribute>
+        <column>
+         <property name="text">
+          <string>LRN</string>
+         </property>
+         <property name="font">
+          <font>
+           <family>Segoe UI</family>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="foreground">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>67</red>
+            <green>156</green>
+            <blue>250</blue>
+           </color>
+          </brush>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Name</string>
+         </property>
+         <property name="font">
+          <font>
+           <family>Segoe UI</family>
+           <pointsize>10</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="foreground">
+          <brush brushstyle="SolidPattern">
+           <color alpha="255">
+            <red>67</red>
+            <green>156</green>
+            <blue>250</blue>
+           </color>
+          </brush>
+         </property>
+        </column>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="frame_5">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>50</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <property name="leftMargin">
+          <number>12</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>12</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QPushButton" name="updGradeSHS">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Segoe UI Semibold</family>
+             <pointsize>10</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton{
+	color: rgb(67, 156, 250);
+	border-radius: 10px;
+	border: 2px solid rgb(191, 191, 191);
+	background-color: rgb(255, 255, 255);
+}
+QPushButton:focus{
+background-color: rgb(67, 156, 250);
+	color: rgb(255, 255, 255);
+ 	border-radius: 10px;
+}</string>
+           </property>
+           <property name="text">
+            <string>Update Grades</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="clrGradeSHS">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>30</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>Segoe UI Semibold</family>
+             <pointsize>10</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton{
+	color: rgb(67, 156, 250);
+	border-radius: 10px;
+	border: 2px solid rgb(191, 191, 191);
+	background-color: rgb(255, 255, 255);
+}
+QPushButton:focus{
+background-color: rgb(67, 156, 250);
+	color: rgb(255, 255, 255);
+ 	border-radius: 10px;
+}</string>
+           </property>
+           <property name="text">
+            <string>Clear Grades</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QFrame" name="frame_2">
+     <property name="styleSheet">
+      <string notr="true">QFrame{
+	background-color: rgb(235, 235, 235);
+    border: solid;
+	border-width: 2px 2px 2px 2px;
+	border-color: rgb(26, 194, 161);
+	border-radius: 10px
+}</string>
+     </property>
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_3">
+      <property name="leftMargin">
+       <number>9</number>
+      </property>
+      <property name="topMargin">
+       <number>5</number>
+      </property>
+      <property name="bottomMargin">
+       <number>5</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="label_7">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>40</height>
+         </size>
+        </property>
+        <property name="font">
+         <font>
+          <family>Segoe UI Semibold</family>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel{
+	background-color: rgb(26, 194, 161);
+    border-radius: 10px;
+	color: rgb(255,255,255);
+}</string>
+        </property>
+        <property name="text">
+         <string>REPORT ON LEARNING PROGRESS AND ACHIEVEMENT</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="frame_7">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>90</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>90</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QFrame{
+border:none;
+}</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QFrame" name="frame_8">
+           <property name="minimumSize">
+            <size>
+             <width>170</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>170</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_5">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>6</number>
+            </property>
+            <property name="rightMargin">
+             <number>10</number>
+            </property>
+            <property name="bottomMargin">
+             <number>6</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="label_4">
+              <property name="font">
+               <font>
+                <family>Segoe UI</family>
+                <pointsize>9</pointsize>
+                <weight>50</weight>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>Select Subject</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="semLabel">
+              <property name="font">
+               <font>
+                <family>Segoe UI Semibold</family>
+                <pointsize>14</pointsize>
+                <weight>75</weight>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>1st semester</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QFrame" name="frame_9">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_4">
+            <property name="spacing">
+             <number>3</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QComboBox" name="subjectCombo">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QComboBox{
+border-radius: 5px;
+border: 1px solid rgb(26, 194, 161);
+	background-color: rgb(255, 255, 255);
+}</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QFrame" name="frame_10">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <layout class="QHBoxLayout" name="horizontalLayout_5">
+               <property name="spacing">
+                <number>5</number>
+               </property>
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QPushButton" name="addSubBtn">
+                 <property name="minimumSize">
+                  <size>
+                   <width>100</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>100</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Segoe UI Semibold</family>
+                   <pointsize>9</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton{
+	color: rgb(26, 194, 161);
+	border-radius: 10px;
+	border: 2px solid rgb(191, 191, 191);
+	background-color: rgb(255, 255, 255);
+}
+QPushButton:focus{
+background-color: rgb(26, 194, 161);
+	color: rgb(255, 255, 255);
+ 	border-radius: 10px;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>Add subject</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="delRowBtn">
+                 <property name="minimumSize">
+                  <size>
+                   <width>120</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>120</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Segoe UI Semibold</family>
+                   <pointsize>9</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton{
+	color: rgb(26, 194, 161);
+	border-radius: 10px;
+	border: 2px solid rgb(191, 191, 191);
+	background-color: rgb(255, 255, 255);
+}
+QPushButton:focus{
+background-color: rgb(26, 194, 161);
+	color: rgb(255, 255, 255);
+ 	border-radius: 10px;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>Delete last row</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="saveSubBtn">
+                 <property name="minimumSize">
+                  <size>
+                   <width>155</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>155</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Segoe UI Semibold</family>
+                   <pointsize>9</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton{
+	color: rgb(26, 194, 161);
+	border-radius: 10px;
+	border: 2px solid rgb(191, 191, 191);
+	background-color: rgb(255, 255, 255);
+}
+QPushButton:focus{
+background-color: rgb(26, 194, 161);
+	color: rgb(255, 255, 255);
+ 	border-radius: 10px;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>SAVE ALL SUBJECTS</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="resetBtn">
+                 <property name="minimumSize">
+                  <size>
+                   <width>100</width>
+                   <height>30</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>100</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <family>Segoe UI Semibold</family>
+                   <pointsize>9</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QPushButton{
+	color: rgb(26, 194, 161);
+	border-radius: 10px;
+	border: 2px solid rgb(191, 191, 191);
+	background-color: rgb(255, 255, 255);
+}
+QPushButton:focus{
+background-color: rgb(26, 194, 161);
+	color: rgb(255, 255, 255);
+ 	border-radius: 10px;
+}</string>
+                 </property>
+                 <property name="text">
+                  <string>RESET</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item>
+       <widget class="QFrame" name="frame_6">
+        <property name="styleSheet">
+         <string notr="true">QFrame{
+border:none;
+	background-color: rgb(255, 255, 255);
+}</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QStackedWidget" name="stackedWidget">
+           <property name="styleSheet">
+            <string notr="true">QTableView::item:selected  {
+
+	color: rgb(255, 255, 255);
+
+background-color: rgb(67, 156, 250);
+}</string>
+           </property>
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <widget class="QWidget" name="sem1">
+            <property name="styleSheet">
+             <string notr="true"/>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_6">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QTableWidget" name="sem1SubTable">
+               <property name="styleSheet">
+                <string notr="true">QHeaderView{
+	border-bottom: 1px solid rgb(222, 222, 222);
+}</string>
+               </property>
+               <property name="verticalScrollMode">
+                <enum>QAbstractItemView::ScrollPerPixel</enum>
+               </property>
+               <property name="horizontalScrollMode">
+                <enum>QAbstractItemView::ScrollPerPixel</enum>
+               </property>
+               <column>
+                <property name="text">
+                 <string>SUBJECTS</string>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI Semibold</family>
+                  <pointsize>11</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Q1</string>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI Semibold</family>
+                  <pointsize>11</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="foreground">
+                 <brush brushstyle="SolidPattern">
+                  <color alpha="255">
+                   <red>26</red>
+                   <green>191</green>
+                   <blue>164</blue>
+                  </color>
+                 </brush>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Q2</string>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI Semibold</family>
+                  <pointsize>11</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="foreground">
+                 <brush brushstyle="SolidPattern">
+                  <color alpha="255">
+                   <red>26</red>
+                   <green>191</green>
+                   <blue>164</blue>
+                  </color>
+                 </brush>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Final Grade</string>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI Semibold</family>
+                  <pointsize>11</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="foreground">
+                 <brush brushstyle="SolidPattern">
+                  <color alpha="255">
+                   <red>26</red>
+                   <green>191</green>
+                   <blue>164</blue>
+                  </color>
+                 </brush>
+                </property>
+               </column>
+              </widget>
+             </item>
+             <item>
+              <widget class="QFrame" name="frame_11">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_6">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QFrame" name="frame_16">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_11">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="genAve1">
+                     <property name="minimumSize">
+                      <size>
+                       <width>100</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>100</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI Semibold</family>
+                       <pointsize>10</pointsize>
+                       <weight>75</weight>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QLabel{
+color: rgb(67, 156, 250);
+}</string>
+                     </property>
+                     <property name="text">
+                      <string>-</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="genSem1Label">
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI Semibold</family>
+                       <pointsize>9</pointsize>
+                       <weight>75</weight>
+                       <italic>true</italic>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>General Average for sem 1:</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="frame_15">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_9">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QPushButton" name="sem2Btn">
+                     <property name="minimumSize">
+                      <size>
+                       <width>170</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>170</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI Semibold</family>
+                       <pointsize>9</pointsize>
+                       <weight>75</weight>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="layoutDirection">
+                      <enum>Qt::RightToLeft</enum>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QPushButton{
+	color: rgb(26, 194, 161);
+	border-radius: 10px;
+	border: 2px solid rgb(191, 191, 191);
+	background-color: rgb(255, 255, 255);
+}
+QPushButton:focus{
+background-color: rgb(26, 194, 161);
+	color: rgb(255, 255, 255);
+ 	border-radius: 10px;
+}</string>
+                     </property>
+                     <property name="text">
+                      <string>Proceed to 2nd Sem Page</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+           <widget class="QWidget" name="sem2">
+            <layout class="QVBoxLayout" name="verticalLayout_7">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <property name="leftMargin">
+              <number>0</number>
+             </property>
+             <property name="topMargin">
+              <number>0</number>
+             </property>
+             <property name="rightMargin">
+              <number>0</number>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QTableWidget" name="sem2SubTable">
+               <property name="styleSheet">
+                <string notr="true">QTableView::item:selected  {
+color: rgb(255, 255, 255);
+background-color: rgb(67, 156, 250);
+}</string>
+               </property>
+               <row>
+                <property name="text">
+                 <string>1</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>2</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>3</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>4</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>5</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>6</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>7</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>8</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>9</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>10</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>11</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>12</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>13</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>14</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>15</string>
+                </property>
+               </row>
+               <column>
+                <property name="text">
+                 <string>SUBJECTS</string>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI Semibold</family>
+                  <pointsize>11</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Q3</string>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI Semibold</family>
+                  <pointsize>11</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="foreground">
+                 <brush brushstyle="SolidPattern">
+                  <color alpha="255">
+                   <red>26</red>
+                   <green>191</green>
+                   <blue>164</blue>
+                  </color>
+                 </brush>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Q4</string>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI Semibold</family>
+                  <pointsize>11</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="foreground">
+                 <brush brushstyle="SolidPattern">
+                  <color alpha="255">
+                   <red>26</red>
+                   <green>191</green>
+                   <blue>164</blue>
+                  </color>
+                 </brush>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Final Grade</string>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI Semibold</family>
+                  <pointsize>11</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="foreground">
+                 <brush brushstyle="SolidPattern">
+                  <color alpha="255">
+                   <red>26</red>
+                   <green>191</green>
+                   <blue>164</blue>
+                  </color>
+                 </brush>
+                </property>
+               </column>
+               <item row="0" column="3">
+                <property name="text">
+                 <string>70</string>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI Semibold</family>
+                  <pointsize>10</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+                <property name="foreground">
+                 <brush brushstyle="SolidPattern">
+                  <color alpha="255">
+                   <red>67</red>
+                   <green>156</green>
+                   <blue>250</blue>
+                  </color>
+                 </brush>
+                </property>
+               </item>
+               <item row="1" column="3">
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI Semibold</family>
+                  <pointsize>10</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+                <property name="foreground">
+                 <brush brushstyle="SolidPattern">
+                  <color alpha="255">
+                   <red>67</red>
+                   <green>156</green>
+                   <blue>250</blue>
+                  </color>
+                 </brush>
+                </property>
+               </item>
+               <item row="2" column="3">
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI Semibold</family>
+                  <pointsize>10</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+                <property name="background">
+                 <brush brushstyle="NoBrush">
+                  <color alpha="255">
+                   <red>255</red>
+                   <green>255</green>
+                   <blue>255</blue>
+                  </color>
+                 </brush>
+                </property>
+                <property name="foreground">
+                 <brush brushstyle="SolidPattern">
+                  <color alpha="255">
+                   <red>67</red>
+                   <green>156</green>
+                   <blue>250</blue>
+                  </color>
+                 </brush>
+                </property>
+               </item>
+               <item row="3" column="3">
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI Semibold</family>
+                  <pointsize>10</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+                <property name="foreground">
+                 <brush brushstyle="SolidPattern">
+                  <color alpha="255">
+                   <red>67</red>
+                   <green>156</green>
+                   <blue>250</blue>
+                  </color>
+                 </brush>
+                </property>
+               </item>
+               <item row="4" column="3">
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI Semibold</family>
+                  <pointsize>10</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+                <property name="foreground">
+                 <brush brushstyle="SolidPattern">
+                  <color alpha="255">
+                   <red>67</red>
+                   <green>156</green>
+                   <blue>250</blue>
+                  </color>
+                 </brush>
+                </property>
+               </item>
+               <item row="5" column="3">
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI Semibold</family>
+                  <pointsize>10</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+                <property name="foreground">
+                 <brush brushstyle="SolidPattern">
+                  <color alpha="255">
+                   <red>67</red>
+                   <green>156</green>
+                   <blue>250</blue>
+                  </color>
+                 </brush>
+                </property>
+               </item>
+               <item row="6" column="3">
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI Semibold</family>
+                  <pointsize>10</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+                <property name="foreground">
+                 <brush brushstyle="SolidPattern">
+                  <color alpha="255">
+                   <red>67</red>
+                   <green>156</green>
+                   <blue>250</blue>
+                  </color>
+                 </brush>
+                </property>
+               </item>
+               <item row="7" column="3">
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI Semibold</family>
+                  <pointsize>10</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+                <property name="foreground">
+                 <brush brushstyle="SolidPattern">
+                  <color alpha="255">
+                   <red>67</red>
+                   <green>156</green>
+                   <blue>250</blue>
+                  </color>
+                 </brush>
+                </property>
+               </item>
+               <item row="8" column="3">
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI Semibold</family>
+                  <pointsize>10</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+                <property name="foreground">
+                 <brush brushstyle="SolidPattern">
+                  <color alpha="255">
+                   <red>67</red>
+                   <green>156</green>
+                   <blue>250</blue>
+                  </color>
+                 </brush>
+                </property>
+               </item>
+               <item row="9" column="3">
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI Semibold</family>
+                  <pointsize>10</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+                <property name="foreground">
+                 <brush brushstyle="SolidPattern">
+                  <color alpha="255">
+                   <red>67</red>
+                   <green>156</green>
+                   <blue>250</blue>
+                  </color>
+                 </brush>
+                </property>
+               </item>
+               <item row="10" column="3">
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI Semibold</family>
+                  <pointsize>10</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+                <property name="background">
+                 <brush brushstyle="NoBrush">
+                  <color alpha="255">
+                   <red>0</red>
+                   <green>0</green>
+                   <blue>0</blue>
+                  </color>
+                 </brush>
+                </property>
+                <property name="foreground">
+                 <brush brushstyle="SolidPattern">
+                  <color alpha="255">
+                   <red>67</red>
+                   <green>156</green>
+                   <blue>250</blue>
+                  </color>
+                 </brush>
+                </property>
+               </item>
+               <item row="11" column="3">
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI Semibold</family>
+                  <pointsize>10</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+                <property name="foreground">
+                 <brush brushstyle="SolidPattern">
+                  <color alpha="255">
+                   <red>67</red>
+                   <green>156</green>
+                   <blue>250</blue>
+                  </color>
+                 </brush>
+                </property>
+               </item>
+               <item row="12" column="3">
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI Semibold</family>
+                  <pointsize>10</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+                <property name="foreground">
+                 <brush brushstyle="SolidPattern">
+                  <color alpha="255">
+                   <red>67</red>
+                   <green>156</green>
+                   <blue>250</blue>
+                  </color>
+                 </brush>
+                </property>
+               </item>
+               <item row="13" column="3">
+                <property name="text">
+                 <string/>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI Semibold</family>
+                  <pointsize>10</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+                <property name="foreground">
+                 <brush brushstyle="SolidPattern">
+                  <color alpha="255">
+                   <red>67</red>
+                   <green>156</green>
+                   <blue>250</blue>
+                  </color>
+                 </brush>
+                </property>
+               </item>
+               <item row="14" column="3">
+                <property name="text">
+                 <string>89</string>
+                </property>
+                <property name="font">
+                 <font>
+                  <family>Segoe UI Semibold</family>
+                  <pointsize>10</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
+                 </font>
+                </property>
+                <property name="textAlignment">
+                 <set>AlignCenter</set>
+                </property>
+                <property name="foreground">
+                 <brush brushstyle="SolidPattern">
+                  <color alpha="255">
+                   <red>67</red>
+                   <green>156</green>
+                   <blue>250</blue>
+                  </color>
+                 </brush>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <widget class="QFrame" name="frame_12">
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="layoutDirection">
+                <enum>Qt::RightToLeft</enum>
+               </property>
+               <property name="frameShape">
+                <enum>QFrame::StyledPanel</enum>
+               </property>
+               <property name="frameShadow">
+                <enum>QFrame::Raised</enum>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_7">
+                <property name="spacing">
+                 <number>0</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QFrame" name="frame_14">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_10">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QLabel" name="genAve2">
+                     <property name="minimumSize">
+                      <size>
+                       <width>100</width>
+                       <height>0</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>100</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI Semibold</family>
+                       <pointsize>10</pointsize>
+                       <weight>75</weight>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QLabel{
+color: rgb(67, 156, 250);
+}</string>
+                     </property>
+                     <property name="text">
+                      <string>-</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QLabel" name="genSem2Label">
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI Semibold</family>
+                       <pointsize>9</pointsize>
+                       <weight>75</weight>
+                       <italic>true</italic>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>General Average for sem 2:</string>
+                     </property>
+                     <property name="alignment">
+                      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QFrame" name="frame_13">
+                  <property name="frameShape">
+                   <enum>QFrame::StyledPanel</enum>
+                  </property>
+                  <property name="frameShadow">
+                   <enum>QFrame::Raised</enum>
+                  </property>
+                  <layout class="QHBoxLayout" name="horizontalLayout_8">
+                   <property name="spacing">
+                    <number>0</number>
+                   </property>
+                   <property name="leftMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="topMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="rightMargin">
+                    <number>0</number>
+                   </property>
+                   <property name="bottomMargin">
+                    <number>0</number>
+                   </property>
+                   <item>
+                    <widget class="QPushButton" name="sem1Btn">
+                     <property name="minimumSize">
+                      <size>
+                       <width>185</width>
+                       <height>30</height>
+                      </size>
+                     </property>
+                     <property name="maximumSize">
+                      <size>
+                       <width>185</width>
+                       <height>16777215</height>
+                      </size>
+                     </property>
+                     <property name="font">
+                      <font>
+                       <family>Segoe UI Semibold</family>
+                       <pointsize>9</pointsize>
+                       <weight>75</weight>
+                       <bold>true</bold>
+                      </font>
+                     </property>
+                     <property name="layoutDirection">
+                      <enum>Qt::RightToLeft</enum>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QPushButton{
+	color: rgb(26, 194, 161);
+	border-radius: 10px;
+	border: 2px solid rgb(191, 191, 191);
+	background-color: rgb(255, 255, 255);
+}
+QPushButton:focus{
+background-color: rgb(26, 194, 161);
+	color: rgb(255, 255, 255);
+ 	border-radius: 10px;
+}</string>
+                     </property>
+                     <property name="text">
+                      <string>Back to Sem 1 Page</string>
+                     </property>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

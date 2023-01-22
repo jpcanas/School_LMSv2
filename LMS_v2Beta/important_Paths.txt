@@ -1,0 +1,4 @@
+main directory path
+
+C:\\LMS_appVer2 
+(App should be install in this directory
