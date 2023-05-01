@@ -3,8 +3,8 @@ from PyQt6.QtCore import Qt
 from PyQt6 import QtGui
 from PyQt6 import uic
 import sys
-from absPath import resource_path
 
+from absPath import resource_path
 from uiFunctions import UIFunctions
 
 
