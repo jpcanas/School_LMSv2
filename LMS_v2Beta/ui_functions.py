@@ -46,7 +46,7 @@ class UIFunctions(MainWindow):
         self.setWindowFlag(QtCore.Qt.FramelessWindowHint)
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
 
-        # SET DROPSHADOW WINDOW
+        # SET DROPSHADOW WINDOW 
         self.shadow = QGraphicsDropShadowEffect(self)
         self.shadow.setBlurRadius(20)
         self.shadow.setXOffset(0)
