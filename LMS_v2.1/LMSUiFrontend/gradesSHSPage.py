@@ -63,7 +63,7 @@ class GradesSHS(QFrame):
         self.sem2_editSubject.clicked.connect(lambda: self.shsSetPage(0, 1))
 
     def shs_subject_widgets(self):  # SHS subjects page widgets initialization
-        with open("shsSubjects.json", "r") as file:  # Load shs subjects from json data
+        with open(resource_path("data\\shsSubjects.json"), "r") as file:  # Load shs subjects from json data
             subjects_dict = json.load(file)
         subjectList = list(subjects_dict.values())
 

@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QFrame, QPushButton, QGraphicsDropShadowEffect
+from PyQt6.QtWidgets import QFrame, QPushButton, QGraphicsDropShadowEffect, QLabel
 from PyQt6.QtGui import QColor
 
 from PyQt6.uic import loadUi
@@ -19,6 +19,7 @@ class Home(QFrame):
         self.homeGradesBtn = self.findChild(QPushButton, "homeGradesBtn")  # Home page to Grades Page Button
         self.homeAttendanceBtn = self.findChild(QPushButton, "homeAttendanceBtn")  # Home page to Attendance Page Button
         self.sideFrame = self.findChild(QFrame, "side_frame")
+        self.lblSchoolName = self.findChild(QLabel, "school_name")
 
         # Drop shadow effect for sideframe
         self.shadowSide = QGraphicsDropShadowEffect()
@@ -27,3 +28,6 @@ class Home(QFrame):
         self.shadowSide.setYOffset(3)
         self.shadowSide.setColor(QColor(200, 200, 200, 255))
         self.sideFrame.setGraphicsEffect(self.shadowSide)
+
+    def config_HomeDisplay(self, schoolDB):
+        self.lblSchoolName.setText(schoolDB[1])
