@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>674</width>
+    <width>823</width>
     <height>514</height>
    </rect>
   </property>
@@ -196,7 +196,7 @@ QPushButton:hover{
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../assets/user.png</normaloff>../assets/user.png</iconset>
+             <normaloff>../../../../../../.designer/assets/user.png</normaloff>../../../../../../.designer/assets/user.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -243,7 +243,7 @@ QPushButton:hover{
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../assets/sheet.png</normaloff>../assets/sheet.png</iconset>
+             <normaloff>../../../../../../.designer/assets/sheet.png</normaloff>../../../../../../.designer/assets/sheet.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -290,7 +290,7 @@ QPushButton:hover{
            </property>
            <property name="icon">
             <iconset>
-             <normaloff>../assets/attendance.png</normaloff>../assets/attendance.png</iconset>
+             <normaloff>../../../../../../.designer/assets/attendance.png</normaloff>../../../../../../.designer/assets/attendance.png</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -470,7 +470,7 @@ background-color: rgb(255, 255, 255);
            <property name="frameShadow">
             <enum>QFrame::Raised</enum>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout_2">
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
             <property name="leftMargin">
              <number>15</number>
             </property>
@@ -480,18 +480,18 @@ background-color: rgb(255, 255, 255);
             <property name="bottomMargin">
              <number>0</number>
             </property>
-            <item>
+            <item alignment="Qt::AlignLeft|Qt::AlignTop">
              <widget class="QFrame" name="frame_4">
               <property name="minimumSize">
                <size>
                 <width>0</width>
-                <height>150</height>
+                <height>0</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
                 <width>16777215</width>
-                <height>150</height>
+                <height>16777215</height>
                </size>
               </property>
               <property name="styleSheet">
@@ -506,10 +506,7 @@ background-color: rgb(255, 255, 255);
               <property name="frameShadow">
                <enum>QFrame::Raised</enum>
               </property>
-              <layout class="QHBoxLayout" name="horizontalLayout_2">
-               <property name="spacing">
-                <number>10</number>
-               </property>
+              <layout class="QGridLayout" name="gridLayout" rowstretch="0,0" columnstretch="0,2">
                <property name="leftMargin">
                 <number>0</number>
                </property>
@@ -522,7 +519,39 @@ background-color: rgb(255, 255, 255);
                <property name="bottomMargin">
                 <number>0</number>
                </property>
-               <item>
+               <property name="spacing">
+                <number>10</number>
+               </property>
+               <item row="1" column="0" colspan="2">
+                <widget class="QFrame" name="classGenderStat_3">
+                 <property name="minimumSize">
+                  <size>
+                   <width>200</width>
+                   <height>140</height>
+                  </size>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>16777215</height>
+                  </size>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true">QFrame{
+	border: 0px;
+	border-radius: 10px;
+	background-color: rgb(255, 255, 255);
+}</string>
+                 </property>
+                 <property name="frameShape">
+                  <enum>QFrame::StyledPanel</enum>
+                 </property>
+                 <property name="frameShadow">
+                  <enum>QFrame::Raised</enum>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="0">
                 <widget class="QFrame" name="classGenderStat">
                  <property name="minimumSize">
                   <size>
@@ -551,8 +580,8 @@ background-color: rgb(255, 255, 255);
                  </property>
                 </widget>
                </item>
-               <item>
-                <widget class="QFrame" name="adviserInfo">
+               <item row="0" column="1">
+                <widget class="QFrame" name="classGenderStat_4">
                  <property name="minimumSize">
                   <size>
                    <width>200</width>
@@ -572,16 +601,6 @@ background-color: rgb(255, 255, 255);
 	background-color: rgb(255, 255, 255);
 }</string>
                  </property>
-                 <property name="frameShape">
-                  <enum>QFrame::StyledPanel</enum>
-                 </property>
-                 <property name="frameShadow">
-                  <enum>QFrame::Raised</enum>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QFrame" name="frame_6">
                  <property name="frameShape">
                   <enum>QFrame::StyledPanel</enum>
                  </property>
@@ -638,6 +657,99 @@ background-color: rgb(255, 255, 255);
                  <property name="frameShadow">
                   <enum>QFrame::Raised</enum>
                  </property>
+                 <widget class="QPushButton" name="btnCreateNewClass">
+                  <property name="geometry">
+                   <rect>
+                    <x>20</x>
+                    <y>310</y>
+                    <width>131</width>
+                    <height>30</height>
+                   </rect>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>0</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>16777215</width>
+                    <height>30</height>
+                   </size>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>10</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QPushButton:focus{
+color: rgb(0, 0, 0);
+	border-radius: 5px;
+	border: 2px solid rgb(26, 194, 161);
+	background-color: rgb(255, 255, 255);
+}
+QPushButton:hover{
+	background-color: rgb(19, 140, 116);
+}
+QPushButton{
+background-color: rgb(26, 194, 161);
+	color: rgb(255, 255, 255);
+ 	border-radius: 5px;
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>Create new class</string>
+                  </property>
+                 </widget>
+                 <widget class="QComboBox" name="comboBox">
+                  <property name="geometry">
+                   <rect>
+                    <x>20</x>
+                    <y>180</y>
+                    <width>121</width>
+                    <height>31</height>
+                   </rect>
+                  </property>
+                 </widget>
+                 <widget class="QLabel" name="label_2">
+                  <property name="geometry">
+                   <rect>
+                    <x>20</x>
+                    <y>20</y>
+                    <width>121</width>
+                    <height>91</height>
+                   </rect>
+                  </property>
+                  <property name="font">
+                   <font>
+                    <pointsize>12</pointsize>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QLabel{
+	color: rgb(100, 100, 100);
+}</string>
+                  </property>
+                  <property name="text">
+                   <string>Grade 8 - Amethyst 2022 -2023</string>
+                  </property>
+                  <property name="scaledContents">
+                   <bool>false</bool>
+                  </property>
+                  <property name="alignment">
+                   <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                  </property>
+                  <property name="wordWrap">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
                 </widget>
                </item>
               </layout>

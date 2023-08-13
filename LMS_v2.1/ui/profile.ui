@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>953</width>
-    <height>566</height>
+    <width>1060</width>
+    <height>603</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -2101,6 +2101,9 @@ padding-left: 8px;
         <property name="sortingEnabled">
          <bool>true</bool>
         </property>
+        <property name="rowCount">
+         <number>0</number>
+        </property>
         <attribute name="horizontalHeaderVisible">
          <bool>true</bool>
         </attribute>
@@ -2125,16 +2128,6 @@ padding-left: 8px;
         <attribute name="verticalHeaderDefaultSectionSize">
          <number>50</number>
         </attribute>
-        <row>
-         <property name="text">
-          <string>1</string>
-         </property>
-        </row>
-        <row>
-         <property name="text">
-          <string>2</string>
-         </property>
-        </row>
         <column>
          <property name="text">
           <string>ID</string>

@@ -1,4 +1,6 @@
-from PyQt6.QtWidgets import QFrame, QGraphicsDropShadowEffect, QTableWidget, QHeaderView
+from PyQt6.QtWidgets import QFrame, QGraphicsDropShadowEffect, QTableWidget, QHeaderView, QComboBox, \
+    QPushButton, QLabel, QTableWidgetItem, QCheckBox
+from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QColor
 
 from PyQt6.uic import loadUi
@@ -16,7 +18,22 @@ class AttendanceOV(QFrame):
         # Initialize widgets inside Attendance and OV Frame
         self.att_rightFrame = self.findChild(QFrame, "rightFrame")
         self.ovTable = self.findChild(QTableWidget, "ovTable")
+        self.fillTableBtn = self.findChild(QPushButton, "fillTableBtn")
+        self.fillCombo = self.findChild(QComboBox, "fillCombo")
+        self.updObBtn = self.findChild(QPushButton, "updObBtn")
+
         self.attendanceTable = self.findChild(QTableWidget, "attTable")
+        self.updAttBtn = self.findChild(QPushButton, "updAttBtn")
+        self.autoComputeCheckBox = self.findChild(QCheckBox, "chckBoxAutoCompute")
+
+        self.gradeSecAttOv = self.findChild(QLabel, "gradeSec_Att")
+        self.advAttOv = self.findChild(QLabel, "adv_Att")
+        self.syAttOv = self.findChild(QLabel, "sy_Att")
+        self.lrn_AttOv = self.findChild(QLabel, "lrnLabel_Att")
+        self.name_AttOv = self.findChild(QLabel, "nameLabel_Att")
+        self.studentTable_Att = self.findChild(QTableWidget, "studentTable_Att")
+        self.lblSelectionAtt = self.findChild(QLabel, "lblSelection")
+        self.btnUnselectAtt = self.findChild(QPushButton, "btnUnselect")
 
         # Drop shadow effect for right frame and main tables
         self.shadowSide = QGraphicsDropShadowEffect()
@@ -31,6 +48,9 @@ class AttendanceOV(QFrame):
             self.ovTable.setColumnWidth(i, 60)
 
         self.ovTable.horizontalHeader().setFixedHeight(50)
+        for column in range(1, 5):
+            self.ovTable.setColumnWidth(column, 50)
+
         self.ovTable.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
         self.ovTable.horizontalHeader().setStyleSheet("QHeaderView{ border-bottom: 1px solid rgb(100, 100, 100); }")
 
@@ -39,5 +59,221 @@ class AttendanceOV(QFrame):
                                                     border-bottom: 1px solid rgb(200,200,200); border-right: 1px solid rgb(200,200,200);}")
 
         # Attendance table styling
-        self.attendanceTable.horizontalHeader().setFixedHeight(50)
-        self.attendanceTable.horizontalHeader().setStyleSheet("QHeaderView{ border-bottom: 1px solid rgb(100, 100, 100); }")
+        self.attendanceTable.horizontalHeader().setFixedHeight(55)
+        self.attendanceTable.horizontalHeader().setStyleSheet(
+            "QHeaderView{ border-bottom: 1px solid rgb(100, 100, 100); }")
+
+        #  other initialization
+        self.selectedAtt = []
+        self.selectedOv = []
+        self.btnUnselectAtt.hide()
+
+    def show_AttOvLearner(self, attData, ovData, monthData):  # displaying Learner's name and LRN to the left side table
+        if len(attData) != 0:
+            self.studentTable_Att.setRowCount(0)
+            for i, row in enumerate(attData):
+                self.rowcount = self.studentTable_Att.rowCount()
+                self.studentTable_Att.insertRow(self.rowcount)
+
+                for column, val in enumerate(row[0:2]):
+                    self.studentTable_Att.setItem(i, column, QTableWidgetItem(str(val)))
+
+        monthName = list(monthData[0])
+        monthName.pop(0)  # remove monthId
+        monthName[-1] = "Total"
+
+        self.attendanceTable.setHorizontalHeaderLabels(["" for _ in range(13)])  # set to empty label first
+        self.attendanceTable.setHorizontalHeaderLabels(monthName)
+
+        self.btnUnselectAtt.clicked.connect(lambda: self.clearAttOvSelection())
+        self.studentTable_Att.cellClicked.connect(lambda: self.clickedStudentTable_Att(attData, ovData, monthData))
+
+    def clickedStudentTable_Att(self, attData, ovData, monthData):
+        if self.studentTable_Att.selectedItems():  # selecting names from studentJHSTable
+            self.selected_AttOvNames = []
+            for i in self.studentTable_Att.selectedItems():
+                self.selected_AttOvNames.append(i.text())
+
+            # selecting data from attendance and ov database corresponding to selected names using filter method
+            selectedId = int(self.selected_AttOvNames[0])
+            self.selectedAtt = self.getAttendanceToDisplay(attData, monthData, selectedId)
+            selectedOvRecord = list(filter(lambda ov: ov[0] == int(self.selected_AttOvNames[0]), ovData))
+            self.selectedOv = list(selectedOvRecord[0])
+
+            self.lrn_AttOv.setText(self.selectedAtt[2])
+            self.name_AttOv.setText(self.selectedAtt[1])
+            self.lblSelectionAtt.setText(f"ID No. {self.selectedAtt[0]} selected")
+            self.btnUnselectAtt.show()
+
+            self.displayToAttendanceTable(self.selectedAtt)
+            self.displayToOvTable(self.selectedOv)
+
+    def getAttendanceToDisplay(self, attData: list, monthData: list, selectedId: int) -> list:
+        # combining number of school days data and attendance data of selected student
+        schoolDays = list(monthData[1])
+        schoolDays.pop(0)  # remove monthId
+
+        attendanceSelected = [item for item in attData if item[0] == selectedId]
+        selectedAttList = list(attendanceSelected[0])
+        for i in range(len(schoolDays)):
+            selectedAttList.insert((5 + i), schoolDays[i])
+
+        return selectedAttList
+
+    def displayToAttendanceTable(self, selectedAtt):
+        for attRow in range(3):  # display to attendance table
+            for attColumn in range(13):
+                self.attendanceTable.setItem(attRow, attColumn, QTableWidgetItem(""))
+                attItemInt = selectedAtt[(5 + attColumn) + (13 * attRow)]
+                if attItemInt is None:
+                    self.attendanceTable.setItem(attRow, attColumn, QTableWidgetItem(""))
+                else:
+                    attItem = QTableWidgetItem(str(attItemInt))
+                    self.attendanceTable.setItem(attRow, attColumn, attItem)
+                    attItem.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+
+    def displayToOvTable(self, selectedOv):
+        for ovRow in range(7):  # display to grades table
+            for ovColumn in range(4):
+                self.ovTable.setItem(ovRow, ovColumn + 1, QTableWidgetItem(""))
+                ovItemStr = selectedOv[(5 + ovColumn) + (4 * ovRow)]
+                if ovItemStr is None:
+                    self.ovTable.setItem(ovRow, ovColumn + 1, QTableWidgetItem(""))
+                else:
+                    ovItem = QTableWidgetItem(ovItemStr)
+                    self.ovTable.setItem(ovRow, ovColumn + 1, ovItem)
+                    ovItem.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+
+    def updAttendance(self):
+        if len(self.selectedAtt) > 0:
+            attendanceData = []
+            for attRow in range(3):
+                for attColumn in range(13):
+                    attendanceItem = self.attendanceTable.item(attRow, attColumn)
+                    if attendanceItem.text().strip() == '':
+                        attendanceData.append(None)
+                    else:
+                        attendanceData.append(attendanceItem.text().strip())
+
+            validAttendance = True
+            for attItem in attendanceData:  # checking if input is not digit
+                if attItem is not None:
+                    if not attItem.isdigit():
+                        attendanceData = [attItem]  # append the error attendance to list
+                        validAttendance = False
+                        break
+
+            if validAttendance:
+                attendanceData.append(self.selectedAtt[0])
+                if self.autoComputeCheckBox.isChecked():  # checking of checkbox state
+                    attendanceDataAuto = self.autoComputeAttendance(attendanceData)
+                    return attendanceDataAuto  # return of valid input (Auto) or error input (greater than school days)
+                else:
+                    return attendanceData  # return of valid input (Manual)
+            else:
+                return attendanceData  # return of error input (not digit)
+
+        else:
+            return None
+
+    def updObVal(self):
+        if len(self.selectedOv) > 0:
+            obValData = []
+            validObValList = ["AO", "SO", "RO", "NO"]
+            for obValRow in range(7):
+                for obValColumn in range(4):
+                    obValItem = self.ovTable.item(obValRow, obValColumn + 1)
+                    obValData.append(obValItem.text().upper().strip())
+
+            validObVal = True
+            for item in obValData:  # checking validity of observe values input
+                if not (item in validObValList or item == ''):
+                    obValData = [item]
+                    validObVal = False
+                    break
+
+            if validObVal:
+                obValData.append(self.selectedOv[0])
+                return tuple(obValData)
+            else:
+                return obValData
+
+        else:
+            return None
+
+    def autoComputeAttendance(self, attendanceData):
+        schoolDays = [int(item) if item is not None else 0 for item in attendanceData[0:12]]
+        presentData = [int(item) if item is not None else 0 for item in attendanceData[13:25]]
+        absentData = [int(item) if item is not None else 0 for item in attendanceData[26:38]]
+
+        attendanceDataNew = []
+        presentDataNew = []
+        absentDataNew = []
+        totalSchoolDays = 0
+        totalPresent = 0
+        totalAbsent = 0
+
+        for index, day in enumerate(schoolDays):
+            validNumDay = (day > presentData[index]) and (day > absentData[index])
+            if day == 0:
+                validNumDay = True
+                presentDataNew.append(presentData[index])
+                absentDataNew.append(absentData[index])
+            else:  # auto compute for present or absent data if school days has entry
+                if presentData[index] > 0:
+                    absentDataNew.append(day - presentData[index])
+                    presentDataNew.append(presentData[index])
+                else:
+                    presentDataNew.append(day - absentData[index])
+                    absentDataNew.append(absentData[index])
+
+            if not validNumDay:  # error catch for number greater than school days
+                attendanceDataNew.append(index)
+                break
+
+        if len(attendanceDataNew) == 0:  # means no error input
+            for itemSchoolDay in schoolDays:
+                totalSchoolDays += itemSchoolDay
+                attendanceDataNew.append(itemSchoolDay)
+
+            attendanceDataNew.append(totalSchoolDays)
+
+            for itemPres in presentDataNew:
+                totalPresent += itemPres
+                attendanceDataNew.append(itemPres)
+
+            attendanceDataNew.append(totalPresent)
+
+            for itemAbs in absentDataNew:
+                totalAbsent += itemAbs
+                attendanceDataNew.append(itemAbs)
+
+            attendanceDataNew.append(totalAbsent)
+            attendanceDataNew.append(attendanceData[-1])
+            return attendanceDataNew
+
+        else:
+            return attendanceDataNew  # contains index of attendance error input
+
+    def clearAttOvSelection(self):
+        self.ovTable.clearSelection()
+        self.attendanceTable.clearSelection()
+        self.studentTable_Att.clearSelection()
+        self.selectedLearnerAttOv = []
+        self.lblSelectionAtt.setText("No Selection")
+        self.btnUnselectAtt.hide()
+        self.lrn_AttOv.setText("")
+        self.name_AttOv.setText("")
+
+        for ovRow in range(7):  # clear ov table
+            for ovColumn in range(4):
+                self.ovTable.setItem(ovRow, ovColumn + 1, QTableWidgetItem(""))
+
+        for attRow in range(3):  # display to attendance table
+            for attColumn in range(13):
+                self.attendanceTable.setItem(attRow, attColumn, QTableWidgetItem(""))
+
+    def config_AttOvDisplay(self, classDB):
+        self.gradeSecAttOv.setText(f"Grade {classDB[5]} - {classDB[6]}")
+        self.advAttOv.setText(f"Adviser: {classDB[7]}")
+        self.syAttOv.setText(f"S/Y: {classDB[2]}")

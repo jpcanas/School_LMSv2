@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>759</width>
-    <height>585</height>
+    <width>968</width>
+    <height>551</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -334,88 +334,120 @@ padding-left: 8px;
        </widget>
       </item>
       <item>
-       <widget class="QTableWidget" name="studentJHSTable">
-        <property name="styleSheet">
-         <string notr="true">QTableWidget{
+       <widget class="QFrame" name="tableFrame">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>9</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QTableWidget" name="studentJHSTable">
+           <property name="styleSheet">
+            <string notr="true">QTableWidget{
 border: none;
 	background-color: rgb(255, 255, 255);
 }
 QFrame{
 	background-color:  rgb(255, 255, 255);
+}
+QTableView::item{
 	padding-left: 8px;
 }
 
 QTableView::item:selected  {
-	color: rgb(255, 255, 255);
-	background-color: rgb(100, 100, 100);
+	color: rgb(0, 0, 0);
+	background-color: rgb(230, 230, 230);
 }
 
+QHeaderView:section{
+	color: rgb(26, 194, 161);
+	background-color: rgb(255, 255, 255);
+border: 1px solid rgb(230, 230, 230);
+}
+
+
+
+
 </string>
-        </property>
-        <property name="selectionMode">
-         <enum>QAbstractItemView::SingleSelection</enum>
-        </property>
-        <property name="selectionBehavior">
-         <enum>QAbstractItemView::SelectRows</enum>
-        </property>
-        <attribute name="horizontalHeaderStretchLastSection">
-         <bool>true</bool>
-        </attribute>
-        <attribute name="verticalHeaderVisible">
-         <bool>false</bool>
-        </attribute>
-        <column>
-         <property name="text">
-          <string>LRN</string>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="foreground">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>26</red>
-            <green>194</green>
-            <blue>161</blue>
-           </color>
-          </brush>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Name</string>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>10</pointsize>
-           <bold>true</bold>
-          </font>
-         </property>
-         <property name="foreground">
-          <brush brushstyle="SolidPattern">
-           <color alpha="255">
-            <red>26</red>
-            <green>194</green>
-            <blue>161</blue>
-           </color>
-          </brush>
-         </property>
-        </column>
-       </widget>
-      </item>
-      <item>
-       <widget class="QFrame" name="frame_5">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>50</height>
-         </size>
-        </property>
-        <property name="styleSheet">
-         <string notr="true">QFrame{
+           </property>
+           <property name="selectionMode">
+            <enum>QAbstractItemView::SingleSelection</enum>
+           </property>
+           <property name="selectionBehavior">
+            <enum>QAbstractItemView::SelectRows</enum>
+           </property>
+           <attribute name="horizontalHeaderStretchLastSection">
+            <bool>true</bool>
+           </attribute>
+           <attribute name="verticalHeaderVisible">
+            <bool>false</bool>
+           </attribute>
+           <column>
+            <property name="text">
+             <string>ID</string>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="foreground">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>26</red>
+               <green>194</green>
+               <blue>161</blue>
+              </color>
+             </brush>
+            </property>
+           </column>
+           <column>
+            <property name="text">
+             <string>Name</string>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>10</pointsize>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="foreground">
+             <brush brushstyle="SolidPattern">
+              <color alpha="255">
+               <red>26</red>
+               <green>194</green>
+               <blue>161</blue>
+              </color>
+             </brush>
+            </property>
+           </column>
+          </widget>
+         </item>
+         <item>
+          <widget class="QFrame" name="frame_7">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QFrame{
 	border-top: 1px solid rgb(200,200,200);
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
@@ -424,90 +456,80 @@ QTableView::item:selected  {
 }
 
 </string>
-        </property>
-        <property name="frameShape">
-         <enum>QFrame::NoFrame</enum>
-        </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
-        </property>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <property name="leftMargin">
-          <number>12</number>
-         </property>
-         <property name="topMargin">
-          <number>0</number>
-         </property>
-         <property name="rightMargin">
-          <number>12</number>
-         </property>
-         <property name="bottomMargin">
-          <number>0</number>
-         </property>
-         <item>
-          <widget class="QPushButton" name="updGradeJHS">
-           <property name="minimumSize">
-            <size>
-             <width>140</width>
-             <height>30</height>
-            </size>
            </property>
-           <property name="maximumSize">
-            <size>
-             <width>140</width>
-             <height>16777215</height>
-            </size>
+           <property name="frameShape">
+            <enum>QFrame::NoFrame</enum>
            </property>
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-             <bold>true</bold>
-            </font>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
            </property>
-           <property name="cursor">
-            <cursorShape>PointingHandCursor</cursorShape>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QPushButton{
-border: 1px solid rgb(26, 194, 161);
-border-radius: 5px;
-	color: rgb(26, 194, 161);
-}
-QPushButton:hover, QPushButton:focus{
-	background-color: rgb(26, 194, 161);
-	color: rgb(255, 255, 255);
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <property name="leftMargin">
+             <number>12</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>12</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QLabel" name="lblSelection">
+              <property name="minimumSize">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>16777215</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+               </font>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QLabel{
+border: none;
 }</string>
-           </property>
-           <property name="text">
-            <string>Update Grades</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="clrGradeJHS">
-           <property name="minimumSize">
-            <size>
-             <width>140</width>
-             <height>30</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>140</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="cursor">
-            <cursorShape>PointingHandCursor</cursorShape>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QPushButton{
+              </property>
+              <property name="text">
+               <string>No Selection</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="btnUnselect">
+              <property name="minimumSize">
+               <size>
+                <width>80</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>80</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton{
 border: 1px solid rgb(100, 100, 100);
 border-radius: 5px;
 	color: rgb(100, 100, 100);
@@ -516,10 +538,13 @@ QPushButton:hover, QPushButton:focus{
 	background-color: rgb(100, 100, 100);
 	color: rgb(255, 255, 255);
 }</string>
-           </property>
-           <property name="text">
-            <string>Clear Grades</string>
-           </property>
+              </property>
+              <property name="text">
+               <string>Unselect</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </item>
         </layout>
@@ -580,8 +605,8 @@ QPushButton:hover, QPushButton:focus{
         </property>
         <property name="styleSheet">
          <string notr="true">QLabel{
-	background-color: rgb(230, 230, 230);
-	color: rgb(100, 100, 100);
+	background-color: rgb(100, 100, 100);
+	color: rgb(255, 255, 255);
 	border-top-left-radius: 10px;
 	border-top-right-radius: 10px;
 	border-bottom-left-radius: 0;
@@ -616,13 +641,54 @@ QPushButton:hover, QPushButton:focus{
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <layout class="QVBoxLayout" name="verticalLayout_4">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="leftMargin">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <property name="rightMargin">
+          <number>0</number>
+         </property>
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
          <item>
-          <widget class="QTableWidget" name="gradeJHSTable">
-           <property name="styleSheet">
-            <string notr="true">QHeaderView{
+          <widget class="QFrame" name="tableFrameGrade">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_6">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
+            <item>
+             <widget class="QTableWidget" name="gradeJHSTable">
+              <property name="styleSheet">
+               <string notr="true">QHeaderView{
 	border-bottom: 1px solid rgb(220, 220, 220); 
 }
+QHeaderView::section:vertical{
+	background-color: rgb(255, 255, 255);
+	border-top: none;
+   border-top: 1px solid rgb(220, 220, 220); 
+   border-right: 1px solid rgb(220, 220, 220); 
+	
+}
+
 /*
 QHeaderView::section:hover{
 	background-color: rgb(230, 230, 230);
@@ -643,389 +709,511 @@ QTableView QTableCornerButton::section {
 }
 */
 </string>
+              </property>
+              <property name="frameShape">
+               <enum>QFrame::NoFrame</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Plain</enum>
+              </property>
+              <property name="editTriggers">
+               <set>QAbstractItemView::DoubleClicked|QAbstractItemView::SelectedClicked</set>
+              </property>
+              <property name="showDropIndicator" stdset="0">
+               <bool>false</bool>
+              </property>
+              <property name="dragDropOverwriteMode">
+               <bool>false</bool>
+              </property>
+              <property name="alternatingRowColors">
+               <bool>false</bool>
+              </property>
+              <property name="selectionMode">
+               <enum>QAbstractItemView::SingleSelection</enum>
+              </property>
+              <property name="selectionBehavior">
+               <enum>QAbstractItemView::SelectItems</enum>
+              </property>
+              <property name="cornerButtonEnabled">
+               <bool>false</bool>
+              </property>
+              <attribute name="horizontalHeaderHighlightSections">
+               <bool>false</bool>
+              </attribute>
+              <attribute name="horizontalHeaderStretchLastSection">
+               <bool>true</bool>
+              </attribute>
+              <attribute name="verticalHeaderVisible">
+               <bool>true</bool>
+              </attribute>
+              <attribute name="verticalHeaderMinimumSectionSize">
+               <number>20</number>
+              </attribute>
+              <attribute name="verticalHeaderDefaultSectionSize">
+               <number>40</number>
+              </attribute>
+              <attribute name="verticalHeaderHighlightSections">
+               <bool>false</bool>
+              </attribute>
+              <row>
+               <property name="text">
+                <string>  Filipino</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                 <bold>false</bold>
+                </font>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>  English</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                 <bold>false</bold>
+                </font>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>  Mathematics</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                 <bold>false</bold>
+                </font>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>  Science</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                 <bold>false</bold>
+                </font>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>  Araling Panlipunan</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                 <bold>false</bold>
+                </font>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>  Edukasyon sa Pagpapatao</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                 <bold>false</bold>
+                </font>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>  Technology &amp; Livelihood Education</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                 <bold>false</bold>
+                </font>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>  MAPEH</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                 <bold>false</bold>
+                </font>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>     - Music</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                 <bold>false</bold>
+                </font>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>     - Arts</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                 <bold>false</bold>
+                </font>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>     - P.E.</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                 <bold>false</bold>
+                </font>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>     - Health</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                 <bold>false</bold>
+                </font>
+               </property>
+              </row>
+              <row>
+               <property name="text">
+                <string>    GENERAL AVERAGE</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                 <bold>false</bold>
+                </font>
+               </property>
+              </row>
+              <column>
+               <property name="text">
+                <string>Q1</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="background">
+                <color>
+                 <red>255</red>
+                 <green>255</green>
+                 <blue>255</blue>
+                </color>
+               </property>
+               <property name="foreground">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>100</red>
+                  <green>100</green>
+                  <blue>100</blue>
+                 </color>
+                </brush>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Q2</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="background">
+                <color>
+                 <red>255</red>
+                 <green>255</green>
+                 <blue>255</blue>
+                </color>
+               </property>
+               <property name="foreground">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>100</red>
+                  <green>100</green>
+                  <blue>100</blue>
+                 </color>
+                </brush>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Q3</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="foreground">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>100</red>
+                  <green>100</green>
+                  <blue>100</blue>
+                 </color>
+                </brush>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>Q4</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="foreground">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>100</red>
+                  <green>100</green>
+                  <blue>100</blue>
+                 </color>
+                </brush>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>FINAL GRADE</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="foreground">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>100</red>
+                  <green>100</green>
+                  <blue>100</blue>
+                 </color>
+                </brush>
+               </property>
+              </column>
+              <column>
+               <property name="text">
+                <string>REMARKS</string>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>11</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="foreground">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>100</red>
+                  <green>100</green>
+                  <blue>100</blue>
+                 </color>
+                </brush>
+               </property>
+              </column>
+              <item row="0" column="0">
+               <property name="text">
+                <string/>
+               </property>
+               <property name="font">
+                <font/>
+               </property>
+               <property name="textAlignment">
+                <set>AlignCenter</set>
+               </property>
+               <property name="foreground">
+                <brush brushstyle="SolidPattern">
+                 <color alpha="255">
+                  <red>170</red>
+                  <green>0</green>
+                  <blue>0</blue>
+                 </color>
+                </brush>
+               </property>
+              </item>
+              <item row="0" column="1">
+               <property name="text">
+                <string/>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+              </item>
+              <item row="0" column="2">
+               <property name="text">
+                <string/>
+               </property>
+              </item>
+              <item row="0" column="3">
+               <property name="text">
+                <string/>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>10</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="textAlignment">
+                <set>AlignCenter</set>
+               </property>
+              </item>
+              <item row="0" column="4">
+               <property name="text">
+                <string/>
+               </property>
+              </item>
+              <item row="0" column="5">
+               <property name="text">
+                <string/>
+               </property>
+              </item>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QFrame" name="frame_5">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QFrame{
+	border-top: 1px solid rgb(200,200,200);
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	border-bottom-left-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+
+</string>
            </property>
            <property name="frameShape">
             <enum>QFrame::NoFrame</enum>
            </property>
            <property name="frameShadow">
-            <enum>QFrame::Plain</enum>
+            <enum>QFrame::Raised</enum>
            </property>
-           <property name="editTriggers">
-            <set>QAbstractItemView::DoubleClicked|QAbstractItemView::SelectedClicked</set>
-           </property>
-           <property name="showDropIndicator" stdset="0">
-            <bool>false</bool>
-           </property>
-           <property name="dragDropOverwriteMode">
-            <bool>false</bool>
-           </property>
-           <property name="alternatingRowColors">
-            <bool>false</bool>
-           </property>
-           <property name="selectionMode">
-            <enum>QAbstractItemView::SingleSelection</enum>
-           </property>
-           <property name="selectionBehavior">
-            <enum>QAbstractItemView::SelectItems</enum>
-           </property>
-           <property name="cornerButtonEnabled">
-            <bool>false</bool>
-           </property>
-           <attribute name="horizontalHeaderHighlightSections">
-            <bool>false</bool>
-           </attribute>
-           <attribute name="horizontalHeaderStretchLastSection">
-            <bool>true</bool>
-           </attribute>
-           <attribute name="verticalHeaderVisible">
-            <bool>true</bool>
-           </attribute>
-           <attribute name="verticalHeaderMinimumSectionSize">
-            <number>20</number>
-           </attribute>
-           <attribute name="verticalHeaderDefaultSectionSize">
-            <number>40</number>
-           </attribute>
-           <attribute name="verticalHeaderHighlightSections">
-            <bool>false</bool>
-           </attribute>
-           <row>
-            <property name="text">
-             <string>  Filipino</string>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <property name="leftMargin">
+             <number>12</number>
             </property>
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-              <bold>false</bold>
-             </font>
+            <property name="topMargin">
+             <number>0</number>
             </property>
-           </row>
-           <row>
-            <property name="text">
-             <string>  English</string>
+            <property name="rightMargin">
+             <number>12</number>
             </property>
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-              <bold>false</bold>
-             </font>
+            <property name="bottomMargin">
+             <number>0</number>
             </property>
-           </row>
-           <row>
-            <property name="text">
-             <string>  Mathematics</string>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-              <bold>false</bold>
-             </font>
-            </property>
-           </row>
-           <row>
-            <property name="text">
-             <string>  Science</string>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-              <bold>false</bold>
-             </font>
-            </property>
-           </row>
-           <row>
-            <property name="text">
-             <string>  Araling Panlipunan</string>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-              <bold>false</bold>
-             </font>
-            </property>
-           </row>
-           <row>
-            <property name="text">
-             <string>  Edukasyon sa Pagpapatao</string>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-              <bold>false</bold>
-             </font>
-            </property>
-           </row>
-           <row>
-            <property name="text">
-             <string>  Technology &amp; Livelihood Education</string>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-              <bold>false</bold>
-             </font>
-            </property>
-           </row>
-           <row>
-            <property name="text">
-             <string>  MAPEH</string>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-              <bold>false</bold>
-             </font>
-            </property>
-           </row>
-           <row>
-            <property name="text">
-             <string>     - Music</string>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>10</pointsize>
-              <bold>false</bold>
-             </font>
-            </property>
-           </row>
-           <row>
-            <property name="text">
-             <string>     - Arts</string>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>10</pointsize>
-              <bold>false</bold>
-             </font>
-            </property>
-           </row>
-           <row>
-            <property name="text">
-             <string>     - P.E.</string>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>10</pointsize>
-              <bold>false</bold>
-             </font>
-            </property>
-           </row>
-           <row>
-            <property name="text">
-             <string>     - Health</string>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>10</pointsize>
-              <bold>false</bold>
-             </font>
-            </property>
-           </row>
-           <row>
-            <property name="text">
-             <string>    GENERAL AVERAGE</string>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-              <bold>false</bold>
-             </font>
-            </property>
-           </row>
-           <column>
-            <property name="text">
-             <string>Q1</string>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="background">
-             <color>
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </property>
-            <property name="foreground">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>100</red>
-               <green>100</green>
-               <blue>100</blue>
-              </color>
-             </brush>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Q2</string>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="background">
-             <color>
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </property>
-            <property name="foreground">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>100</red>
-               <green>100</green>
-               <blue>100</blue>
-              </color>
-             </brush>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Q3</string>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="foreground">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>100</red>
-               <green>100</green>
-               <blue>100</blue>
-              </color>
-             </brush>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>Q4</string>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="foreground">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>100</red>
-               <green>100</green>
-               <blue>100</blue>
-              </color>
-             </brush>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>FINAL GRADE</string>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="foreground">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>100</red>
-               <green>100</green>
-               <blue>100</blue>
-              </color>
-             </brush>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string>REMARKS</string>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>11</pointsize>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="foreground">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>100</red>
-               <green>100</green>
-               <blue>100</blue>
-              </color>
-             </brush>
-            </property>
-           </column>
-           <item row="0" column="0">
-            <property name="text">
-             <string>89</string>
-            </property>
-            <property name="font">
-             <font/>
-            </property>
-            <property name="textAlignment">
-             <set>AlignCenter</set>
-            </property>
-            <property name="foreground">
-             <brush brushstyle="SolidPattern">
-              <color alpha="255">
-               <red>170</red>
-               <green>0</green>
-               <blue>0</blue>
-              </color>
-             </brush>
-            </property>
-           </item>
-           <item row="0" column="1">
-            <property name="text">
-             <string/>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>10</pointsize>
-              <bold>true</bold>
-             </font>
-            </property>
-           </item>
-           <item row="0" column="2">
-            <property name="text">
-             <string/>
-            </property>
-           </item>
-           <item row="0" column="3">
-            <property name="text">
-             <string/>
-            </property>
-            <property name="font">
-             <font>
-              <pointsize>10</pointsize>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="textAlignment">
-             <set>AlignCenter</set>
-            </property>
-           </item>
-           <item row="0" column="4">
-            <property name="text">
-             <string/>
-            </property>
-           </item>
-           <item row="0" column="5">
-            <property name="text">
-             <string/>
-            </property>
-           </item>
+            <item>
+             <widget class="QPushButton" name="updGradeJHS">
+              <property name="minimumSize">
+               <size>
+                <width>140</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>140</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton{
+border: 1px solid rgb(26, 194, 161);
+border-radius: 5px;
+	color: rgb(26, 194, 161);
+}
+QPushButton:hover, QPushButton:focus{
+	background-color: rgb(26, 194, 161);
+	color: rgb(255, 255, 255);
+}</string>
+              </property>
+              <property name="text">
+               <string>Update Grades</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="clrGradeJHS">
+              <property name="minimumSize">
+               <size>
+                <width>140</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>140</width>
+                <height>16777215</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton{
+border: 1px solid rgb(100, 100, 100);
+border-radius: 5px;
+	color: rgb(100, 100, 100);
+}
+QPushButton:hover, QPushButton:focus{
+	background-color: rgb(100, 100, 100);
+	color: rgb(255, 255, 255);
+}</string>
+              </property>
+              <property name="text">
+               <string>Clear Entries</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </item>
         </layout>

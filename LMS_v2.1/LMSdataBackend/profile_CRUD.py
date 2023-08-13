@@ -3,8 +3,8 @@ from absPath import resource_path
 
 
 # ---------- backend database setup for learner's profile data ---------------------------
-def createProfileData():
-    conn = sqlite3.connect(resource_path("data\\profileData.db"))
+def createProfileData(mainDbName: str):
+    conn = sqlite3.connect(resource_path(f"data\\{mainDbName}.db"))
     cur = conn.cursor()
     cur.execute("""
                     CREATE TABLE IF NOT EXISTS profileTable (
@@ -21,34 +21,48 @@ def createProfileData():
     conn.close()
 
 
-def addProfileData(profile_data: tuple):
-    conn = sqlite3.connect(resource_path("data\\profileData.db"))
+def addProfileData(mainDbName: str, profile_data: tuple):
+    conn = sqlite3.connect(resource_path(f"data\\{mainDbName}.db"))
     cur = conn.cursor()
     # index and value for tuple parameter
     # [0]lrn,           [1]last_name,       [2]first_name,  [3]middle_nme,  [4]name_ext
     # [5]birthdate,     [6]sex,             [7]age,         [8]address,     [9]mother_name
     # [10]father_name,  [11]guardian_name,  [12]modality,   [13]status
     cur.execute("INSERT INTO profileTable VALUES (NULL, ?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
-                (profile_data[0], profile_data[1], profile_data[2], profile_data[3], profile_data[4],
-                 profile_data[5], profile_data[6], profile_data[7], profile_data[8], profile_data[9],
-                 profile_data[10], profile_data[11], profile_data[12], profile_data[13]))
+                profile_data)
+    learnerID = cur.lastrowid
     conn.commit()
     conn.close()
 
+    return learnerID
 
-def viewProfileData():
-    conn = sqlite3.connect(resource_path("data\\profileData.db"))
+
+def viewProfileData(mainDbName: str, lrn="", sex=None, fullName="", address="", modality=None, status=None):
+    conn = sqlite3.connect(resource_path(f"data\\{mainDbName}.db"))
     cur = conn.cursor()
-
-    cur.execute("SELECT * FROM profileTable")
+    cur.execute('''SELECT * FROM  profileTable
+                               WHERE  lrn LIKE ?
+                                 AND  ((last_name LIKE ? OR first_name LIKE ?) OR 
+                                       (last_name || ' ' || first_name) LIKE ? OR 
+                                       (first_name || ' ' || last_name) LIKE ?)
+                                 AND  sex = COALESCE(?, sex)
+                                 AND  address LIKE ?
+                                 AND  modality = COALESCE(?, modality)
+                                 AND  status = COALESCE(?, status)
+                    ''', (f"{lrn}%",
+                          f"{fullName}%", f"{fullName}%", f"{fullName}%", f"{fullName}%",
+                          sex,
+                          f"{address}%",
+                          modality,
+                          status))
     fromProfileData = cur.fetchall()
     conn.close()
 
     return fromProfileData
 
 
-def updateProfileData(upd_profile_data: tuple):
-    conn = sqlite3.connect(resource_path("data\\profileData.db"))
+def updateProfileData(mainDbName: str, upd_profile_data: tuple):
+    conn = sqlite3.connect(resource_path(f"data\\{mainDbName}.db"))
     cur = conn.cursor()
     cur.execute("""UPDATE   profileTable 
                       SET   lrn = :lrn, 
@@ -65,32 +79,14 @@ def updateProfileData(upd_profile_data: tuple):
                             guardian_name = :guardian_name,
                             modality = :modality, 
                             status = :status 
-                    WHERE   oid = :oid""",
-                        {
-                            'lrn': upd_profile_data[0],
-                            'last_name': upd_profile_data[1],
-                            'first_name': upd_profile_data[2],
-                            'middle_name': upd_profile_data[3],
-                            'name_ext': upd_profile_data[4],
-                            'birthdate': upd_profile_data[5],
-                            'sex': upd_profile_data[6],
-                            'age': upd_profile_data[7],
-                            'address': upd_profile_data[8],
-                            'mother_name': upd_profile_data[9],
-                            'father_name': upd_profile_data[10],
-                            'guardian_name': upd_profile_data[11],
-                            'modality': upd_profile_data[12],
-                            'status': upd_profile_data[13],
-                            'oid': upd_profile_data[14]
-                        })
+                    WHERE   oid = :oid""", upd_profile_data)
     conn.commit()
     conn.close()
 
 
-def deleteProfileData(profileId):
-    conn = sqlite3.connect("data\\profileData.db")
+def deleteProfileData(mainDbName: str, profileId):
+    conn = sqlite3.connect(resource_path(f"data\\{mainDbName}.db"))
     cur = conn.cursor()
-
     cur.execute("DELETE FROM profileTable WHERE id=?", (profileId,))
     conn.commit()
     conn.close()

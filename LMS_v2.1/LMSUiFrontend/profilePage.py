@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QFrame, QPushButton, QDateEdit, QLabel, QTableWidget, QTableWidgetItem, \
-    QGraphicsDropShadowEffect, QLineEdit, QComboBox, QSpinBox
+    QGraphicsDropShadowEffect, QLineEdit, QComboBox, QSpinBox, QAbstractItemView
 from PyQt6.QtCore import QDate
 from datetime import datetime
 from PyQt6.QtGui import QColor
@@ -187,7 +187,7 @@ class Profile(QFrame):
         self.clearProfileEntries()
 
     # ---------------------------------------------------------------------
-    def show_learner(self, learnerData):
+    def show_learner(self, learnerData):  # displaying learner's profile data to table
         if len(learnerData) != 0:
             self.profile_Table.setRowCount(0)
             for i, row in enumerate(learnerData):
@@ -196,6 +196,8 @@ class Profile(QFrame):
 
                 for column, val in enumerate(row):
                     self.profile_Table.setItem(i, column, QTableWidgetItem(str(val)))
+        # else:
+        #     self.profile_Table.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection)
 
     def clickedTableItem(self):
         if len(self.selected_learner) == 0:  # No current selected learner from the table
@@ -252,10 +254,9 @@ class Profile(QFrame):
         self.father.clear()
         self.guardian.clear()
 
-    def config_ClassDisplay(self, classDB):
+    def config_ProfileDisplay(self, classDB):  # display class info to profile page
         self.departmentLabel.setText(classDB[1])
-        self.gradeSectionLabel.setText(f"Grade {classDB[4]} - {classDB[5].upper()}")
-        self.adviserLabel.setText(classDB[6].upper())
+        self.gradeSectionLabel.setText(f"Grade {classDB[5]} - {classDB[6].upper()}")
+        self.adviserLabel.setText(classDB[7].upper())
         self.syLabel.setText(f"School Year: {classDB[2]}")
-        self.strandLabel.setText(classDB[7])
-        self.semLabel.setText(classDB[8])
+        self.strandLabel.setText(classDB[8])

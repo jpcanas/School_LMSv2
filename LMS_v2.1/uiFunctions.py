@@ -13,7 +13,9 @@ from LMSUiFrontend.gradesSHSPage import GradesSHS
 from LMSUiFrontend.attendance_OVPage import AttendanceOV
 
 # backend database file
-from LMSdataBackend import schoolClass_db, profile_db
+from LMSdataBackend import mainDb_Create, schoolClass_CRUD, profile_CRUD, \
+    gradeJHS_CRUD, gradeSHS_CRUD, attendance_CRUD, observedValues_CRUD, \
+    schoolDaysPerMonth_CRUD, semesterSubjects_CRUD
 
 
 class UIFunctions:
@@ -76,20 +78,25 @@ class UIFunctions:
         self.checkClassData(self.homePage)
 
     def checkClassData(self, defaultPage):  # Check if class database exist
-        if os.path.isfile(resource_path('data\\classData.db')):
-            self.fromClassData = schoolClass_db.viewClassData()[0]  # Class data
-            self.fromSchoolData = schoolClass_db.viewSchoolData()[0]  # School Data
-            self.homeFunction(self.fromClassData)  # Initialize Home page
-            self.profileFunction(self.fromClassData)  # Initialize Profile page
-            self.attendance_ov(self.fromClassData)  # Initialize attendance page
-            if self.fromClassData[1] == "JUNIOR HIGH SCHOOL":
-                self.jhsGradeFunction()
-            else:
-                self.shsGradeFunction()
+        mainDb_Create.createDbNames()  # connect and create table if not exist to lms_DbNames
+        self.activeDb = mainDb_Create.viewDbNames(1)  # check if there is an active main database
+        if len(self.activeDb) > 0:
+            activeDbRecord = self.activeDb[0]
+            activeDbName = activeDbRecord[1]
+            if os.path.isfile(resource_path(f'data\\{activeDbName}.db')):
+                self.app_pages.setCurrentWidget(self.registerPage)
+                self.fromClassData = schoolClass_CRUD.viewClassData(activeDbName)[0]  # Class data
+                self.fromSchoolData = schoolClass_CRUD.viewSchoolData(activeDbName)[0]  # School Data
+                self.homeFunction(self.fromSchoolData, self.fromClassData)  # Initialize Home page
+                self.profileFunction(self.fromClassData, activeDbName)  # Initialize Profile page
+                self.attendance_ov(self.fromClassData, activeDbName)  # Initialize attendance page
 
-            self.app_pages.setCurrentWidget(defaultPage)
-            self.profileMain.config_ClassDisplay(self.fromClassData)
-            self.homeMain.config_HomeDisplay(self.fromSchoolData)
+                if self.fromClassData[1] == "JUNIOR HIGH SCHOOL":
+                    self.jhsGradeFunction(self.fromClassData, activeDbName)
+                else:
+                    self.shsGradeFunction(self.fromClassData, activeDbName)
+
+                self.app_pages.setCurrentWidget(defaultPage)
 
         else:
             self.registerFunction()
@@ -101,26 +108,59 @@ class UIFunctions:
         self.registerLayout = self.main_ui.findChild(QVBoxLayout, "registerPageLayout")
         self.registerMain = Register()
         self.registerLayout.addWidget(self.registerMain)
-        self.registerMain.submitEntryBtn.clicked.connect(lambda:  saveClass())
+        self.registerMain.submitEntryBtn.clicked.connect(lambda: saveClass())
 
         def saveClass():
-            classSchoolData = self.registerMain.submitEntry(self.main_ui)  # Data from register form
+            classSchoolData = self.registerMain.submitEntry()  # Data from register form
+            print(classSchoolData)
             if classSchoolData is not None:
                 # creating and adding data to school and class database
-                schoolClass_db.createSchoolData()
-                schoolClass_db.createClassData()
-                schoolClass_db.addSchoolData(classSchoolData[0])
-                schoolClass_db.addClassData(classSchoolData[1])
-                profile_db.createProfileData()
+                mainDbName = ""
+                schoolDataReg = classSchoolData[0]
+                classDataReg = classSchoolData[1]
+                schoolName_abbrv = schoolDataReg[0].split()
+                for initial in schoolName_abbrv:
+                    mainDbName += initial[0]
 
-                self.checkClassData(self.profilePage)
+                mainDbName += f"_{classDataReg[1]}_G{classDataReg[4]}_{classDataReg[5]}"
+                mainDb_Create.createMainDb(mainDbName)
 
-    def homeFunction(self, classDB):
+                # add datas for schoolDaysPerMonth Names
+                monthNamesTuple = (classDataReg[2],)  # parameter needed for month names (addDaysPerMonthData)
+                schoolDaysList = [None] * 13
+                schoolDaysTuple = tuple(
+                    schoolDaysList)  # parameter needed for school days (addDaysPerMonthData) default
+
+                schoolClass_CRUD.createSchoolData(mainDbName)
+                schoolClass_CRUD.createClassData(mainDbName)
+                schoolClass_CRUD.addSchoolData(mainDbName, schoolDataReg)
+                schoolClass_CRUD.addClassData(mainDbName, classDataReg)
+
+                schoolDaysPerMonth_CRUD.createDaysPerMonthData(mainDbName)
+                schoolDaysPerMonth_CRUD.addDaysPerMonthData(mainDbName, monthNamesTuple)
+                schoolDaysPerMonth_CRUD.addDaysPerMonthData(mainDbName, schoolDaysTuple)
+
+                profile_CRUD.createProfileData(mainDbName)
+                attendance_CRUD.createAttendanceData(mainDbName)
+                observedValues_CRUD.createObValData(mainDbName)
+                if classDataReg[0] == "JUNIOR HIGH SCHOOL":
+                    gradeJHS_CRUD.createGradesJHSData(mainDbName)
+                else:
+                    semesterSubjects_CRUD.createSemSubjects(mainDbName)
+
+            self.showMessage("Adding New Class",
+                             "You have successfully added new class",
+                             QMessageBox.Icon.Information)
+
+            self.checkClassData(self.profilePage)
+
+    def homeFunction(self, schoolDB, classDB):
         # Home Frame from stacked widgets
         self.homeFrame = self.main_ui.findChild(QFrame, "homeMainFrame")
         self.homeLayout = self.main_ui.findChild(QVBoxLayout, "homeMainLayout")
         self.homeMain = Home()
         self.homeLayout.addWidget(self.homeMain)
+        self.createNewClassBtn = self.main_ui.findChild(QPushButton, "btnCreateNewClass")
 
         # Home page buttons inside the home frame
         self.homeMain.homeProfileBtn.clicked.connect(lambda: self.setPage(self.profilePage))
@@ -131,7 +171,13 @@ class UIFunctions:
         else:
             self.homeMain.homeGradesBtn.clicked.connect(lambda: self.setPage(self.gradeSHSPage))
 
-    def profileFunction(self, classDB):
+        # display class and school info to the page
+        self.homeMain.config_HomeDisplay(schoolDB)
+
+        # functionalities
+        self.createNewClassBtn.clicked.connect(lambda: self.resetDisplayData())
+
+    def profileFunction(self, classDB, activeDbName):
         # Profile page buttons (Top Bar)
         self.profileHomeBtn = self.profilePage.findChild(QPushButton, "homeBtnProf")
         self.profileGradeBtn = self.profilePage.findChild(QPushButton, "gradesBtnProf")
@@ -149,23 +195,50 @@ class UIFunctions:
         self.profileMain.save_updateBtn.clicked.connect(lambda: saveUpdateLearner())
         self.profileMain.delLearnerBtn.clicked.connect(lambda: deleteLearner())
 
-        fromProfileData = profile_db.viewProfileData()  # displaying learner's profile from database
+        # displaying learner's profile from database including class info
+        self.profileMain.config_ProfileDisplay(classDB)
+        fromProfileData = profile_CRUD.viewProfileData(activeDbName)
         self.profileMain.show_learner(fromProfileData)
 
         def saveUpdateLearner():
             formEntries = self.profileMain.save_update_learner()
             if len(formEntries) != 0:
-                if formEntries[1]:  # Adding New Learner
-                    profile_db.addProfileData(formEntries[0])
-                    fromProfile_Add = profile_db.viewProfileData()
+                fromSem1Subjects = semesterSubjects_CRUD.viewSemSubjects(activeDbName, 1)  # check for sem1 subjects
+                if formEntries[1]:  # Adding New Learner to profile
+                    addedID = profile_CRUD.addProfileData(activeDbName, formEntries[0])
+                    fromProfile_Add = profile_CRUD.viewProfileData(activeDbName)
                     self.profileMain.show_learner(fromProfile_Add)
+
+                    #  adding blank entries with id to Attendance, grades, and observed values
+                    attendance_CRUD.addAttendanceData(activeDbName, addedID)
+                    observedValues_CRUD.addObValData(activeDbName, addedID)
+                    fromDaysPerMonthData = schoolDaysPerMonth_CRUD.viewDaysPerMonthData(activeDbName)
+                    fromAttendanceData = attendance_CRUD.viewAttendanceData(activeDbName)
+                    fromObValData = observedValues_CRUD.viewObValData(activeDbName)
+                    self.attendOV_Main.show_AttOvLearner(fromAttendanceData, fromObValData, fromDaysPerMonthData)
+
+                    if classDB[1] == "JUNIOR HIGH SCHOOL":
+                        gradeJHS_CRUD.addGradesJHSData(activeDbName, addedID)
+                    else:
+                        sem1SubjectCount = len(semesterSubjects_CRUD.viewSemSubjects(activeDbName, 1))
+                        sem2SubjectCount = len(semesterSubjects_CRUD.viewSemSubjects(activeDbName, 2))
+                        if sem1SubjectCount > 0:
+                            gradeSHS_CRUD.addOneGradesSHSData(activeDbName, addedID, sem1SubjectCount, 1)
+                            if len(fromSem1Subjects) > 0:
+                                fromSem1GradesSHSData = gradeSHS_CRUD.viewGradesSHSData(activeDbName, 1)
+                                fromSem2GradesSHSData = []
+                                self.gradeSHSMain.show_shsLearners(fromSem1GradesSHSData, fromSem2GradesSHSData)
+
+                        if sem2SubjectCount > 0:
+                            gradeSHS_CRUD.addOneGradesSHSData(activeDbName, addedID, sem2SubjectCount, 2)
+
                     self.showMessage("Adding New Learner",
                                      "You have successfully added a new learner",
                                      QMessageBox.Icon.Information)
+
                 else:  # Editing existing learner
-                    profile_db.updateProfileData(formEntries[0])
-                    fromProfile_Edit = profile_db.viewProfileData()
-                    print(formEntries[0])
+                    profile_CRUD.updateProfileData(activeDbName, formEntries[0])
+                    fromProfile_Edit = profile_CRUD.viewProfileData(activeDbName)
                     editMsg = f"ID No. {formEntries[0][14]} has been edited successfully"
                     self.profileMain.show_learner(fromProfile_Edit)
                     self.showMessage("Edit Learner",
@@ -178,8 +251,22 @@ class UIFunctions:
             if i.text() == "&Yes":
                 learnerID = self.profileMain.delete_learner()
                 if learnerID > 0:
-                    profile_db.deleteProfileData(learnerID)
-                    fromProfile_Del = profile_db.viewProfileData()
+                    profile_CRUD.deleteProfileData(activeDbName, learnerID)  # delete profile data
+                    attendance_CRUD.deleteAttData(activeDbName, learnerID)  # delete attendance data
+                    observedValues_CRUD.deleteObValData(activeDbName, learnerID)  # delete observed values data
+
+                    if classDB[1] == "JUNIOR HIGH SCHOOL":
+                        gradeJHS_CRUD.deleteGradesJHSData(activeDbName, learnerID)  # delete JHS grade data
+                    else:
+                        sem1SubjectCount = len(semesterSubjects_CRUD.viewSemSubjects(activeDbName, 1))
+                        sem2SubjectCount = len(semesterSubjects_CRUD.viewSemSubjects(activeDbName, 2))
+                        if sem1SubjectCount > 0:
+                            gradeSHS_CRUD.deleteGradesSHSData(activeDbName, learnerID, 1)
+
+                        if sem2SubjectCount > 0:
+                            gradeSHS_CRUD.deleteGradesSHSData(activeDbName, learnerID, 2)
+
+                    fromProfile_Del = profile_CRUD.viewProfileData(activeDbName)
                     self.profileMain.show_learner(fromProfile_Del)
 
         def deleteLearner():
@@ -191,7 +278,7 @@ class UIFunctions:
             msgDelBox.buttonClicked.connect(msgBoxBtnClick)
             msgDelBox.exec()
 
-    def jhsGradeFunction(self):
+    def jhsGradeFunction(self, classDB, activeDbName):
         # JHS grades page buttons
         self.jhsHomeBtn = self.gradeJHSPage.findChild(QPushButton, "homeBtnJHS")
         self.jhsProfileBtn = self.gradeJHSPage.findChild(QPushButton, "prevBtnJHS")
@@ -205,8 +292,35 @@ class UIFunctions:
         self.gradesJHSLayout = self.main_ui.findChild(QVBoxLayout, "gradesJHSLayout")
         self.gradeJHSMain = GradesJHS()
         self.gradesJHSLayout.addWidget(self.gradeJHSMain)
+        self.gradeJHSMain.updGradeJHSBtn.clicked.connect(lambda: updateJHSGrade())
 
-    def shsGradeFunction(self):
+        # displaying class info and learner's Name and LRN to JHS Grade Page
+        self.gradeJHSMain.config_jhsGradeDisplay(classDB)
+        fromGradesJHSData = gradeJHS_CRUD.viewGradesJHSData(activeDbName)
+        self.gradeJHSMain.show_jhsLearner(fromGradesJHSData)
+
+        def updateJHSGrade():
+            jhsTableEntries = self.gradeJHSMain.updJHSGrade()
+            if jhsTableEntries is not None:
+                if len(jhsTableEntries) > 1:
+                    gradeJHS_CRUD.updateGradesJHSData(activeDbName, jhsTableEntries)
+                    fromGradesJHSUpdt = gradeJHS_CRUD.viewGradesJHSData(activeDbName)
+                    gradeJHSSelected = [item for item in fromGradesJHSUpdt if item[0] == jhsTableEntries[-1]]
+                    self.gradeJHSMain.displayToJHSGradeTable(gradeJHSSelected[0])
+                    self.gradeJHSMain.show_jhsLearner(fromGradesJHSUpdt)
+                    self.showMessage("Successful",
+                                     f"ID No. {jhsTableEntries[-1]} grades has been successfully updated",
+                                     QMessageBox.Icon.Information)
+                else:
+                    self.showMessage("Invalid Grade",
+                                     f"Error: {jhsTableEntries[0]} is not a valid grade",
+                                     QMessageBox.Icon.Warning)
+            else:
+                self.showMessage("No Selected Learner",
+                                 "Please select a learner from the left table",
+                                 QMessageBox.Icon.Warning)
+
+    def shsGradeFunction(self, classDB, activeDbName):
         # SHS grades page buttons
         self.shsHomeBtn = self.gradeSHSPage.findChild(QPushButton, "homeBtnSHS")
         self.shsProfileBtn = self.gradeSHSPage.findChild(QPushButton, "prevBtnSHS")
@@ -220,8 +334,56 @@ class UIFunctions:
         self.gradesSHSLayout = self.main_ui.findChild(QVBoxLayout, "gradesSHSLayout")
         self.gradeSHSMain = GradesSHS()
         self.gradesSHSLayout.addWidget(self.gradeSHSMain)
+        self.gradeSHSMain.saveSubSHSBtn.clicked.connect(lambda: saveSubjects())
 
-    def attendance_ov(self, classDB):
+        # displaying class info and learner's Name and LRN to JHS Grade Page
+        self.gradeSHSMain.config_shsGradeDisplay(classDB)
+        fromSem1Subjects = semesterSubjects_CRUD.viewSemSubjects(activeDbName, 1)
+        fromSem2Subjects = semesterSubjects_CRUD.viewSemSubjects(activeDbName, 2)
+        self.gradeSHSMain.initializeSem1Pages(fromSem1Subjects)
+        self.gradeSHSMain.initializeSem2Pages(fromSem2Subjects)
+
+        # if sem1 subjects has data show table of learners (left side) #### TO EDIT CONDITION
+        if len(fromSem1Subjects) > 0 and len(fromSem2Subjects) == 0:
+            fromSem1GradesSHSData = gradeSHS_CRUD.viewGradesSHSData(activeDbName, 1)
+            fromSem2GradesSHSData = []
+            self.gradeSHSMain.show_shsLearners(fromSem1GradesSHSData, fromSem2GradesSHSData)
+        elif len(fromSem1Subjects) > 0 and len(fromSem2Subjects) > 0:
+            fromSem1GradesSHSData = gradeSHS_CRUD.viewGradesSHSData(activeDbName, 1)
+            fromSem2GradesSHSData = gradeSHS_CRUD.viewGradesSHSData(activeDbName, 2)
+            self.gradeSHSMain.show_shsLearners(fromSem1GradesSHSData, fromSem2GradesSHSData)
+
+        def saveSubjects():
+            semSubjectReturn = self.gradeSHSMain.shsSaveSubject()
+            if type(semSubjectReturn) == list:
+                semester = semSubjectReturn[0]
+                subjectCount = len(semSubjectReturn)
+                profileData = profile_CRUD.viewProfileData(activeDbName)
+                if semester == 1:
+                    semesterSubjects_CRUD.addSemSubjects(activeDbName, semSubjectReturn)
+                    gradeSHS_CRUD.createGradesSHSData(activeDbName, subjectCount, 1)
+                    if len(profileData) > 0:
+                        gradeSHS_CRUD.addManyGradesSHSData(activeDbName, profileData, subjectCount, 1)
+                        self.shsStackedWidgetSem1.setCurrentIndex(1)
+                        fromGradesSHSData = gradeSHS_CRUD.viewGradesSHSData(activeDbName, 1)
+                        sem2GradeTempData = []
+                        self.gradeSHSMain.show_shsLearners(fromGradesSHSData, sem2GradeTempData)
+                else:
+                    semesterSubjects_CRUD.addSemSubjects(activeDbName, semSubjectReturn)
+                    gradeSHS_CRUD.createGradesSHSData(activeDbName, subjectCount, 2)
+                    if len(profileData) > 0:
+                        gradeSHS_CRUD.addManyGradesSHSData(activeDbName, profileData, subjectCount, 2)
+                        self.shsStackedWidgetSem2.setCurrentIndex(1)
+
+                self.showMessage("Save subject successful",
+                                 f"You have successfully save SHS subjects for semester {semester[-1]}",
+                                 QMessageBox.Icon.Information)
+            else:
+                self.showMessage("Cannot save subjects",
+                                 f"{semSubjectReturn}",
+                                 QMessageBox.Icon.Warning)
+
+    def attendance_ov(self, classDB, activeDbName):
         # Attendance and Observed Values page buttons
         self.attendHomeBtn = self.attendancePage.findChild(QPushButton, "homeBtnAttend")
         self.attendGradeBtn = self.attendancePage.findChild(QPushButton, "prevBtnAttend")
@@ -236,6 +398,84 @@ class UIFunctions:
         self.attendFrameLayout = self.main_ui.findChild(QVBoxLayout, "attendMainLayout")
         self.attendOV_Main = AttendanceOV()
         self.attendFrameLayout.addWidget(self.attendOV_Main)
+        self.attendOV_Main.updObBtn.clicked.connect(lambda: updateObVal())
+        self.attendOV_Main.updAttBtn.clicked.connect(lambda: updateAttendance())
+
+        # displaying class info and learner's Name and LRN to Attendance OV Grade Page
+        self.attendOV_Main.config_AttOvDisplay(classDB)
+        fromDaysPerMonthData = schoolDaysPerMonth_CRUD.viewDaysPerMonthData(activeDbName)
+        fromAttendanceData = attendance_CRUD.viewAttendanceData(activeDbName)
+        fromObValData = observedValues_CRUD.viewObValData(activeDbName)
+        self.attendOV_Main.show_AttOvLearner(fromAttendanceData, fromObValData, fromDaysPerMonthData)
+
+        def updateAttendance():
+            attEntries = self.attendOV_Main.updAttendance()
+            autoCompleteAtt = self.attendOV_Main.autoComputeCheckBox.isChecked()
+            if attEntries is not None:
+                if len(attEntries) > 1:
+                    schoolDaysData = tuple(attEntries[0:13])  # -> list of int if auto complete
+                    presAbsData = tuple(attEntries[13:])
+                    schoolDaysPerMonth_CRUD.updateDaysPerMonthData(activeDbName, schoolDaysData, 2, autoCompleteAtt)
+                    attendance_CRUD.updateAttendanceData(activeDbName, presAbsData, autoCompleteAtt)
+
+                    fromAttendanceUpdt = attendance_CRUD.viewAttendanceData(activeDbName)
+                    fromMonthDataUpdt = schoolDaysPerMonth_CRUD.viewDaysPerMonthData(activeDbName)
+
+                    attList = self.attendOV_Main.getAttendanceToDisplay(fromAttendanceUpdt, fromMonthDataUpdt,
+                                                                        presAbsData[-1])
+                    self.attendOV_Main.displayToAttendanceTable(attList)
+                    self.attendOV_Main.show_AttOvLearner(fromAttendanceUpdt, fromObValData, fromMonthDataUpdt)
+
+                    self.showMessage("Successful",
+                                     f"ID No. {presAbsData[-1]} Attendance has been successfully updated",
+                                     QMessageBox.Icon.Information)
+                else:
+                    print(attEntries)
+            #         self.showMessage("Invalid Input",
+            #                          f"Error: {obValEntries[0]} is not a valid observed values",
+            #                          QMessageBox.Icon.Warning)
+            else:
+                self.showMessage("No Selected Learner",
+                                 "Please select a learner from the left table",
+                                 QMessageBox.Icon.Warning)
+
+        def updateObVal():
+            obValEntries = self.attendOV_Main.updObVal()
+            if obValEntries is not None:
+                if len(obValEntries) > 1:
+                    observedValues_CRUD.updateObValData(activeDbName, obValEntries)
+                    fromObValDataUpdt = observedValues_CRUD.viewObValData(activeDbName)
+                    obValList = [item for item in fromObValDataUpdt if item[0] == obValEntries[-1]]
+                    self.attendOV_Main.displayToOvTable(obValList[0])
+                    self.attendOV_Main.show_AttOvLearner(fromAttendanceData, fromObValDataUpdt, fromDaysPerMonthData)
+
+                    self.showMessage("Successful",
+                                     f"ID No. {obValEntries[-1]} Observed Values has been successfully updated",
+                                     QMessageBox.Icon.Information)
+                else:
+                    self.showMessage("Invalid Input",
+                                     f"Error: {obValEntries[0]} is not a valid observed values",
+                                     QMessageBox.Icon.Warning)
+            else:
+                self.showMessage("No Selected Learner",
+                                 "Please select a learner from the left table",
+                                 QMessageBox.Icon.Warning)
+
+    def resetDisplayData(self):
+        # add message box for creating new class
+        if len(self.activeDb) > 0:
+            activeDbRecord = self.activeDb[0]
+            mainDb_Create.updateDbNamesStatus(0, activeDbRecord[0])  # set the current database to be inactive
+            # reset the data display in every page
+            self.profileMain.cancel_save()
+            self.profileMain.profile_Table.clearContents()
+            self.gradeJHSMain.clearJHSSelection()
+            self.gradeJHSMain.studentJHSTable.clearContents()
+            self.attendOV_Main.studentTable_Att.clearContents()
+            self.attendOV_Main.clearAttOvSelection()
+            # add SHS reset data here
+
+            self.checkClassData(self.homePage)
 
     def setPage(self, page):
         self.app_pages.setCurrentWidget(page)
