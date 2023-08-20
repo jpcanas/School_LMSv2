@@ -50,8 +50,11 @@ class GradesSHS(QFrame):
         # Other initialization
         self.shsTabWidget.setCurrentIndex(0)
         self.shsTabWidget.currentChanged.connect(self.onSemTabChanged)
+        self.btnUnselectSHS.hide()
         self.selectedShsSem1Record = []
         self.selectedShsSem2Record = []
+        self.sem1SubjectCount = 0
+        self.sem2SubjectCount = 0
 
     # <editor-fold desc="Initializing 1st and 2nd semester widgets">
     def initializeSem1Pages(self, sem1SubjectData):
@@ -81,6 +84,7 @@ class GradesSHS(QFrame):
             self.sem1GradesTable.verticalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
             # noinspection PyTypeChecker
             self.loadSubjectsToTable(sem1SubjectData, self.sem1GradesTable)
+            self.sem1SubjectCount = len(sem1SubjectData)
             self.saveSubSHSBtn.hide()
             self.updGradeSHSBtn.show()
 
@@ -110,6 +114,7 @@ class GradesSHS(QFrame):
             self.sem2GradesTable.verticalHeader().setSectionResizeMode(QHeaderView.ResizeMode.Stretch)
             # noinspection PyTypeChecker
             self.loadSubjectsToTable(sem2SubjectData, self.sem2GradesTable)
+            self.sem2SubjectCount = len(sem2SubjectData)
 
     def loadSubjectsToTable(self, subjectData: list, subjectTable: QTableWidget):
         subjectTable.setRowCount(0)
@@ -240,7 +245,7 @@ class GradesSHS(QFrame):
 
     def editSem2SubjTableRow(self, actionButtons, blankRow=None):
         if blankRow is None:
-            subjRow = self.subjSem1TableWidget.indexAt(actionButtons.pos()).row()
+            subjRow = self.subjSem2TableWidget.indexAt(actionButtons.pos()).row()
         else:
             subjRow = blankRow
         for col in range(self.subjSem2TableWidget.columnCount()):
@@ -265,17 +270,19 @@ class GradesSHS(QFrame):
     # </editor-fold>
 
     # <editor-fold desc="Saving subjects button functionality">
-    def shsSaveSubject(self):  # saving shs subjects functionality (1st and 2nd Sem)m1
+    def shsSaveSubject(self, fromSem1Subjects):  # saving shs subjects functionality (1st and 2nd Sem)m1
         if self.shsTabWidget.currentIndex() == 0 and self.shsStackedWidgetSem1.currentIndex() == 0:
             # noinspection PyTypeChecker
             sem1SubjectStatus = self.checkAndCollectSubject(self.subjSem1TableWidget, 1)
             return sem1SubjectStatus
 
         elif self.shsTabWidget.currentIndex() == 1 and self.shsStackedWidgetSem2.currentIndex() == 0:
-            # add condition if sem1 subjects are empty, do not proceed with save
+            if len(fromSem1Subjects) == 0:
+                sem2SubjectStatus = "Please add some subjects first on 1st Semester before proceeding with 2nd Semester"
+            else:
+                # noinspection PyTypeChecker
+                sem2SubjectStatus = self.checkAndCollectSubject(self.subjSem2TableWidget, 2)
 
-            # noinspection PyTypeChecker
-            sem2SubjectStatus = self.checkAndCollectSubject(self.subjSem2TableWidget, 2)
             return sem2SubjectStatus
 
     def checkAndCollectSubject(self, subjectTableWidget, sem) -> list | str:
@@ -323,6 +330,8 @@ class GradesSHS(QFrame):
     ...
 
     # </editor-fold>
+
+    # <editor-fold desc="Clicking learner on table EVENTS">
 
     def show_shsLearners(self, shsSem1GradesData, shsSem2GradesData):
         if len(shsSem1GradesData) > 0:
@@ -381,6 +390,44 @@ class GradesSHS(QFrame):
                     shsItem = QTableWidgetItem(str(shsItemInt))
                     self.sem2GradesTable.setItem(gradeRow, gradeColumn + 1, shsItem)
                     shsItem.setTextAlignment(Qt.AlignmentFlag.AlignCenter)
+    ...
+
+    # </editor-fold>
+
+    def updSHSGrade(self):
+        if self.shsTabWidget.currentIndex() == 0 and self.shsStackedWidgetSem1.currentIndex() == 1:
+            return self.getSemGradesToUpdate(self.selectedShsSem1Record, self.sem1GradesTable, 1)
+
+        elif self.shsTabWidget.currentIndex() == 1 and self.shsStackedWidgetSem2.currentIndex() == 1:
+            return self.getSemGradesToUpdate(self.selectedShsSem2Record, self.sem2GradesTable, 2)
+
+    def getSemGradesToUpdate(self, selectedSemGrade, semGradeTable, sem):
+        if len(selectedSemGrade) != 0:
+            selectedGradeSem = selectedSemGrade[0]
+            rowCount = semGradeTable.rowCount()
+            gSHSTableDataSem = []
+            for tableRow in range(rowCount-1):  # excluding the quarter average
+                for tableColumn in range(2):
+                    tableItem = semGradeTable.item(tableRow, tableColumn+1)
+                    gSHSTableDataSem.append(tableItem.text().strip())  # remove whitespace
+
+            validGrade = True
+            for gSHSTableItem in gSHSTableDataSem:
+                if not (gSHSTableItem.isdigit() or gSHSTableItem == ''):
+                    gSHSTableDataSem = [gSHSTableItem]  # append the error grade to list
+                    validGrade = False
+                    break
+
+            if validGrade:
+                gSHSTableDataSem.append(rowCount)  # append table row count
+                gSHSTableDataSem.append(selectedGradeSem[0])  # append selected SHS ID
+                gSHSTableDataSem.append(sem)  # append semester
+                return tuple(gSHSTableDataSem)
+            else:
+                return gSHSTableDataSem
+
+        else:
+            return None
 
     def onSemTabChanged(self, tabIndex):
         if tabIndex == 0:
@@ -401,11 +448,20 @@ class GradesSHS(QFrame):
     def clearShsSelection(self):
         self.studentTableSHS.clearSelection()
         self.btnUnselectSHS.hide()
-        self.selectedShsSem1Record = []
-        self.selectedShsSem2Record = []
+        self.selectedShsSem1Record.clear()
+        self.selectedShsSem2Record.clear()
         self.lrnLabelSHS.setText("")
         self.nameLabelSHS.setText("")
         self.lblSelectionSHS.setText("No Selection")
+
+        for gradeRowSem1 in range(self.sem1GradesTable.rowCount()):
+            for gradeColumnSem1 in range(3):
+                self.sem1GradesTable.setItem(gradeRowSem1, gradeColumnSem1+1, QTableWidgetItem(""))
+
+        if self.sem2SubjectCount > 0:
+            for gradeRowSem2 in range(self.sem2GradesTable.rowCount()):
+                for gradeColumnSem2 in range(3):
+                    self.sem2GradesTable.setItem(gradeRowSem2, gradeColumnSem2 + 1, QTableWidgetItem(""))
 
     def config_shsGradeDisplay(self, classDB):
         self.lblGradeSecSHS.setText(f"Grade {classDB[5]} - {classDB[6]}")

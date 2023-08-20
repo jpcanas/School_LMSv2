@@ -106,3 +106,78 @@ def deleteGradesSHSData(mainDbName: str, gSHSId: int, sem: int):
     conn.close()
 
 
+def findAverage(upd_gSHS):
+    grade_with_ave = []
+    for i in range(0, (len(upd_gSHS)-3), 2):
+        perSubjectGrade = upd_gSHS[i: i+2]
+
+        for sub in perSubjectGrade:  # add per subject grade to list whether empty or not
+            if sub:
+                grade_with_ave.append(int(sub))
+            else:
+                grade_with_ave.append(sub)
+
+        if all(perSubjectGrade):  # Check if all 2 items are not empty
+            subjAverage = sum(map(int, perSubjectGrade)) / len(perSubjectGrade)  # compute for average
+            grade_with_ave.append(subjAverage)
+        else:
+            grade_with_ave.append(None)
+
+    grade_with_ave.append(upd_gSHS[-3])  # append table row count
+    grade_with_ave.append(upd_gSHS[-2])  # append selected SHS ID
+    grade_with_ave.append(upd_gSHS[-1])  # append semester
+    return grade_with_ave
+
+
+def finalShsGrade(gradesWithAve):
+    gradesWithFinal = gradesWithAve
+    subjectCount = gradesWithFinal[-3] - 1
+    for i in range(3):
+        allSubjPerQuarter = []
+        for j in range(subjectCount):
+            index = i + (j*3)
+            allSubjPerQuarter.append(gradesWithFinal[index])
+
+        if all(allSubjPerQuarter):
+            quarterFinal = sum(allSubjPerQuarter) / len(allSubjPerQuarter)
+            gradesWithFinal.insert(((subjectCount*3)+i), quarterFinal)
+        else:
+            gradesWithFinal.insert(((subjectCount*3)+i), None)
+
+    return gradesWithFinal
+
+
+def updateGradesSHSData(mainDbName: str, upd_gSHS):
+    u = findAverage(upd_gSHS)
+    gradesWithFinal = finalShsGrade(u)
+    subjectCount = gradesWithFinal[-3] - 1
+    sem = gradesWithFinal[-1]
+    updateQuery = f"UPDATE gradesSem{sem}Table \nSET "
+
+    if sem == 1:
+        for i in range(subjectCount):
+            updateQuery += f"subj{i + 1}Q1Sem{sem} = ?, subj{i + 1}Q2Sem{sem} = ?, subj{i + 1}FinalSem{sem} = ?,\n"
+
+        updateQuery += f"aveQ1Sem{sem} = ?, aveQ2Sem{sem} = ?, genAveSem{sem}  = ?,\n"
+
+    else:
+        for i in range(subjectCount):
+            updateQuery += f"subj{i + 1}Q3Sem{sem} = ?, subj{i + 1}Q4Sem{sem} = ?, subj{i + 1}FinalSem{sem} = ?,\n"
+
+        updateQuery += f"aveQ3Sem{sem} = ?, aveQ4Sem{sem} = ?, genAveSem{sem} = ?,\n"
+
+    updateQuery = updateQuery[:-2]  # remove last two characters( [/n] ,)
+    updateQuery += "\nWHERE  oid = :oid"
+
+    gradesWithFinal.pop(-3)   # remove subject count data
+    gradesWithFinal.pop(-1)  # remove sem data
+
+    gradesSHSToUpdate = tuple(gradesWithFinal)
+
+    conn = sqlite3.connect(resource_path(f"data\\{mainDbName}.db"))
+    cur = conn.cursor()
+    cur.execute(updateQuery, gradesSHSToUpdate)  # database update
+    conn.commit()
+    conn.close()
+
+

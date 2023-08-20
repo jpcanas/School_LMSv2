@@ -317,7 +317,7 @@ class UIFunctions:
                                      QMessageBox.Icon.Warning)
             else:
                 self.showMessage("No Selected Learner",
-                                 "Please select a learner from the left table",
+                                 "Please select learner from the left side table",
                                  QMessageBox.Icon.Warning)
 
     def shsGradeFunction(self, classDB, activeDbName):
@@ -335,6 +335,7 @@ class UIFunctions:
         self.gradeSHSMain = GradesSHS()
         self.gradesSHSLayout.addWidget(self.gradeSHSMain)
         self.gradeSHSMain.saveSubSHSBtn.clicked.connect(lambda: saveSubjects())
+        self.gradeSHSMain.updGradeSHSBtn.clicked.connect(lambda: updateSHSGrades())
 
         # displaying class info and learner's Name and LRN to JHS Grade Page
         self.gradeSHSMain.config_shsGradeDisplay(classDB)
@@ -354,7 +355,7 @@ class UIFunctions:
             self.gradeSHSMain.show_shsLearners(fromSem1GradesSHSData, fromSem2GradesSHSData)
 
         def saveSubjects():
-            semSubjectReturn = self.gradeSHSMain.shsSaveSubject()
+            semSubjectReturn = self.gradeSHSMain.shsSaveSubject(fromSem1Subjects)
             if type(semSubjectReturn) == list:
                 semester = semSubjectReturn[0]
                 subjectCount = len(semSubjectReturn)
@@ -364,16 +365,27 @@ class UIFunctions:
                     gradeSHS_CRUD.createGradesSHSData(activeDbName, subjectCount, 1)
                     if len(profileData) > 0:
                         gradeSHS_CRUD.addManyGradesSHSData(activeDbName, profileData, subjectCount, 1)
-                        self.shsStackedWidgetSem1.setCurrentIndex(1)
-                        fromGradesSHSData = gradeSHS_CRUD.viewGradesSHSData(activeDbName, 1)
-                        sem2GradeTempData = []
-                        self.gradeSHSMain.show_shsLearners(fromGradesSHSData, sem2GradeTempData)
+                        self.gradeSHSMain.shsStackedWidgetSem1.setCurrentIndex(1)
+                        sem1GradesData = gradeSHS_CRUD.viewGradesSHSData(activeDbName, 1)
+                        sem2GradesData = []
+                        self.gradeSHSMain.show_shsLearners(sem1GradesData, sem2GradesData)
+
+                        sem1SubjectsUpdt = semesterSubjects_CRUD.viewSemSubjects(activeDbName, 1)
+                        self.gradeSHSMain.initializeSem1Pages(sem1SubjectsUpdt)
                 else:
                     semesterSubjects_CRUD.addSemSubjects(activeDbName, semSubjectReturn)
                     gradeSHS_CRUD.createGradesSHSData(activeDbName, subjectCount, 2)
                     if len(profileData) > 0:
                         gradeSHS_CRUD.addManyGradesSHSData(activeDbName, profileData, subjectCount, 2)
-                        self.shsStackedWidgetSem2.setCurrentIndex(1)
+                        self.gradeSHSMain.shsStackedWidgetSem2.setCurrentIndex(1)
+                        sem1GradesData = gradeSHS_CRUD.viewGradesSHSData(activeDbName, 1)
+                        sem2GradesData = gradeSHS_CRUD.viewGradesSHSData(activeDbName, 2)
+                        self.gradeSHSMain.show_shsLearners(sem1GradesData, sem2GradesData)
+
+                        sem1SubjectsUpdt = semesterSubjects_CRUD.viewSemSubjects(activeDbName, 2)
+                        self.gradeSHSMain.initializeSem2Pages(sem1SubjectsUpdt)
+                        self.gradeSHSMain.saveSubSHSBtn.hide()
+                        self.gradeSHSMain.updGradeSHSBtn.show()
 
                 self.showMessage("Save subject successful",
                                  f"You have successfully save SHS subjects for semester {semester[-1]}",
@@ -381,6 +393,35 @@ class UIFunctions:
             else:
                 self.showMessage("Cannot save subjects",
                                  f"{semSubjectReturn}",
+                                 QMessageBox.Icon.Warning)
+
+        def updateSHSGrades():
+            shsGradesEntries = self.gradeSHSMain.updSHSGrade()
+            sem = shsGradesEntries[-1]
+            if shsGradesEntries is not None:
+                if len(shsGradesEntries) > 1:
+                    gradeSHS_CRUD.updateGradesSHSData(activeDbName, shsGradesEntries)
+                    if sem == 1:
+                        sem1GradesSHSDataUpdt = gradeSHS_CRUD.viewGradesSHSData(activeDbName, 1)
+                        gradeSHSSelected = [item for item in sem1GradesSHSDataUpdt if item[0] == shsGradesEntries[-2]][0]
+                        self.gradeSHSMain.showSem1GradeTable(gradeSHSSelected)
+                        self.gradeSHSMain.show_shsLearners(sem1GradesSHSDataUpdt, fromSem2GradesSHSData)
+                    else:
+                        sem2GradesSHSDataUpdt = gradeSHS_CRUD.viewGradesSHSData(activeDbName, 2)
+                        gradeSHSSelected = [item for item in sem2GradesSHSDataUpdt if item[0] == shsGradesEntries[-2]][0]
+                        self.gradeSHSMain.showSem2GradeTable(gradeSHSSelected)
+                        self.gradeSHSMain.show_shsLearners(fromSem1GradesSHSData, sem2GradesSHSDataUpdt)
+
+                    self.showMessage("Successful",
+                                     f"{gradeSHSSelected[1]} grades has been successfully updated",
+                                     QMessageBox.Icon.Information)
+                else:
+                    self.showMessage("Invalid Grade",
+                                     f"Error: {shsGradesEntries[0]} is not a valid grade",
+                                     QMessageBox.Icon.Warning)
+            else:
+                self.showMessage("No Selected Learner",
+                                 "Please select learner from the left side table",
                                  QMessageBox.Icon.Warning)
 
     def attendance_ov(self, classDB, activeDbName):

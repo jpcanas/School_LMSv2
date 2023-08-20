@@ -70,7 +70,7 @@ def findAverage(gradesWithMapeh):
     for i in range(0, len(gradesWithMapeh) - 1, 4):
         perSubjectGrade = gradesWithMapeh[i:i + 4]
 
-        for sub in perSubjectGrade:  # add per subject grade to list weather empty or not
+        for sub in perSubjectGrade:  # add per subject grade to list whether empty or not
             if sub:
                 grade_with_ave.append(int(sub))
             else:
