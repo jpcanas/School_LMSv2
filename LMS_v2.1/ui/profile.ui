@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1060</width>
-    <height>603</height>
+    <width>1085</width>
+    <height>613</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1176,21 +1176,6 @@ border: 1px solid rgb(26, 194, 161);
 }
 </string>
                   </property>
-                  <item>
-                   <property name="text">
-                    <string>Enrolled</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Dropped</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Pending</string>
-                   </property>
-                  </item>
                  </widget>
                 </item>
                </layout>
@@ -1713,13 +1698,13 @@ color: rgb(26, 194, 161);
           <widget class="QFrame" name="search_box_input">
            <property name="minimumSize">
             <size>
-             <width>270</width>
+             <width>340</width>
              <height>0</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>460</width>
+             <width>360</width>
              <height>16777215</height>
             </size>
            </property>
@@ -1732,9 +1717,9 @@ color: rgb(26, 194, 161);
            <property name="frameShadow">
             <enum>QFrame::Plain</enum>
            </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="0,0,0">
+           <layout class="QHBoxLayout" name="horizontalLayout_10">
             <property name="spacing">
-             <number>5</number>
+             <number>0</number>
             </property>
             <property name="leftMargin">
              <number>0</number>
@@ -1749,16 +1734,16 @@ color: rgb(26, 194, 161);
              <number>0</number>
             </property>
             <item>
-             <widget class="QLineEdit" name="lineEdit">
+             <widget class="QLineEdit" name="searchBar">
               <property name="minimumSize">
                <size>
-                <width>70</width>
+                <width>250</width>
                 <height>30</height>
                </size>
               </property>
               <property name="maximumSize">
                <size>
-                <width>280</width>
+                <width>500</width>
                 <height>30</height>
                </size>
               </property>
@@ -1790,7 +1775,20 @@ color: rgb(26, 194, 161);
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_3">
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="searchBtn">
               <property name="minimumSize">
                <size>
                 <width>70</width>
@@ -1833,8 +1831,35 @@ QPushButton:hover{
               </property>
              </widget>
             </item>
+           </layout>
+          </widget>
+         </item>
+         <item>
+          <widget class="QFrame" name="spacer">
+           <property name="frameShape">
+            <enum>QFrame::StyledPanel</enum>
+           </property>
+           <property name="frameShadow">
+            <enum>QFrame::Raised</enum>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_11">
+            <property name="spacing">
+             <number>0</number>
+            </property>
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
+             <number>0</number>
+            </property>
             <item>
-             <widget class="QComboBox" name="comboBox">
+             <widget class="QComboBox" name="sortByDropDown">
               <property name="minimumSize">
                <size>
                 <width>120</width>
@@ -1899,124 +1924,76 @@ border: 1px solid rgb(26, 194, 161);
               </item>
              </widget>
             </item>
-           </layout>
-          </widget>
-         </item>
-         <item>
-          <widget class="QFrame" name="spacer">
-           <property name="frameShape">
-            <enum>QFrame::StyledPanel</enum>
-           </property>
-           <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButton">
-           <property name="minimumSize">
-            <size>
-             <width>110</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>110</width>
-             <height>26</height>
-            </size>
-           </property>
-           <property name="sizeIncrement">
-            <size>
-             <width>0</width>
-             <height>26</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="cursor">
-            <cursorShape>PointingHandCursor</cursorShape>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QPushButton{
-	border: 1px solid rgb(70, 70, 70);
+            <item>
+             <spacer name="horizontalSpacer">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pushButton">
+              <property name="minimumSize">
+               <size>
+                <width>110</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="maximumSize">
+               <size>
+                <width>110</width>
+                <height>30</height>
+               </size>
+              </property>
+              <property name="sizeIncrement">
+               <size>
+                <width>0</width>
+                <height>26</height>
+               </size>
+              </property>
+              <property name="font">
+               <font>
+                <pointsize>10</pointsize>
+                <bold>true</bold>
+               </font>
+              </property>
+              <property name="cursor">
+               <cursorShape>PointingHandCursor</cursorShape>
+              </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton{
+	border-bottom: 2px solid rgb(17, 130, 107);
 	border-radius: 5px;
 	color: rgb(255, 255, 255);
-	background-color: rgb(100, 100, 100);
-border-style: outset;
+	background-color: rgb(26, 194, 161);
 }
 QPushButton:focus{
 	border-style: inset;
 }
 </string>
-           </property>
-           <property name="text">
-            <string>Import Data</string>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>../assets/import.png</normaloff>../assets/import.png</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>18</width>
-             <height>18</height>
-            </size>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButton_2">
-           <property name="minimumSize">
-            <size>
-             <width>80</width>
-             <height>26</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>80</width>
-             <height>26</height>
-            </size>
-           </property>
-           <property name="font">
-            <font>
-             <pointsize>10</pointsize>
-             <bold>true</bold>
-            </font>
-           </property>
-           <property name="cursor">
-            <cursorShape>PointingHandCursor</cursorShape>
-           </property>
-           <property name="styleSheet">
-            <string notr="true">QPushButton{
-	border: 1px solid rgb(19, 143, 118);
-	border-radius: 5px;
-	color: rgb(255, 255, 255);
-	background-color: rgb(26, 194, 161);
-border-style: outset;
-}
-QPushButton:focus{
-	border-style: inset;
-}</string>
-           </property>
-           <property name="text">
-            <string>Export</string>
-           </property>
-           <property name="icon">
-            <iconset>
-             <normaloff>../assets/export.png</normaloff>../assets/export.png</iconset>
-           </property>
-           <property name="iconSize">
-            <size>
-             <width>18</width>
-             <height>18</height>
-            </size>
-           </property>
+              </property>
+              <property name="text">
+               <string>Import Data</string>
+              </property>
+              <property name="icon">
+               <iconset>
+                <normaloff>../assets/import.png</normaloff>../assets/import.png</iconset>
+              </property>
+              <property name="iconSize">
+               <size>
+                <width>18</width>
+                <height>18</height>
+               </size>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </widget>
          </item>
         </layout>
@@ -2049,11 +2026,12 @@ QTableView::item{
 QTableView::item:selected  {
 	color: rgb(0, 0, 0);
 	background-color: rgb(230, 230, 230);
+
 }
 QHeaderView::section{
-	background-color: rgb(26, 194, 161);
-border: none;
-border-left: 1px solid rgb(255,255,255);
+background-color: rgb(150, 150, 150);
+border:none;
+border-left: 1px solid rgb(255, 255, 255);
 padding-left: 8px;
 }
 
@@ -2072,7 +2050,10 @@ padding-left: 8px;
          <enum>QAbstractScrollArea::AdjustIgnored</enum>
         </property>
         <property name="editTriggers">
-         <set>QAbstractItemView::SelectedClicked</set>
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="showDropIndicator" stdset="0">
+         <bool>false</bool>
         </property>
         <property name="dragDropOverwriteMode">
          <bool>false</bool>
@@ -2143,9 +2124,9 @@ padding-left: 8px;
          </property>
          <property name="background">
           <color>
-           <red>26</red>
-           <green>194</green>
-           <blue>161</blue>
+           <red>150</red>
+           <green>150</green>
+           <blue>150</blue>
           </color>
          </property>
          <property name="foreground">
@@ -2173,9 +2154,9 @@ padding-left: 8px;
          </property>
          <property name="background">
           <color>
-           <red>26</red>
-           <green>194</green>
-           <blue>161</blue>
+           <red>150</red>
+           <green>150</green>
+           <blue>150</blue>
           </color>
          </property>
          <property name="foreground">
@@ -2203,9 +2184,9 @@ padding-left: 8px;
          </property>
          <property name="background">
           <color>
-           <red>26</red>
-           <green>194</green>
-           <blue>161</blue>
+           <red>150</red>
+           <green>150</green>
+           <blue>150</blue>
           </color>
          </property>
          <property name="foreground">
@@ -2233,9 +2214,9 @@ padding-left: 8px;
          </property>
          <property name="background">
           <color>
-           <red>26</red>
-           <green>194</green>
-           <blue>161</blue>
+           <red>150</red>
+           <green>150</green>
+           <blue>150</blue>
           </color>
          </property>
          <property name="foreground">
@@ -2263,9 +2244,9 @@ padding-left: 8px;
          </property>
          <property name="background">
           <color>
-           <red>26</red>
-           <green>194</green>
-           <blue>161</blue>
+           <red>150</red>
+           <green>150</green>
+           <blue>150</blue>
           </color>
          </property>
          <property name="foreground">
@@ -2293,9 +2274,9 @@ padding-left: 8px;
          </property>
          <property name="background">
           <color>
-           <red>26</red>
-           <green>194</green>
-           <blue>164</blue>
+           <red>150</red>
+           <green>150</green>
+           <blue>150</blue>
           </color>
          </property>
          <property name="foreground">
@@ -2323,9 +2304,9 @@ padding-left: 8px;
          </property>
          <property name="background">
           <color>
-           <red>26</red>
-           <green>194</green>
-           <blue>161</blue>
+           <red>150</red>
+           <green>150</green>
+           <blue>150</blue>
           </color>
          </property>
          <property name="foreground">
@@ -2353,9 +2334,9 @@ padding-left: 8px;
          </property>
          <property name="background">
           <color>
-           <red>26</red>
-           <green>194</green>
-           <blue>161</blue>
+           <red>150</red>
+           <green>150</green>
+           <blue>150</blue>
           </color>
          </property>
          <property name="foreground">
@@ -2383,9 +2364,9 @@ padding-left: 8px;
          </property>
          <property name="background">
           <color>
-           <red>26</red>
-           <green>194</green>
-           <blue>161</blue>
+           <red>150</red>
+           <green>150</green>
+           <blue>150</blue>
           </color>
          </property>
          <property name="foreground">
@@ -2413,9 +2394,9 @@ padding-left: 8px;
          </property>
          <property name="background">
           <color>
-           <red>26</red>
-           <green>194</green>
-           <blue>161</blue>
+           <red>150</red>
+           <green>150</green>
+           <blue>150</blue>
           </color>
          </property>
          <property name="foreground">
@@ -2443,9 +2424,9 @@ padding-left: 8px;
          </property>
          <property name="background">
           <color>
-           <red>26</red>
-           <green>194</green>
-           <blue>161</blue>
+           <red>150</red>
+           <green>150</green>
+           <blue>150</blue>
           </color>
          </property>
          <property name="foreground">
@@ -2473,9 +2454,9 @@ padding-left: 8px;
          </property>
          <property name="background">
           <color>
-           <red>26</red>
-           <green>194</green>
-           <blue>161</blue>
+           <red>150</red>
+           <green>150</green>
+           <blue>150</blue>
           </color>
          </property>
          <property name="foreground">
@@ -2503,9 +2484,9 @@ padding-left: 8px;
          </property>
          <property name="background">
           <color>
-           <red>26</red>
-           <green>194</green>
-           <blue>161</blue>
+           <red>150</red>
+           <green>150</green>
+           <blue>150</blue>
           </color>
          </property>
          <property name="foreground">
@@ -2533,9 +2514,9 @@ padding-left: 8px;
          </property>
          <property name="background">
           <color>
-           <red>26</red>
-           <green>194</green>
-           <blue>161</blue>
+           <red>150</red>
+           <green>150</green>
+           <blue>150</blue>
           </color>
          </property>
          <property name="foreground">
@@ -2563,9 +2544,9 @@ padding-left: 8px;
          </property>
          <property name="background">
           <color>
-           <red>26</red>
-           <green>194</green>
-           <blue>161</blue>
+           <red>150</red>
+           <green>150</green>
+           <blue>150</blue>
           </color>
          </property>
          <property name="foreground">

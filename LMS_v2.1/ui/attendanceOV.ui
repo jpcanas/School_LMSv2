@@ -377,6 +377,15 @@ border: 1px solid rgb(230, 230, 230);
            <property name="frameShadow">
             <enum>QFrame::Plain</enum>
            </property>
+           <property name="editTriggers">
+            <set>QAbstractItemView::NoEditTriggers</set>
+           </property>
+           <property name="showDropIndicator" stdset="0">
+            <bool>false</bool>
+           </property>
+           <property name="dragDropOverwriteMode">
+            <bool>false</bool>
+           </property>
            <property name="selectionMode">
             <enum>QAbstractItemView::SingleSelection</enum>
            </property>
@@ -607,7 +616,7 @@ QTabBar::tab:selected{
          <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <property name="iconSize">
          <size>
@@ -747,8 +756,8 @@ border: 1px solid rgb(230, 230, 230);
 }
 
 QTableView::item:selected  {
-	color: rgb(255, 255, 255);
-	background-color: rgb(220, 255, 239);
+color: rgb(100, 100, 100);
+	background-color: rgb(230, 230, 230);
 }
 QScrollArea{
 	background-color: rgb(255, 255, 255);
@@ -1010,6 +1019,15 @@ QScrollBar::down-arrow {
                      <pointsize>10</pointsize>
                     </font>
                    </property>
+                   <property name="foreground">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>100</red>
+                      <green>100</green>
+                      <blue>100</blue>
+                     </color>
+                    </brush>
+                   </property>
                   </item>
                   <item row="1" column="0">
                    <property name="text">
@@ -1019,6 +1037,15 @@ QScrollBar::down-arrow {
                     <font>
                      <pointsize>10</pointsize>
                     </font>
+                   </property>
+                   <property name="foreground">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>100</red>
+                      <green>100</green>
+                      <blue>100</blue>
+                     </color>
+                    </brush>
                    </property>
                   </item>
                   <item row="2" column="0">
@@ -1030,6 +1057,15 @@ QScrollBar::down-arrow {
                      <pointsize>10</pointsize>
                     </font>
                    </property>
+                   <property name="foreground">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>100</red>
+                      <green>100</green>
+                      <blue>100</blue>
+                     </color>
+                    </brush>
+                   </property>
                   </item>
                   <item row="3" column="0">
                    <property name="text">
@@ -1039,6 +1075,15 @@ QScrollBar::down-arrow {
                     <font>
                      <pointsize>10</pointsize>
                     </font>
+                   </property>
+                   <property name="foreground">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>100</red>
+                      <green>100</green>
+                      <blue>100</blue>
+                     </color>
+                    </brush>
                    </property>
                   </item>
                   <item row="4" column="0">
@@ -1050,6 +1095,15 @@ QScrollBar::down-arrow {
                      <pointsize>10</pointsize>
                     </font>
                    </property>
+                   <property name="foreground">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>100</red>
+                      <green>100</green>
+                      <blue>100</blue>
+                     </color>
+                    </brush>
+                   </property>
                   </item>
                   <item row="5" column="0">
                    <property name="text">
@@ -1060,6 +1114,15 @@ QScrollBar::down-arrow {
                      <pointsize>10</pointsize>
                     </font>
                    </property>
+                   <property name="foreground">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>100</red>
+                      <green>100</green>
+                      <blue>100</blue>
+                     </color>
+                    </brush>
+                   </property>
                   </item>
                   <item row="6" column="0">
                    <property name="text">
@@ -1069,6 +1132,15 @@ QScrollBar::down-arrow {
                     <font>
                      <pointsize>10</pointsize>
                     </font>
+                   </property>
+                   <property name="foreground">
+                    <brush brushstyle="SolidPattern">
+                     <color alpha="255">
+                      <red>100</red>
+                      <green>100</green>
+                      <blue>100</blue>
+                     </color>
+                    </brush>
                    </property>
                   </item>
                  </widget>
@@ -1134,6 +1206,11 @@ QScrollBar::down-arrow {
                        <width>0</width>
                        <height>85</height>
                       </size>
+                     </property>
+                     <property name="styleSheet">
+                      <string notr="true">QTextEdit{
+	color: rgb(100, 100, 100);
+}</string>
                      </property>
                      <property name="html">
                       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
@@ -1438,6 +1515,7 @@ border-radius: 10px;
                   <property name="styleSheet">
                    <string notr="true">QTableView::item:selected  {
 	background-color: rgb(230, 230, 230);
+	color: rgb(100, 100, 100);
 }
 /*
 QScrollArea{
@@ -1487,6 +1565,9 @@ QScrollBar::right-arrow {
                   </property>
                   <property name="dragDropOverwriteMode">
                    <bool>false</bool>
+                  </property>
+                  <property name="selectionMode">
+                   <enum>QAbstractItemView::SingleSelection</enum>
                   </property>
                   <attribute name="verticalHeaderDefaultSectionSize">
                    <number>40</number>
@@ -1888,14 +1969,37 @@ background-color: rgb(26, 194, 161);
                <widget class="QCheckBox" name="chckBoxAutoCompute">
                 <property name="geometry">
                  <rect>
-                  <x>280</x>
-                  <y>20</y>
+                  <x>30</x>
+                  <y>60</y>
                   <width>161</width>
                   <height>20</height>
                  </rect>
                 </property>
                 <property name="text">
                  <string>Auto compute attendance</string>
+                </property>
+               </widget>
+               <widget class="QLabel" name="labelAttendanceChanged">
+                <property name="geometry">
+                 <rect>
+                  <x>230</x>
+                  <y>30</y>
+                  <width>301</width>
+                  <height>16</height>
+                 </rect>
+                </property>
+                <property name="font">
+                 <font>
+                  <pointsize>10</pointsize>
+                 </font>
+                </property>
+                <property name="styleSheet">
+                 <string notr="true">QLabel{
+	color: rgb(255, 0, 0);
+}</string>
+                </property>
+                <property name="text">
+                 <string/>
                 </property>
                </widget>
               </widget>

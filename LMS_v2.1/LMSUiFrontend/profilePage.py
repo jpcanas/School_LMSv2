@@ -46,15 +46,18 @@ class Profile(QFrame):
         self.syLabel = self.findChild(QLabel, "syLabel")
         self.strandLabel = self.findChild(QLabel, "strandLabel")
         self.semLabel = self.findChild(QLabel, "semLabel")
+        self.searchBar = self.findChild(QLineEdit, "searchBar")
+        self.searchBtn = self.findChild(QPushButton, "searchBtn")
+        self.sortByDropDown = self.findChild(QComboBox, "sortByDropDown")
         self.selectionBtnFrame = self.findChild(QFrame, "selectionBtns")
         self.addLearnerBtn = self.findChild(QPushButton, "addLearnerBtn")
         self.editLearnerBtn = self.findChild(QPushButton, "updateBtn")
         self.delLearnerBtn = self.findChild(QPushButton, "delBtn")
         self.cancelEditBtn = self.findChild(QPushButton, "cancelEdit")
         self.table_notif = self.findChild(QLabel, "table_notif")
+        self.sortByDropDown.hide()
 
         # Buttons below learner's form
-        # save_update_learner() will be executed to uiFunctions.py (profileFunction)
         self.cancelSaveBtn.clicked.connect(lambda: self.cancel_save())
         # Buttons below table
         self.addLearnerBtn.clicked.connect(lambda: self.add_learner())
@@ -72,9 +75,11 @@ class Profile(QFrame):
         self.profileDisplay.setGraphicsEffect(self.shadow)
 
         # Other initializations
+        self.searchBtn.hide()
         self.sidebar.hide()
         self.selectionBtnFrame.hide()
         self.selected_learner = []
+        self.searchBar.textChanged.connect(self.searchProfileTable)
 
     def table_init(self):
         # Setting table header column width
@@ -122,7 +127,6 @@ class Profile(QFrame):
                                      self.sex.currentText(), self.modality.currentText(), self.status.currentText()]
 
         if len(self.selected_learner) == 0:  # if there is no current selected learner from the table (Add New Mode)
-            print("No current selection - Adding New learner")
             # Checking if required entries are not blank and remove whitespace
             if all(required_Entry.strip() for required_Entry in self.profile_required_ent):
                 self.profileForm_list.append(tuple(self.profile_entry))
@@ -132,10 +136,8 @@ class Profile(QFrame):
                 self.clearProfileEntries()
                 return self.profileForm_list
             else:
-                print("Missing required field for adding new learner")
-                return self.profileForm_list
+                return "Please fill up required fields for adding new learner"
         else:  # a learner has been selected from the table (Update Mode)
-            print("There is selection")
             # Checking if required entries are not blank and remove whitespace
             if all(required_Entry.strip() for required_Entry in self.profile_required_ent):
                 self.profile_entry.append(int(self.selected_learner[0]))  # adding selected id to the profile entries
@@ -144,8 +146,7 @@ class Profile(QFrame):
                 self.cancel_save()
                 return self.profileForm_list
             else:
-                print("Missing required field for updating learner's info")
-                return self.profileForm_list
+                return "Please fill up required field for updating learner's info"
 
     def cancel_save(self):
         self.sidebar.hide()
@@ -243,6 +244,22 @@ class Profile(QFrame):
         self.guardian.setText(selectedLearner[12])
         self.modality.setCurrentText(selectedLearner[13])
         self.status.setCurrentText(selectedLearner[14])
+
+    def searchProfileTable(self, s):
+        if not s:
+            # If the search box is empty, show all rows.
+            for r in range(self.profile_Table.rowCount()):
+                self.profile_Table.setRowHidden(r, False)
+            return
+
+        for r in range(self.profile_Table.rowCount()):
+            row_hidden = True
+            for c in range(self.profile_Table.columnCount()):
+                item = self.profile_Table.item(r, c)
+                if item and s.lower() in item.text().lower():
+                    row_hidden = False
+                    break
+            self.profile_Table.setRowHidden(r, row_hidden)
 
     def clearProfileEntries(self):
         self.lrn.clear()

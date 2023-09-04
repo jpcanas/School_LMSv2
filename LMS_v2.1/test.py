@@ -34,34 +34,36 @@ test = [89, 89, 89.0, 84, 84, 84.0, 90, 90, 90.0, 70, '', None, 80, 80, 80.0, 71
 final = [89, 89, 89.0, 84, 84, 84.0, 90, 90, 90.0, 70, '', None, 80, 80, 80.0, 71, '', None, 97, 97, 97.0, 72, '', None, 81.625, None, None, 9, 1, 1]
 s = ('89', '89', '84', '84', '90', '90', '', '', '80', '80', '', '', '97', '97', '', '', 9, 1, 1)
 
+t = ['12', '20', None, '18', None, None, None, None, None, None, None, None, '2', '11', None, None, None, '3', '12', '4', None, None, None, None, None, '0', 1]
+school = ['24', None, '25', '21', None, '19', '18', '20', '19', '20', None, None, '170']
+presTotal = 0
+absTotal = 0
+schoolDaysTotal = 0
 
-def updateQueryShs(gradesWithFinal):
-    subjectCount = gradesWithFinal[-3] - 1
-    sem = gradesWithFinal[-1]
-    createQuery = f"UPDATE gradesSem{sem}Table \nSET "
+for i, present in enumerate(t[:12]):
+    if present is not None:
+        t[i] = int(present)
+        presTotal += int(present)
+t[12] = presTotal
 
-    if sem == 1:
-        for i in range(subjectCount):
-            createQuery += f"subj{i + 1}Q1Sem{sem} = ?, subj{i + 1}Q2Sem{sem} = ?, subj{i + 1}FinalSem{sem} = ?,\n"
+for j, absent in enumerate(t[13:26]):
+    if absent is not None:
+        t[j+13] = int(absent)
+        absTotal += int(absent)
+t[25] = absTotal
 
-        createQuery += f"aveQ1Sem{sem} = ?, aveQ2Sem{sem} = ?, genAveSem{sem}  = ?,\n"
-    else:
-        for i in range(subjectCount):
-            createQuery += f"subj{i + 1}Q3Sem{sem} = ?, subj{i + 1}Q4Sem{sem} = ?, subj{i + 1}FinalSem{sem} = ?,\n"
+for schoolDays in school[:12]:
+    if schoolDays is not None:
+        schoolDaysTotal += int(schoolDays)
+school[-1] = schoolDaysTotal
 
-        createQuery += f"aveQ3Sem{sem} = ?, aveQ4Sem{sem} = ?, genAveSem{sem} = ?,\n"
-
-    createQuery +=  createQuery[:-2]  # remove last two characters( [/n] ,)
-    createQuery += "\nWHERE  oid = :oid"
-
-    gradesWithFinal.pop(-3)   # remove subject count data
-    gradesWithFinal.pop(-1)  # remove sem data
-
-    print(createQuery)
-    return gradesWithFinal
+print(t)
 
 
-n = updateQueryShs(final)
-print(n)
+
+
+
+
+
 
 

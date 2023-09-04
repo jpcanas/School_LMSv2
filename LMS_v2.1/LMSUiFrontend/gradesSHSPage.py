@@ -402,7 +402,7 @@ class GradesSHS(QFrame):
             return self.getSemGradesToUpdate(self.selectedShsSem2Record, self.sem2GradesTable, 2)
 
     def getSemGradesToUpdate(self, selectedSemGrade, semGradeTable, sem):
-        if len(selectedSemGrade) != 0:
+        if len(selectedSemGrade) > 0:
             selectedGradeSem = selectedSemGrade[0]
             rowCount = semGradeTable.rowCount()
             gSHSTableDataSem = []
@@ -427,6 +427,7 @@ class GradesSHS(QFrame):
                 return gSHSTableDataSem
 
         else:
+            print("enter no selection")
             return None
 
     def onSemTabChanged(self, tabIndex):

@@ -72,16 +72,22 @@ def viewAttendanceData(mainDbName, attId=None):
     return fromAttendanceData
 
 
-def updateAttendanceData(mainDbName: str, attendanceData: tuple, autoComplete: bool):
-    if not autoComplete:
-        presAbsDay = []
-        for day in attendanceData:
-            if day is not None:
-                presAbsDay.append(int(day))  # add days (int type)
-            else:
-                presAbsDay.append(None)
+def updateAttendanceData(mainDbName: str, attendanceData: list):
+    presTotal = 0
+    absTotal = 0
+    for i, present in enumerate(attendanceData[:12]):
+        if present is not None:
+            attendanceData[i] = int(present)
+            presTotal += int(present)
+    attendanceData[12] = presTotal
 
-        attendanceData = tuple(presAbsDay)
+    for j, absent in enumerate(attendanceData[13:25]):
+        if absent is not None:
+            attendanceData[j + 13] = int(absent)
+            absTotal += int(absent)
+    attendanceData[25] = absTotal
+
+    attendanceData = tuple(attendanceData)
 
     conn = sqlite3.connect(resource_path(f"data\\{mainDbName}.db"))
     cur = conn.cursor()

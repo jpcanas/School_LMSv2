@@ -182,10 +182,6 @@ class UIFunctions:
         self.profileHomeBtn = self.profilePage.findChild(QPushButton, "homeBtnProf")
         self.profileGradeBtn = self.profilePage.findChild(QPushButton, "gradesBtnProf")
         self.profileHomeBtn.clicked.connect(lambda: self.setPage(self.homePage))
-        if classDB[1] == "JUNIOR HIGH SCHOOL":
-            self.profileGradeBtn.clicked.connect(lambda: self.setPage(self.gradeJHSPage))
-        else:
-            self.profileGradeBtn.clicked.connect(lambda: self.setPage(self.gradeSHSPage))
 
         # Profile Page Frame from stacked widgets
         self.profileFrame = self.main_ui.findChild(QFrame, "profMainFrame")
@@ -195,6 +191,14 @@ class UIFunctions:
         self.profileMain.save_updateBtn.clicked.connect(lambda: saveUpdateLearner())
         self.profileMain.delLearnerBtn.clicked.connect(lambda: deleteLearner())
 
+        if classDB[1] == "JUNIOR HIGH SCHOOL":
+            self.profileGradeBtn.clicked.connect(lambda: self.setPage(self.gradeJHSPage))
+            self.profileMain.status.addItems(["Enrolled", "Pending", "Incomplete", "Dropped"])
+        else:
+            shsStatus = ["Enrolled (1st and 2nd sem)", "Enrolled 1st Sem, No 2nd Sem", "No 1st Sem, Enrolled 2nd Sem", "Pending", "Incomplete", "Dropped"]
+            self.profileMain.status.addItems(shsStatus)
+            self.profileGradeBtn.clicked.connect(lambda: self.setPage(self.gradeSHSPage))
+
         # displaying learner's profile from database including class info
         self.profileMain.config_ProfileDisplay(classDB)
         fromProfileData = profile_CRUD.viewProfileData(activeDbName)
@@ -202,50 +206,54 @@ class UIFunctions:
 
         def saveUpdateLearner():
             formEntries = self.profileMain.save_update_learner()
-            if len(formEntries) != 0:
-                fromSem1Subjects = semesterSubjects_CRUD.viewSemSubjects(activeDbName, 1)  # check for sem1 subjects
-                if formEntries[1]:  # Adding New Learner to profile
-                    addedID = profile_CRUD.addProfileData(activeDbName, formEntries[0])
-                    fromProfile_Add = profile_CRUD.viewProfileData(activeDbName)
-                    self.profileMain.show_learner(fromProfile_Add)
+            if type(formEntries) == list:
+                if len(formEntries) != 0:
+                    fromSem1Subjects = semesterSubjects_CRUD.viewSemSubjects(activeDbName, 1)  # check for sem1 subjects
+                    if formEntries[1]:  # Adding New Learner to profile
+                        addedID = profile_CRUD.addProfileData(activeDbName, formEntries[0])
+                        fromProfile_Add = profile_CRUD.viewProfileData(activeDbName)
+                        self.profileMain.show_learner(fromProfile_Add)
 
-                    #  adding blank entries with id to Attendance, grades, and observed values
-                    attendance_CRUD.addAttendanceData(activeDbName, addedID)
-                    observedValues_CRUD.addObValData(activeDbName, addedID)
-                    fromDaysPerMonthData = schoolDaysPerMonth_CRUD.viewDaysPerMonthData(activeDbName)
-                    fromAttendanceData = attendance_CRUD.viewAttendanceData(activeDbName)
-                    fromObValData = observedValues_CRUD.viewObValData(activeDbName)
-                    self.attendOV_Main.show_AttOvLearner(fromAttendanceData, fromObValData, fromDaysPerMonthData)
+                        #  adding blank entries with id to Attendance, grades, and observed values
+                        attendance_CRUD.addAttendanceData(activeDbName, addedID)
+                        observedValues_CRUD.addObValData(activeDbName, addedID)
+                        fromDaysPerMonthData = schoolDaysPerMonth_CRUD.viewDaysPerMonthData(activeDbName)
+                        fromAttendanceData = attendance_CRUD.viewAttendanceData(activeDbName)
+                        fromObValData = observedValues_CRUD.viewObValData(activeDbName)
+                        self.attendOV_Main.show_AttOvLearner(fromAttendanceData, fromObValData, fromDaysPerMonthData)
 
-                    if classDB[1] == "JUNIOR HIGH SCHOOL":
-                        gradeJHS_CRUD.addGradesJHSData(activeDbName, addedID)
-                    else:
-                        sem1SubjectCount = len(semesterSubjects_CRUD.viewSemSubjects(activeDbName, 1))
-                        sem2SubjectCount = len(semesterSubjects_CRUD.viewSemSubjects(activeDbName, 2))
-                        if sem1SubjectCount > 0:
-                            gradeSHS_CRUD.addOneGradesSHSData(activeDbName, addedID, sem1SubjectCount, 1)
-                            if len(fromSem1Subjects) > 0:
-                                fromSem1GradesSHSData = gradeSHS_CRUD.viewGradesSHSData(activeDbName, 1)
-                                fromSem2GradesSHSData = []
-                                self.gradeSHSMain.show_shsLearners(fromSem1GradesSHSData, fromSem2GradesSHSData)
+                        if classDB[1] == "JUNIOR HIGH SCHOOL":
+                            gradeJHS_CRUD.addGradesJHSData(activeDbName, addedID)
+                        else:
+                            sem1SubjectCount = len(semesterSubjects_CRUD.viewSemSubjects(activeDbName, 1))
+                            sem2SubjectCount = len(semesterSubjects_CRUD.viewSemSubjects(activeDbName, 2))
+                            if sem1SubjectCount > 0:
+                                gradeSHS_CRUD.addOneGradesSHSData(activeDbName, addedID, sem1SubjectCount, 1)
+                                if len(fromSem1Subjects) > 0:
+                                    fromSem1GradesSHSData = gradeSHS_CRUD.viewGradesSHSData(activeDbName, 1)
+                                    fromSem2GradesSHSData = []
+                                    self.gradeSHSMain.show_shsLearners(fromSem1GradesSHSData, fromSem2GradesSHSData)
 
-                        if sem2SubjectCount > 0:
-                            gradeSHS_CRUD.addOneGradesSHSData(activeDbName, addedID, sem2SubjectCount, 2)
+                            if sem2SubjectCount > 0:
+                                gradeSHS_CRUD.addOneGradesSHSData(activeDbName, addedID, sem2SubjectCount, 2)
 
-                    self.showMessage("Adding New Learner",
-                                     "You have successfully added a new learner",
-                                     QMessageBox.Icon.Information)
+                        self.showMessage("Adding New Learner",
+                                         "You have successfully added a new learner",
+                                         QMessageBox.Icon.Information)
 
-                else:  # Editing existing learner
-                    profile_CRUD.updateProfileData(activeDbName, formEntries[0])
-                    fromProfile_Edit = profile_CRUD.viewProfileData(activeDbName)
-                    editMsg = f"ID No. {formEntries[0][14]} has been edited successfully"
-                    self.profileMain.show_learner(fromProfile_Edit)
-                    self.showMessage("Edit Learner",
-                                     editMsg,
-                                     QMessageBox.Icon.Information)
-            else:
-                print("Something went wrong, No return entries")
+                    else:  # Editing existing learner
+                        profile_CRUD.updateProfileData(activeDbName, formEntries[0])
+                        fromProfile_Edit = profile_CRUD.viewProfileData(activeDbName)
+                        editMsg = f"ID No. {formEntries[0][14]} has been edited successfully"
+                        self.profileMain.show_learner(fromProfile_Edit)
+                        self.showMessage("Edit Learner",
+                                         editMsg,
+                                         QMessageBox.Icon.Information)
+
+            elif type(formEntries) == str:
+                self.showMessage("Error",
+                                 formEntries,
+                                 QMessageBox.Icon.Warning)
 
         def msgBoxBtnClick(i):  # callback function for warning message box (delete learner)
             if i.text() == "&Yes":
@@ -270,10 +278,12 @@ class UIFunctions:
                     self.profileMain.show_learner(fromProfile_Del)
 
         def deleteLearner():
-            msgDelBox = QMessageBox(text="Are you sure you want to delete the selected learner?",
+            msgDelBox = QMessageBox(text="Are you sure you want to delete the selected learner?"
+                                         "\nThis will also delete corresponding grade, attendance and observed values data"
+                                         "\nand cannot be undone",
                                     parent=self.main_ui)
             msgDelBox.setWindowTitle("Delete Learner")
-            msgDelBox.setIcon(QMessageBox.Icon.Warning)
+            msgDelBox.setIcon(QMessageBox.Icon.Critical)
             msgDelBox.setStandardButtons(QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
             msgDelBox.buttonClicked.connect(msgBoxBtnClick)
             msgDelBox.exec()
@@ -397,8 +407,8 @@ class UIFunctions:
 
         def updateSHSGrades():
             shsGradesEntries = self.gradeSHSMain.updSHSGrade()
-            sem = shsGradesEntries[-1]
             if shsGradesEntries is not None:
+                sem = shsGradesEntries[-1]
                 if len(shsGradesEntries) > 1:
                     gradeSHS_CRUD.updateGradesSHSData(activeDbName, shsGradesEntries)
                     if sem == 1:
@@ -451,34 +461,24 @@ class UIFunctions:
 
         def updateAttendance():
             attEntries = self.attendOV_Main.updAttendance()
-            autoCompleteAtt = self.attendOV_Main.autoComputeCheckBox.isChecked()
             if attEntries is not None:
-                if len(attEntries) > 1:
-                    schoolDaysData = tuple(attEntries[0:13])  # -> list of int if auto complete
-                    presAbsData = tuple(attEntries[13:])
-                    schoolDaysPerMonth_CRUD.updateDaysPerMonthData(activeDbName, schoolDaysData, 2, autoCompleteAtt)
-                    attendance_CRUD.updateAttendanceData(activeDbName, presAbsData, autoCompleteAtt)
+                schoolDaysData = attEntries[0:13]
+                presAbsData = attEntries[13:]
+                schoolDaysPerMonth_CRUD.updateDaysPerMonthData(activeDbName, schoolDaysData, 2)
+                attendance_CRUD.updateAttendanceData(activeDbName, presAbsData)
 
-                    fromAttendanceUpdt = attendance_CRUD.viewAttendanceData(activeDbName)
-                    fromMonthDataUpdt = schoolDaysPerMonth_CRUD.viewDaysPerMonthData(activeDbName)
+                fromAttendanceUpdt = attendance_CRUD.viewAttendanceData(activeDbName)
+                fromMonthDataUpdt = schoolDaysPerMonth_CRUD.viewDaysPerMonthData(activeDbName)
 
-                    attList = self.attendOV_Main.getAttendanceToDisplay(fromAttendanceUpdt, fromMonthDataUpdt,
-                                                                        presAbsData[-1])
-                    self.attendOV_Main.displayToAttendanceTable(attList)
-                    self.attendOV_Main.show_AttOvLearner(fromAttendanceUpdt, fromObValData, fromMonthDataUpdt)
+                r = self.attendOV_Main.studentTable_Att.currentRow()
+                attList = self.attendOV_Main.getAttendanceToDisplay(fromAttendanceUpdt, fromMonthDataUpdt, presAbsData[-1])
+                self.attendOV_Main.displayToAttendanceTable(attList)
+                self.attendOV_Main.show_AttOvLearner(fromAttendanceUpdt, fromObValData, fromMonthDataUpdt)
+                self.attendOV_Main.studentTable_Att.selectRow(r)
 
-                    self.showMessage("Successful",
-                                     f"ID No. {presAbsData[-1]} Attendance has been successfully updated",
-                                     QMessageBox.Icon.Information)
-                else:
-                    print(attEntries)
-            #         self.showMessage("Invalid Input",
-            #                          f"Error: {obValEntries[0]} is not a valid observed values",
-            #                          QMessageBox.Icon.Warning)
-            else:
-                self.showMessage("No Selected Learner",
-                                 "Please select a learner from the left table",
-                                 QMessageBox.Icon.Warning)
+                self.showMessage("Successful",
+                                 f"ID No. Attendance has been successfully updated",
+                                 QMessageBox.Icon.Information)
 
         def updateObVal():
             obValEntries = self.attendOV_Main.updObVal()
@@ -488,7 +488,9 @@ class UIFunctions:
                     fromObValDataUpdt = observedValues_CRUD.viewObValData(activeDbName)
                     obValList = [item for item in fromObValDataUpdt if item[0] == obValEntries[-1]]
                     self.attendOV_Main.displayToOvTable(obValList[0])
+                    r = self.attendOV_Main.studentTable_Att.currentRow()
                     self.attendOV_Main.show_AttOvLearner(fromAttendanceData, fromObValDataUpdt, fromDaysPerMonthData)
+                    self.attendOV_Main.studentTable_Att.selectRow(r)
 
                     self.showMessage("Successful",
                                      f"ID No. {obValEntries[-1]} Observed Values has been successfully updated",

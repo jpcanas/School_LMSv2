@@ -52,24 +52,16 @@ def viewDaysPerMonthData(mainDbName, monthId=None):
     return fromDaysPerMonthData
 
 
-def updateDaysPerMonthData(mainDbName: str, monthData: tuple, monthID: int, autoComplete: bool):
+def updateDaysPerMonthData(mainDbName: str, monthData: tuple, monthID: int):
     if monthID == 2:
-        schoolDays = []
-        if autoComplete:
-            for day in monthData[0:12]:  # excluding total days
-                if day != 0:
-                    schoolDays.append(str(day))  # add days (str type)
-                else:
-                    schoolDays.append(None)
-
-            schoolDays.append(monthData[-1])  # add the total school days (int type)
-            schoolDays.append(2)  # add monthID
-            monthData = tuple(schoolDays)
-        else:
-            schoolDays = list(monthData)
-            schoolDays[-1] = int(schoolDays[-1])  # convert total school days to int type
-            schoolDays.append(2)  # add monthID
-            monthData = tuple(schoolDays)
+        schoolDays = list(monthData)
+        schoolDaysTotal = 0
+        for days in schoolDays[:12]:
+            if days is not None:
+                schoolDaysTotal += int(days)
+        schoolDays[-1] = schoolDaysTotal
+        schoolDays.append(2)
+        monthData = tuple(schoolDays)
 
     conn = sqlite3.connect(resource_path(f"data\\{mainDbName}.db"))
     cur = conn.cursor()

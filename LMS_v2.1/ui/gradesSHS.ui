@@ -374,6 +374,15 @@ border: 1px solid rgb(230, 230, 230);
 }
 </string>
         </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="showDropIndicator" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="dragDropOverwriteMode">
+         <bool>false</bool>
+        </property>
         <property name="selectionMode">
          <enum>QAbstractItemView::SingleSelection</enum>
         </property>
@@ -642,7 +651,7 @@ QTabBar::tab:selected{
 </string>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>0</number>
         </property>
         <widget class="QWidget" name="sem1Tab">
          <attribute name="title">
@@ -707,7 +716,7 @@ background-color: rgb(67, 156, 250);
 }</string>
                </property>
                <property name="currentIndex">
-                <number>1</number>
+                <number>0</number>
                </property>
                <widget class="QWidget" name="shsSubjects">
                 <property name="styleSheet">
@@ -1036,6 +1045,9 @@ background-color: rgb(230, 230, 230);
                    </property>
                    <property name="frameShadow">
                     <enum>QFrame::Plain</enum>
+                   </property>
+                   <property name="editTriggers">
+                    <set>QAbstractItemView::DoubleClicked</set>
                    </property>
                    <property name="verticalScrollMode">
                     <enum>QAbstractItemView::ScrollPerPixel</enum>
@@ -1539,6 +1551,9 @@ background-color: rgb(230, 230, 230);
                    </property>
                    <property name="frameShadow">
                     <enum>QFrame::Plain</enum>
+                   </property>
+                   <property name="editTriggers">
+                    <set>QAbstractItemView::DoubleClicked</set>
                    </property>
                    <property name="verticalScrollMode">
                     <enum>QAbstractItemView::ScrollPerPixel</enum>
