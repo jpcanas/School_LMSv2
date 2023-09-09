@@ -164,7 +164,8 @@ class UIFunctions:
 
         # Home page buttons inside the home frame
         self.homeMain.homeProfileBtn.clicked.connect(lambda: self.setPage(self.profilePage))
-        self.homeMain.homeAttendanceBtn.clicked.connect(lambda: self.setPage(self.attendancePage))
+        self.homeMain.homeAttendanceBtn.clicked.connect(lambda: setToAttendanceOVPage(1))
+        self.homeMain.homeOVBtn.clicked.connect(lambda: setToAttendanceOVPage(0))
 
         if classDB[1] == "JUNIOR HIGH SCHOOL":
             self.homeMain.homeGradesBtn.clicked.connect(lambda: self.setPage(self.gradeJHSPage))
@@ -176,6 +177,10 @@ class UIFunctions:
 
         # functionalities
         self.createNewClassBtn.clicked.connect(lambda: self.resetDisplayData())
+
+        def setToAttendanceOVPage(tabNo):
+            self.setPage(self.attendancePage)
+            self.attendOV_Main.attObVal_tabs.setCurrentIndex(tabNo)
 
     def profileFunction(self, classDB, activeDbName):
         # Profile page buttons (Top Bar)

@@ -300,7 +300,7 @@ QPushButton:hover{
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="homeAttendanceBtn_2">
+          <widget class="QPushButton" name="homeOVBtn">
            <property name="minimumSize">
             <size>
              <width>0</width>

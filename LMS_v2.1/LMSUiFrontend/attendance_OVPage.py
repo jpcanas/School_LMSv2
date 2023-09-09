@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QFrame, QGraphicsDropShadowEffect, QTableWidget, QHeaderView, QComboBox, \
-    QPushButton, QLabel, QTableWidgetItem, QCheckBox, QMessageBox, QAbstractItemView
+    QPushButton, QLabel, QTableWidgetItem, QCheckBox, QMessageBox, QAbstractItemView, QTabWidget
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QColor
 
@@ -16,6 +16,7 @@ class AttendanceOV(QFrame):
 
     def attendanceOV_widgets(self):
         # Initialize widgets inside Attendance and OV Frame
+        self.attObVal_tabs = self.findChild(QTabWidget, "attObVal_tabs")
         self.att_rightFrame = self.findChild(QFrame, "rightFrame")
         self.ovTable = self.findChild(QTableWidget, "ovTable")
         self.fillTableBtn = self.findChild(QPushButton, "fillTableBtn")
@@ -52,6 +53,11 @@ class AttendanceOV(QFrame):
         for column in range(1, 5):
             self.ovTable.setColumnWidth(column, 50)
 
+        #  set first column to be readonly
+        for r in range(self.ovTable.rowCount()):
+            item = self.ovTable.item(r, 0)  # behavior statements column
+            item.setFlags(item.flags() & ~Qt.ItemFlag.ItemIsEditable)
+
         self.ovTable.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeMode.Stretch)
         self.ovTable.horizontalHeader().setStyleSheet("QHeaderView{ border-bottom: 1px solid rgb(100, 100, 100); }")
 
@@ -59,6 +65,9 @@ class AttendanceOV(QFrame):
         self.ovTable.verticalHeader().setStyleSheet("QHeaderView:section{background-color: rgb(255,255,255); \
                                                     border-bottom: 1px solid rgb(200,200,200); border-right: 1px solid rgb(200,200,200);}")
         self.ovTable.cellDoubleClicked.connect(self.attOV_TableActivated)
+        self.fillTableBtn.clicked.connect(self.fillOV_Table)
+        self.fillTableBtn.setEnabled(False)
+        self.fillCombo.setEnabled(False)
 
         # Attendance table styling
         self.attendanceTable.horizontalHeader().setFixedHeight(55)
@@ -79,7 +88,7 @@ class AttendanceOV(QFrame):
         if len(self.selectedAtt) == 0 or len(self.selectedOv) == 0:
             self.showMessage("No Selected Learner", "Please select a learner from the left table",
                              QMessageBox.Icon.Warning)
-            self.attendanceTable.setCurrentItem(None)
+            # self.attendanceTable.setCurrentItem(None)
 
     def attOV_TableClicked(self, row, column):
         self.tableClicked += 1
@@ -110,6 +119,8 @@ class AttendanceOV(QFrame):
         if self.studentTable_Att.selectedItems():  # selecting names from studentJHSTable
             try:
                 self.attendanceTable.cellChanged.disconnect(self.validateAttendance)
+                self.fillTableBtn.setEnabled(False)
+                self.fillCombo.setEnabled(False)
             except Exception:
                 pass
             self.selected_AttOvNames = []
@@ -130,6 +141,8 @@ class AttendanceOV(QFrame):
             self.displayToAttendanceTable(self.selectedAtt)
             self.displayToOvTable(self.selectedOv)
             self.attendanceTable.cellChanged.connect(self.validateAttendance)
+            self.fillTableBtn.setEnabled(True)
+            self.fillCombo.setEnabled(True)
 
     def getAttendanceToDisplay(self, attData: list, monthData: list, selectedId: int) -> list:
         # combining number of school days data and attendance data of selected student
@@ -355,6 +368,13 @@ class AttendanceOV(QFrame):
             except Exception:
                 print("Something went wrong")
 
+    def fillOV_Table(self):
+        ovText = self.fillCombo.currentText()
+        for r in range(7):
+            for c in range(4):
+                self.ovTable.setItem(r, c + 1, QTableWidgetItem(""))
+                self.ovTable.setItem(r, c + 1, QTableWidgetItem(ovText))
+
     def clearAttOvSelection(self):
         self.ovTable.clearSelection()
         self.attendanceTable.clearSelection()
@@ -365,6 +385,8 @@ class AttendanceOV(QFrame):
         self.btnUnselectAtt.hide()
         self.lrn_AttOv.setText("")
         self.name_AttOv.setText("")
+        self.fillTableBtn.setEnabled(False)
+        self.fillCombo.setEnabled(False)
 
         for ovRow in range(7):  # clear ov table
             for ovColumn in range(4):

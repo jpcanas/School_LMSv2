@@ -1,5 +1,7 @@
 import sqlite3
 import calendar
+from LMSdataBackend import schoolDaysPerMonth_CRUD, gradeSHS_CRUD, attendance_CRUD, observedValues_CRUD
+
 
 daysPerMonth_data = (
     "September", "October", "November", "December", "January", "February", "March", "April", "May",
@@ -40,30 +42,16 @@ presTotal = 0
 absTotal = 0
 schoolDaysTotal = 0
 
-for i, present in enumerate(t[:12]):
-    if present is not None:
-        t[i] = int(present)
-        presTotal += int(present)
-t[12] = presTotal
-
-for j, absent in enumerate(t[13:26]):
-    if absent is not None:
-        t[j+13] = int(absent)
-        absTotal += int(absent)
-t[25] = absTotal
-
-for schoolDays in school[:12]:
-    if schoolDays is not None:
-        schoolDaysTotal += int(schoolDays)
-school[-1] = schoolDaysTotal
-
-print(t)
 
 
+h = gradeSHS_CRUD.viewGradesSHSData('MNHS_2023-2024_G11_TOPAZ', 1)
+v = schoolDaysPerMonth_CRUD.viewDaysPerMonthData('MNHS_2023-2024_G11_TOPAZ',2)[0]
+a = attendance_CRUD.viewAttendanceData('MNHS_2023-2024_G11_TOPAZ')
+ov = observedValues_CRUD.viewObValData('MNHS_2023-2024_G11_TOPAZ')
 
 
-
-
+v = [item for item in ov if item[0] == 2][0]
+print(v)
 
 
 

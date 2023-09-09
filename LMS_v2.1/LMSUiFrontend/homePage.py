@@ -18,6 +18,7 @@ class Home(QFrame):
         self.homeProfileBtn = self.findChild(QPushButton, "homeProfileBtn")  # Home page to Profile Page Button
         self.homeGradesBtn = self.findChild(QPushButton, "homeGradesBtn")  # Home page to Grades Page Button
         self.homeAttendanceBtn = self.findChild(QPushButton, "homeAttendanceBtn")  # Home page to Attendance Page Button
+        self.homeOVBtn = self.findChild(QPushButton, "homeOVBtn")  # Home page to Observed Values Page Button
         self.sideFrame = self.findChild(QFrame, "side_frame")
         self.lblSchoolName = self.findChild(QLabel, "school_name")
 
