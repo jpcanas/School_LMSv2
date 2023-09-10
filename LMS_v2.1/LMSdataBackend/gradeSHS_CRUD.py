@@ -90,6 +90,11 @@ def viewGradesSHSData(mainDbName: str, sem, shsID=None):
                  LEFT JOIN profileTable p 
                         ON p.id = g.id
                      WHERE p.id = COALESCE(?, p.id)
+                       AND CASE
+                      WHEN {sem} = 1 
+                           THEN p.status IN ("Enrolled (1st and 2nd sem)", "Enrolled 1st Sem, No 2nd Sem", "Pending")
+                           ELSE p.status IN ("Enrolled (1st and 2nd sem)", "No 1st Sem, Enrolled 2nd Sem", "Pending")
+                           END;
                        ''', (shsID,))
 
     fromGradesSHSData = cur.fetchall()

@@ -1,7 +1,7 @@
 import sqlite3
 import calendar
 from LMSdataBackend import schoolDaysPerMonth_CRUD, gradeSHS_CRUD, attendance_CRUD, observedValues_CRUD
-
+from absPath import resource_path
 
 daysPerMonth_data = (
     "September", "October", "November", "December", "January", "February", "March", "April", "May",
@@ -50,8 +50,42 @@ a = attendance_CRUD.viewAttendanceData('MNHS_2023-2024_G11_TOPAZ')
 ov = observedValues_CRUD.viewObValData('MNHS_2023-2024_G11_TOPAZ')
 
 
-v = [item for item in ov if item[0] == 2][0]
-print(v)
+def viewGradesSHSData(mainDbName: str, sem, shsID=None):
+    conn = sqlite3.connect(resource_path(f"data\\{mainDbName}.db"))
+    cur = conn.cursor()
+    cur.execute(f'''SELECT p.id,
+                      CASE 
+                           WHEN p.middle_name != '' 
+                           THEN p.last_name || ", " || p.first_name || ' ' || SUBSTRING(p.middle_name, 1, 1) || '.'
+                           ELSE p.last_name || ", " || p.first_name 
+                    END AS fullname,
+                           p.lrn,
+                           p.sex,
+                           p.age,
+                           g.*
+                      FROM gradesSem{sem}Table g
+                 LEFT JOIN profileTable p 
+                        ON p.id = g.id
+                     WHERE p.id = COALESCE(?, p.id)
+                       AND CASE
+                           WHEN {sem} = 1 
+                           THEN p.status IN ("Enrolled (1st and 2nd sem)", "Enrolled 1st Sem, No 2nd Sem", "Pending")
+                           ELSE p.status IN ("Enrolled (1st and 2nd sem)", "No 1st Sem, Enrolled 2nd Sem", "Pending")
+                           END;
+                       ''', (shsID,))
+
+    fromGradesSHSData = cur.fetchall()
+    conn.close()
+
+    return fromGradesSHSData
 
 
+p = viewGradesSHSData('MNHS_2023-2024_G11_TOPAZ', 1)
+print("sem1")
+for i in p:
+    print(i)
 
+w = viewGradesSHSData('MNHS_2023-2024_G11_TOPAZ', 2)
+print("sem2")
+for j in w:
+    print(j)

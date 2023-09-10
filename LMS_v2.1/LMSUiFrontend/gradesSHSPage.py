@@ -48,11 +48,13 @@ class GradesSHS(QFrame):
         self.shsGradeFrame.setGraphicsEffect(self.shadowSide)
 
         # Other initialization
-        self.shsTabWidget.setCurrentIndex(0)
         self.shsTabWidget.currentChanged.connect(self.onSemTabChanged)
+        self.shsTabWidget.setCurrentIndex(0)
         self.btnUnselectSHS.hide()
         self.selectedShsSem1Record = []
         self.selectedShsSem2Record = []
+        self.sem1Grades = []
+        self.sem2Grades = []
         self.sem1SubjectCount = 0
         self.sem2SubjectCount = 0
 
@@ -333,15 +335,23 @@ class GradesSHS(QFrame):
 
     # <editor-fold desc="Clicking learner on table EVENTS">
 
-    def show_shsLearners(self, shsSem1GradesData, shsSem2GradesData):
-        if len(shsSem1GradesData) > 0:
-            self.studentTableSHS.setRowCount(0)
-            for i, row in enumerate(shsSem1GradesData):
-                self.rowcount = self.studentTableSHS.rowCount()
-                self.studentTableSHS.insertRow(self.rowcount)
+    def shsLearnerToTable(self, semGrades):
+        self.studentTableSHS.setRowCount(0)
+        for i, row in enumerate(semGrades):
+            self.rowcount = self.studentTableSHS.rowCount()
+            self.studentTableSHS.insertRow(self.rowcount)
 
-                for column, val in enumerate(row[0:2]):
-                    self.studentTableSHS.setItem(i, column, QTableWidgetItem(str(val)))
+            for column, val in enumerate(row[0:2]):
+                self.studentTableSHS.setItem(i, column, QTableWidgetItem(str(val)))
+
+    def show_shsLearners(self, shsSem1GradesData, shsSem2GradesData):
+        self.sem1Grades = shsSem1GradesData
+        self.sem2Grades = shsSem2GradesData
+        if len(self.sem1Grades) > 0 or len(self.sem2Grades) > 0:
+            if self.shsTabWidget.currentIndex() == 0:
+                self.shsLearnerToTable(self.sem1Grades)
+            else:
+                self.shsLearnerToTable(self.sem2Grades)
 
             self.btnUnselectSHS.clicked.connect(lambda: self.clearShsSelection())
             self.studentTableSHS.cellClicked.connect(lambda: self.clickedShsLearner_table(shsSem1GradesData, shsSem2GradesData))
@@ -438,13 +448,21 @@ class GradesSHS(QFrame):
             else:
                 self.saveSubSHSBtn.hide()
                 self.updGradeSHSBtn.show()
+
+            if len(self.sem1Grades) > 0:
+                self.shsLearnerToTable(self.sem1Grades)
+
         elif tabIndex == 1:
+            self.shsLearnerToTable(self.sem1Grades)
             if self.shsStackedWidgetSem2.currentIndex() == 0:
                 self.saveSubSHSBtn.show()
                 self.updGradeSHSBtn.hide()
             else:
                 self.saveSubSHSBtn.hide()
                 self.updGradeSHSBtn.show()
+
+            if len(self.sem1Grades) > 0:
+                self.shsLearnerToTable(self.sem2Grades)
 
     def clearShsSelection(self):
         self.studentTableSHS.clearSelection()
