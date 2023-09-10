@@ -421,11 +421,13 @@ class UIFunctions:
                         gradeSHSSelected = [item for item in sem1GradesSHSDataUpdt if item[0] == shsGradesEntries[-2]][0]
                         self.gradeSHSMain.showSem1GradeTable(gradeSHSSelected)
                         self.gradeSHSMain.show_shsLearners(sem1GradesSHSDataUpdt, fromSem2GradesSHSData)
+                        self.gradeSHSMain.studentTableSHS.selectRow(self.gradeSHSMain.selectedRow)
                     else:
                         sem2GradesSHSDataUpdt = gradeSHS_CRUD.viewGradesSHSData(activeDbName, 2)
                         gradeSHSSelected = [item for item in sem2GradesSHSDataUpdt if item[0] == shsGradesEntries[-2]][0]
                         self.gradeSHSMain.showSem2GradeTable(gradeSHSSelected)
                         self.gradeSHSMain.show_shsLearners(fromSem1GradesSHSData, sem2GradesSHSDataUpdt)
+                        self.gradeSHSMain.studentTableSHS.selectRow(self.gradeSHSMain.selectedRow)
 
                     self.showMessage("Successful",
                                      f"{gradeSHSSelected[1]} grades has been successfully updated",
