@@ -803,7 +803,7 @@ color: rgb(100, 100, 100)
                                <number>0</number>
                               </property>
                               <item>
-                               <widget class="QLabel" name="label_4">
+                               <widget class="QLabel" name="lblLearnerCount">
                                 <property name="minimumSize">
                                  <size>
                                   <width>0</width>
@@ -1738,7 +1738,7 @@ QLabel{
                          <number>0</number>
                         </property>
                         <item>
-                         <widget class="QLabel" name="label_8">
+                         <widget class="QLabel" name="lblHomeDepartment">
                           <property name="font">
                            <font>
                             <pointsize>13</pointsize>
@@ -1765,7 +1765,7 @@ QLabel{
                          </widget>
                         </item>
                         <item>
-                         <widget class="QLabel" name="label_2">
+                         <widget class="QLabel" name="lblHomeGradeSectionSY">
                           <property name="font">
                            <font>
                             <pointsize>12</pointsize>
@@ -1821,7 +1821,7 @@ QLabel{
                          <bool>true</bool>
                         </property>
                        </widget>
-                       <widget class="QLabel" name="label_9">
+                       <widget class="QLabel" name="lblHomeAdviser">
                         <property name="geometry">
                          <rect>
                           <x>100</x>
@@ -1957,12 +1957,12 @@ background-color: rgb(26, 194, 161);
                     <property name="frameShadow">
                      <enum>QFrame::Raised</enum>
                     </property>
-                    <widget class="QComboBox" name="comboBox">
+                    <widget class="QComboBox" name="prevClassComboBox">
                      <property name="geometry">
                       <rect>
                        <x>100</x>
                        <y>100</y>
-                       <width>171</width>
+                       <width>231</width>
                        <height>31</height>
                       </rect>
                      </property>
@@ -2033,7 +2033,7 @@ background-color: rgb(26, 194, 161);
                       <bool>true</bool>
                      </property>
                     </widget>
-                    <widget class="QPushButton" name="btnCreateNewClass_2">
+                    <widget class="QPushButton" name="btnOpenPrevClass">
                      <property name="geometry">
                       <rect>
                        <x>20</x>
@@ -2193,7 +2193,7 @@ background-color: rgb(26, 194, 161);
                        <property name="frameShadow">
                         <enum>QFrame::Raised</enum>
                        </property>
-                       <widget class="QPushButton" name="pushButton_3">
+                       <widget class="QPushButton" name="btnExportCard">
                         <property name="geometry">
                          <rect>
                           <x>20</x>

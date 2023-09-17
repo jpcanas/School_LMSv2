@@ -49,6 +49,7 @@ def viewProfileData(mainDbName: str, lrn="", sex=None, fullName="", address="", 
                                  AND  address LIKE ?
                                  AND  modality = COALESCE(?, modality)
                                  AND  status = COALESCE(?, status)
+                            ORDER BY  last_name
                     ''', (f"{lrn}%",
                           f"{fullName}%", f"{fullName}%", f"{fullName}%", f"{fullName}%",
                           sex,

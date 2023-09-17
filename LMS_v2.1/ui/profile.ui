@@ -2080,7 +2080,10 @@ padding-left: 8px;
          <enum>Qt::SolidLine</enum>
         </property>
         <property name="sortingEnabled">
-         <bool>true</bool>
+         <bool>false</bool>
+        </property>
+        <property name="cornerButtonEnabled">
+         <bool>false</bool>
         </property>
         <property name="rowCount">
          <number>0</number>
@@ -2101,7 +2104,7 @@ padding-left: 8px;
          <bool>true</bool>
         </attribute>
         <attribute name="horizontalHeaderShowSortIndicator" stdset="0">
-         <bool>true</bool>
+         <bool>false</bool>
         </attribute>
         <attribute name="verticalHeaderVisible">
          <bool>false</bool>

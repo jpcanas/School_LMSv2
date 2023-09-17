@@ -52,6 +52,7 @@ class GradesJHS(QFrame):
 
         #  other initialization
         self.selectedLearnerJHS = []
+        self.selectedRow = -1
         self.btnUnselect.hide()
 
     def show_jhsLearner(self, jhsGradeData):  # displaying Learner's name and LRN to the left side table
@@ -81,6 +82,7 @@ class GradesJHS(QFrame):
             self.name_JHS.setText(self.selectedLearnerJHS[1])
             self.lblSelection.setText(f"ID No. {self.selectedLearnerJHS[0]} selected")
             self.btnUnselect.show()
+            self.selectedRow = self.getRowBasedOnSelectedItem(self.selectedLearnerJHS[0])
 
             self.displayToJHSGradeTable(self.selectedLearnerJHS)
 
@@ -128,6 +130,16 @@ class GradesJHS(QFrame):
                 return gJHSTableData
         else:
             return None
+
+    def getRowBasedOnSelectedItem(self, learnerId):
+        selectedRow = -1
+        for row in range(self.studentJHSTable.rowCount()):
+            idItem = self.studentJHSTable.item(row, 0)
+            if idItem is not None and int(idItem.text()) == learnerId:
+                selectedRow = row
+                break
+
+        return selectedRow
 
     def clearJHSSelection(self):
         self.studentJHSTable.clearSelection()

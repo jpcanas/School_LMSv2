@@ -81,6 +81,9 @@ class Profile(QFrame):
         self.selected_learner = []
         self.searchBar.textChanged.connect(self.searchProfileTable)
 
+        # Table clicked signals
+        self.profile_Table.cellClicked.connect(self.clickedTableItem)
+
     def table_init(self):
         # Setting table header column width
         self.profile_Table.setColumnWidth(0, 30)  # ID
@@ -101,9 +104,6 @@ class Profile(QFrame):
         # Table Header initialize
         self.table_header = self.profile_Table.horizontalHeader()
         self.table_header.setFixedHeight(40)
-
-        # Table clicked signals
-        self.profile_Table.cellClicked.connect(lambda: self.clickedTableItem())
 
     # BUTTONS FUNCTIONALITY (Below Learner's Form - Left side)--------------------------------------------------
     def save_update_learner(self):
@@ -189,7 +189,7 @@ class Profile(QFrame):
 
     # ---------------------------------------------------------------------
     def show_learner(self, learnerData):  # displaying learner's profile data to table
-        if len(learnerData) != 0:
+        if len(learnerData) > 0:
             self.profile_Table.setRowCount(0)
             for i, row in enumerate(learnerData):
                 self.rowcount = self.profile_Table.rowCount()
@@ -197,8 +197,13 @@ class Profile(QFrame):
 
                 for column, val in enumerate(row):
                     self.profile_Table.setItem(i, column, QTableWidgetItem(str(val)))
-        # else:
-        #     self.profile_Table.setSelectionMode(QAbstractItemView.SelectionMode.NoSelection)
+
+        else:
+            self.profile_Table.setRowCount(0)
+            self.profile_Table.insertRow(0)
+            defaultItem = QTableWidgetItem("No Data Available")
+            self.profile_Table.setSpan(0, 0, 1, 15)
+            self.profile_Table.setItem(0, 0, defaultItem)
 
     def clickedTableItem(self):
         if len(self.selected_learner) == 0:  # No current selected learner from the table

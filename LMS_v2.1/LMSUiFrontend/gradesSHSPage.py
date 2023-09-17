@@ -51,6 +51,7 @@ class GradesSHS(QFrame):
         self.shsTabWidget.currentChanged.connect(self.onSemTabChanged)
         self.shsTabWidget.setCurrentIndex(0)
         self.btnUnselectSHS.hide()
+        self.selected_shsNames = []
         self.selectedRow = -1
         self.selectedShsSem1Record = []
         self.selectedShsSem2Record = []
@@ -363,8 +364,6 @@ class GradesSHS(QFrame):
             for i in self.studentTableSHS.selectedItems():
                 self.selected_shsNames.append(i.text())
 
-            self.selectedRow = self.studentTableSHS.currentRow()
-
             self.selectedShsSem1Record = list(filter(lambda gShs: gShs[0] == int(self.selected_shsNames[0]), self.sem1Grades))
             if len(self.selectedShsSem1Record) > 0:
                 self.showSem1GradeTable(self.selectedShsSem1Record[0])
@@ -373,6 +372,8 @@ class GradesSHS(QFrame):
                 self.nameLabelSHS.setText(self.selectedLearnerSHS[1])
                 self.lblSelectionSHS.setText(f"ID No. {self.selectedLearnerSHS[0]} selected")
                 self.btnUnselectSHS.show()
+                row = self.getRowBasedOnSelectedItem(self.selectedLearnerSHS[0])
+                self.selectedRow = row
 
             if len(self.sem2Grades) > 0 and len(self.sem1Grades) > 0:
                 self.selectedShsSem2Record = list(filter(lambda gShs: gShs[0] == int(self.selected_shsNames[0]), self.sem2Grades))
@@ -383,6 +384,9 @@ class GradesSHS(QFrame):
                     self.nameLabelSHS.setText(self.selectedLearnerSHS[1])
                     self.lblSelectionSHS.setText(f"ID No. {self.selectedLearnerSHS[0]} selected")
                     self.btnUnselectSHS.show()
+                    row = self.getRowBasedOnSelectedItem(self.selectedLearnerSHS[0])
+                    self.selectedRow = row
+
 
     def showSem1GradeTable(self, sem1GradesSelectedData):
         rowTableCount = self.sem1GradesTable.rowCount()
@@ -457,12 +461,20 @@ class GradesSHS(QFrame):
             else:
                 self.saveSubSHSBtn.hide()
                 self.updGradeSHSBtn.show()
-                if len(self.selectedShsSem1Record) <= 0:
-                    self.clearShsSelection()
 
-            if len(self.sem1Grades) > 0:
-                self.shsLearnerToTable(self.sem1Grades)
-                self.studentTableSHS.selectRow(self.selectedRow)
+                if len(self.sem1Grades) > 0:
+                    self.shsLearnerToTable(self.sem1Grades)
+                else:
+                    self.studentTableSHS.clearContents()
+                    self.studentTableSHS.setRowCount(0)
+
+                if len(self.selectedShsSem1Record) > 0:
+                    selectedLearner = self.selectedShsSem1Record[0]
+                    row = self.getRowBasedOnSelectedItem(selectedLearner[0])
+                    self.studentTableSHS.selectRow(row)
+                    self.selectedRow = row
+                else:
+                    self.clearShsSelection()
 
         elif tabIndex == 1:
             self.shsLearnerToTable(self.sem1Grades)
@@ -472,12 +484,30 @@ class GradesSHS(QFrame):
             else:
                 self.saveSubSHSBtn.hide()
                 self.updGradeSHSBtn.show()
-                if len(self.selectedShsSem2Record) <= 0:
+
+                if len(self.sem2Grades) > 0:
+                    self.shsLearnerToTable(self.sem2Grades)
+                else:
+                    self.studentTableSHS.clearContents()
+                    self.studentTableSHS.setRowCount(0)
+
+                if len(self.selectedShsSem2Record) > 0:
+                    selectedLearner = self.selectedShsSem1Record[0]
+                    row = self.getRowBasedOnSelectedItem(selectedLearner[0])
+                    self.studentTableSHS.selectRow(row)
+                    self.selectedRow = row
+                else:
                     self.clearShsSelection()
 
-            if len(self.sem1Grades) > 0:
-                self.shsLearnerToTable(self.sem2Grades)
-                self.studentTableSHS.selectRow(self.selectedRow)
+    def getRowBasedOnSelectedItem(self, learnerId):
+        selectedRow = -1
+        for row in range(self.studentTableSHS.rowCount()):
+            idItem = self.studentTableSHS.item(row, 0)
+            if idItem is not None and int(idItem.text()) == learnerId:
+                selectedRow = row
+                break
+
+        return selectedRow
 
     def clearShsSelection(self):
         self.studentTableSHS.clearSelection()

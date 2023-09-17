@@ -1,5 +1,5 @@
 from PyQt6.QtWidgets import QWidget, QPushButton, QFrame, QStackedWidget, QVBoxLayout, QSizeGrip, \
-    QGraphicsDropShadowEffect, QMessageBox
+    QGraphicsDropShadowEffect, QMessageBox, QDialog
 from PyQt6.QtGui import QColor
 from absPath import resource_path
 import os
@@ -11,6 +11,7 @@ from LMSUiFrontend.homePage import Home
 from LMSUiFrontend.gradesJHSPage import GradesJHS
 from LMSUiFrontend.gradesSHSPage import GradesSHS
 from LMSUiFrontend.attendance_OVPage import AttendanceOV
+from LMSUiFrontend.cardExportWindow import CardExportWindow
 
 # backend database file
 from LMSdataBackend import mainDb_Create, schoolClass_CRUD, profile_CRUD, \
@@ -75,6 +76,8 @@ class UIFunctions:
         self.gradeSHSPage = self.app_pages.findChild(QWidget, "gradeSHSPage")
         self.attendancePage = self.app_pages.findChild(QWidget, "attendPage")
 
+        self.exportWindow = None
+        self.prevClassDb = []
         self.checkClassData(self.homePage)
 
     def checkClassData(self, defaultPage):  # Check if class database exist
@@ -87,7 +90,7 @@ class UIFunctions:
                 self.app_pages.setCurrentWidget(self.registerPage)
                 self.fromClassData = schoolClass_CRUD.viewClassData(activeDbName)[0]  # Class data
                 self.fromSchoolData = schoolClass_CRUD.viewSchoolData(activeDbName)[0]  # School Data
-                self.homeFunction(self.fromSchoolData, self.fromClassData)  # Initialize Home page
+                self.homeFunction(self.fromSchoolData, self.fromClassData, activeDbName)  # Initialize Home page
                 self.profileFunction(self.fromClassData, activeDbName)  # Initialize Profile page
                 self.attendance_ov(self.fromClassData, activeDbName)  # Initialize attendance page
 
@@ -154,13 +157,12 @@ class UIFunctions:
 
             self.checkClassData(self.profilePage)
 
-    def homeFunction(self, schoolDB, classDB):
+    def homeFunction(self, schoolDB, classDB, activeDbName):
         # Home Frame from stacked widgets
         self.homeFrame = self.main_ui.findChild(QFrame, "homeMainFrame")
         self.homeLayout = self.main_ui.findChild(QVBoxLayout, "homeMainLayout")
         self.homeMain = Home()
         self.homeLayout.addWidget(self.homeMain)
-        self.createNewClassBtn = self.main_ui.findChild(QPushButton, "btnCreateNewClass")
 
         # Home page buttons inside the home frame
         self.homeMain.homeProfileBtn.clicked.connect(lambda: self.setPage(self.profilePage))
@@ -172,11 +174,28 @@ class UIFunctions:
         else:
             self.homeMain.homeGradesBtn.clicked.connect(lambda: self.setPage(self.gradeSHSPage))
 
-        # display class and school info to the page
-        self.homeMain.config_HomeDisplay(schoolDB)
+        # Other initializations
+        self.homeMain.config_HomeDisplay(schoolDB, classDB)
+        learnerCount = len(profile_CRUD.viewProfileData(activeDbName))
+        self.homeMain.lblLearnerCount.setText(str(learnerCount))
 
-        # functionalities
-        self.createNewClassBtn.clicked.connect(lambda: self.resetDisplayData())
+        prevSavedClass = mainDb_Create.viewDbNames(0)
+        if len(prevSavedClass) > 0:
+            self.homeMain.prevClassComboBox.addItem("--Select Class--")
+            for savedClass in prevSavedClass:
+                savedClassList = list(savedClass)
+                classStr = savedClassList[1].split('_')
+                newClassStr = f"({classStr[1]}) {classStr[2]}-{classStr[3]}"
+                savedClassList.append(newClassStr)
+                self.prevClassDb.append(tuple(savedClassList))
+                self.homeMain.prevClassComboBox.addItem(newClassStr)
+        else:
+            self.homeMain.prevClassComboBox.addItem("--Empty--")
+
+        # Events
+        self.homeMain.createNewClassBtn.clicked.connect(lambda: self.resetDisplayData(True))
+        self.homeMain.btnOpenPrevClass.clicked.connect(lambda: self.openPrevClass())
+        self.homeMain.btnExportCard.clicked.connect(lambda: self.openExportWindow())
 
         def setToAttendanceOVPage(tabNo):
             self.setPage(self.attendancePage)
@@ -200,7 +219,8 @@ class UIFunctions:
             self.profileGradeBtn.clicked.connect(lambda: self.setPage(self.gradeJHSPage))
             self.profileMain.status.addItems(["Enrolled", "Pending", "Incomplete", "Dropped"])
         else:
-            shsStatus = ["Enrolled (1st and 2nd sem)", "Enrolled 1st Sem, No 2nd Sem", "No 1st Sem, Enrolled 2nd Sem", "Pending", "Incomplete", "Dropped"]
+            shsStatus = ["Enrolled (1st and 2nd sem)", "Enrolled 1st Sem, No 2nd Sem", "No 1st Sem, Enrolled 2nd Sem",
+                         "Pending", "Incomplete", "Dropped"]
             self.profileMain.status.addItems(shsStatus)
             self.profileGradeBtn.clicked.connect(lambda: self.setPage(self.gradeSHSPage))
 
@@ -213,7 +233,6 @@ class UIFunctions:
             formEntries = self.profileMain.save_update_learner()
             if type(formEntries) == list:
                 if len(formEntries) != 0:
-                    fromSem1Subjects = semesterSubjects_CRUD.viewSemSubjects(activeDbName, 1)  # check for sem1 subjects
                     if formEntries[1]:  # Adding New Learner to profile
                         addedID = profile_CRUD.addProfileData(activeDbName, formEntries[0])
                         fromProfile_Add = profile_CRUD.viewProfileData(activeDbName)
@@ -229,7 +248,11 @@ class UIFunctions:
 
                         if classDB[1] == "JUNIOR HIGH SCHOOL":
                             gradeJHS_CRUD.addGradesJHSData(activeDbName, addedID)
+                            fromJHSGrades = gradeJHS_CRUD.viewGradesJHSData(activeDbName)
+                            self.gradeJHSMain.show_jhsLearner(fromJHSGrades)
                         else:
+                            fromSem1Subjects = semesterSubjects_CRUD.viewSemSubjects(activeDbName,
+                                                                                     1)  # check for sem1 subjects
                             sem1SubjectCount = len(semesterSubjects_CRUD.viewSemSubjects(activeDbName, 1))
                             sem2SubjectCount = len(semesterSubjects_CRUD.viewSemSubjects(activeDbName, 2))
                             if sem1SubjectCount > 0:
@@ -323,6 +346,8 @@ class UIFunctions:
                     gradeJHSSelected = [item for item in fromGradesJHSUpdt if item[0] == jhsTableEntries[-1]]
                     self.gradeJHSMain.displayToJHSGradeTable(gradeJHSSelected[0])
                     self.gradeJHSMain.show_jhsLearner(fromGradesJHSUpdt)
+                    self.gradeJHSMain.studentJHSTable.selectRow(self.gradeJHSMain.selectedRow)
+
                     self.showMessage("Successful",
                                      f"ID No. {jhsTableEntries[-1]} grades has been successfully updated",
                                      QMessageBox.Icon.Information)
@@ -330,6 +355,7 @@ class UIFunctions:
                     self.showMessage("Invalid Grade",
                                      f"Error: {jhsTableEntries[0]} is not a valid grade",
                                      QMessageBox.Icon.Warning)
+
             else:
                 self.showMessage("No Selected Learner",
                                  "Please select learner from the left side table",
@@ -418,13 +444,15 @@ class UIFunctions:
                     gradeSHS_CRUD.updateGradesSHSData(activeDbName, shsGradesEntries)
                     if sem == 1:
                         sem1GradesSHSDataUpdt = gradeSHS_CRUD.viewGradesSHSData(activeDbName, 1)
-                        gradeSHSSelected = [item for item in sem1GradesSHSDataUpdt if item[0] == shsGradesEntries[-2]][0]
+                        gradeSHSSelected = [item for item in sem1GradesSHSDataUpdt if item[0] == shsGradesEntries[-2]][
+                            0]
                         self.gradeSHSMain.showSem1GradeTable(gradeSHSSelected)
                         self.gradeSHSMain.show_shsLearners(sem1GradesSHSDataUpdt, fromSem2GradesSHSData)
                         self.gradeSHSMain.studentTableSHS.selectRow(self.gradeSHSMain.selectedRow)
                     else:
                         sem2GradesSHSDataUpdt = gradeSHS_CRUD.viewGradesSHSData(activeDbName, 2)
-                        gradeSHSSelected = [item for item in sem2GradesSHSDataUpdt if item[0] == shsGradesEntries[-2]][0]
+                        gradeSHSSelected = [item for item in sem2GradesSHSDataUpdt if item[0] == shsGradesEntries[-2]][
+                            0]
                         self.gradeSHSMain.showSem2GradeTable(gradeSHSSelected)
                         self.gradeSHSMain.show_shsLearners(fromSem1GradesSHSData, sem2GradesSHSDataUpdt)
                         self.gradeSHSMain.studentTableSHS.selectRow(self.gradeSHSMain.selectedRow)
@@ -478,7 +506,8 @@ class UIFunctions:
                 fromMonthDataUpdt = schoolDaysPerMonth_CRUD.viewDaysPerMonthData(activeDbName)
 
                 r = self.attendOV_Main.studentTable_Att.currentRow()
-                attList = self.attendOV_Main.getAttendanceToDisplay(fromAttendanceUpdt, fromMonthDataUpdt, presAbsData[-1])
+                attList = self.attendOV_Main.getAttendanceToDisplay(fromAttendanceUpdt, fromMonthDataUpdt,
+                                                                    presAbsData[-1])
                 self.attendOV_Main.displayToAttendanceTable(attList)
                 self.attendOV_Main.show_AttOvLearner(fromAttendanceUpdt, fromObValData, fromMonthDataUpdt)
                 self.attendOV_Main.studentTable_Att.selectRow(r)
@@ -511,24 +540,55 @@ class UIFunctions:
                                  "Please select a learner from the left table",
                                  QMessageBox.Icon.Warning)
 
-    def resetDisplayData(self):
+    def openPrevClass(self):
+        selectedClass = self.homeMain.prevClassComboBox.currentText()
+        if selectedClass != "--Select Class--" or selectedClass != "--Empty--":
+            selectedDb = list(filter(lambda className: className[4] == selectedClass, self.prevClassDb))[0]
+            self.resetDisplayData(False)
+            mainDb_Create.updateDbNamesStatus(1, selectedDb[0])
+            self.checkClassData(self.homePage)
+
+    def clearLayout(self, layout):
+        while layout.count():
+            child = layout.takeAt(0)
+            if child.widget():
+                child.widget().deleteLater()
+
+    def resetDisplayData(self, isCreateNew):
         # add message box for creating new class
         if len(self.activeDb) > 0:
             activeDbRecord = self.activeDb[0]
-            mainDb_Create.updateDbNamesStatus(0, activeDbRecord[0])  # set the current database to be inactive
+
             # reset the data display in every page
             self.profileMain.cancel_save()
-            self.profileMain.profile_Table.clearContents()
-            self.gradeJHSMain.clearJHSSelection()
-            self.gradeJHSMain.studentJHSTable.clearContents()
-            self.attendOV_Main.studentTable_Att.clearContents()
             self.attendOV_Main.clearAttOvSelection()
-            # add SHS reset data here
+            # noinspection PyTypeChecker
+            self.clearLayout(self.profileLayout)
+            # noinspection PyTypeChecker
+            self.clearLayout(self.attendFrameLayout)
 
-            self.checkClassData(self.homePage)
+            if self.fromClassData[1] == "JUNIOR HIGH SCHOOL":
+                self.gradeJHSMain.clearJHSSelection()
+                # noinspection PyTypeChecker
+                self.clearLayout(self.gradesJHSLayout)
+            else:
+                self.gradeSHSMain.clearShsSelection()
+                # noinspection PyTypeChecker
+                self.clearLayout(self.gradesSHSLayout)
+
+            mainDb_Create.updateDbNamesStatus(0, activeDbRecord[0])  # set the current database to be inactive
+            if isCreateNew:
+                self.checkClassData(self.homePage)
+            # noinspection PyTypeChecker
+            self.clearLayout(self.homeLayout)
 
     def setPage(self, page):
         self.app_pages.setCurrentWidget(page)
+
+    def openExportWindow(self):
+        if self.exportWindow is None:
+            self.exportWindow = CardExportWindow(self.main_ui)
+        self.exportWindow.show()
 
     def showMessage(self, title, message, icon):  # warning message box
         msgBox = QMessageBox(text=message, parent=self.main_ui)

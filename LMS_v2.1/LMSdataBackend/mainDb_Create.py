@@ -66,12 +66,13 @@ def insertDbNames(dbName, isActive, created_on):  # run only for register class
     conn.close()
 
 
-def viewDbNames(isActive):  # run every start of app (checkDataClass)
+def viewDbNames(isActive, dbId=None):  # run every start of app (checkDataClass)
     conn = sqlite3.connect(resource_path("data\\lms_dbNames.db"))
     cur = conn.cursor()
     cur.execute('''SELECT * FROM DbNamesTable 
-                           WHERE isActive = COALESCE(?, isActive)''',
-                                 (isActive,))
+                           WHERE isActive = COALESCE(?, isActive)
+                             AND database_id = COALESCE(?, database_id)
+                           ''', (isActive, dbId))
     fromDbNames = cur.fetchall()
     conn.commit()
     conn.close()

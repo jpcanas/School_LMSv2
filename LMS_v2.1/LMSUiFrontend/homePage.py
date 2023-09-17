@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QFrame, QPushButton, QGraphicsDropShadowEffect, QLabel
+from PyQt6.QtWidgets import QFrame, QPushButton, QGraphicsDropShadowEffect, QLabel, QComboBox
 from PyQt6.QtGui import QColor
 
 from PyQt6.uic import loadUi
@@ -22,6 +22,18 @@ class Home(QFrame):
         self.sideFrame = self.findChild(QFrame, "side_frame")
         self.lblSchoolName = self.findChild(QLabel, "school_name")
 
+        self.lblHomeDepartment = self.findChild(QLabel, "lblHomeDepartment")
+        self.lblHomeGradeSectionSY = self.findChild(QLabel, "lblHomeGradeSectionSY")
+        self.lblHomeAdviser = self.findChild(QLabel, "lblHomeAdviser")
+        self.createNewClassBtn = self.findChild(QPushButton, "btnCreateNewClass")
+
+        self.lblLearnerCount = self.findChild(QLabel, "lblLearnerCount")
+
+        self.btnOpenPrevClass = self.findChild(QPushButton, "btnOpenPrevClass")
+        self.prevClassComboBox = self.findChild(QComboBox, "prevClassComboBox")
+
+        self.btnExportCard = self.findChild(QPushButton, "btnExportCard")
+
         # Drop shadow effect for sideframe
         self.shadowSide = QGraphicsDropShadowEffect()
         self.shadowSide.setBlurRadius(5)
@@ -30,5 +42,9 @@ class Home(QFrame):
         self.shadowSide.setColor(QColor(200, 200, 200, 255))
         self.sideFrame.setGraphicsEffect(self.shadowSide)
 
-    def config_HomeDisplay(self, schoolDB):
+    def config_HomeDisplay(self, schoolDB, classDB):
         self.lblSchoolName.setText(schoolDB[1])
+        self.lblHomeDepartment.setText(f"{classDB[1]} DEPARTMENT")
+        self.lblHomeGradeSectionSY.setText(f"Grade {classDB[5]} - {classDB[6]} {classDB[2]}")
+        self.lblHomeAdviser.setText(classDB[7])
+
