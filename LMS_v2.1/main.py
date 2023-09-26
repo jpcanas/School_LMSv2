@@ -1,6 +1,7 @@
-from PyQt6.QtWidgets import QApplication, QMainWindow, QFrame
+from PyQt6.QtWidgets import QApplication, QMainWindow, QFrame, QSplashScreen
 from PyQt6.QtCore import Qt
 from PyQt6 import QtGui
+from PyQt6.QtGui import QPixmap
 from PyQt6 import uic
 import sys
 
@@ -44,5 +45,11 @@ class MainWindow(QMainWindow):
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
+    splashImage = QPixmap(resource_path('assets\\splashScreen.png'))
+    splash = QSplashScreen(splashImage)
+    splash.show()
+    app.processEvents()
     window = MainWindow()
+    window.show()
+    splash.finish(window)
     app.exec()

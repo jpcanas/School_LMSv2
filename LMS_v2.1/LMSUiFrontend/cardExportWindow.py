@@ -1,7 +1,8 @@
-from PyQt6.QtWidgets import QDialog, QPushButton, QLineEdit, QRadioButton, QComboBox, QListWidget, QFileDialog
+from PyQt6.QtWidgets import QDialog, QPushButton, QLineEdit, QRadioButton, QComboBox, QListWidget, QFileDialog, QMessageBox
 from PyQt6 import uic
 import sys
-
+import time
+import os
 from absPath import resource_path
 
 from LMSdataBackend import schoolClass_CRUD
@@ -9,6 +10,8 @@ from LMSdataBackend import gradeJHS_CRUD
 from LMSdataBackend import gradeSHS_CRUD
 from LMSdataBackend import mainDb_Create
 from LMSdataBackend import cardExcelExport
+
+from LMSUiFrontend import loadingWindow
 
 
 class CardExportWindow(QDialog):
@@ -20,7 +23,7 @@ class CardExportWindow(QDialog):
         # Initialize widgets
         self.btnFilePath = self.findChild(QPushButton, "btnFilePath")
         self.txtFilePath = self.findChild(QLineEdit, "txtFilePath")
-        self.radioBtnSelectAl = self.findChild(QRadioButton, "radioBtnSelectAl")
+        self.radioBtnSelectAll = self.findChild(QRadioButton, "radioBtnSelectAll")
         self.radioBtnSelectFew = self.findChild(QRadioButton, "radioBtnSelectFew")
         self.expBtn = self.findChild(QPushButton, "expBtn")
 
@@ -32,6 +35,14 @@ class CardExportWindow(QDialog):
         # Events
         self.btnFilePath.clicked.connect(self.openFilePath)
         self.expBtn.clicked.connect(self.exportCard)
+        self.radioBtnSelectAll.toggled.connect(lambda: self.radioState(self.radioBtnSelectAll))
+        self.radioBtnSelectFew.toggled.connect(lambda: self.radioState(self.radioBtnSelectFew))
+
+    def radioState(self, r):
+        if r.isChecked() and r.text() == "SELECT ALL LEARNERS":
+            print("all selected")
+        elif r.isChecked() and r.text() == "SELECT LEARNERS FROM LIST":
+            print("few selected")
 
     def openFilePath(self):
         folder = str(QFileDialog.getExistingDirectory(self, "Select Directory to save"))
@@ -66,13 +77,38 @@ class CardExportWindow(QDialog):
 
         return sem1sem2Sorted
 
-    def exportCard(self):
-        if self.txtFilePath.text().strip() != "":
-            folderPath = self.txtFilePath.text().strip()
-            print("Exporting...")
-            v = cardExcelExport.ReportCardExport()
-            v.exportCard(self.getGrades(), folderPath)
-            print("Done. Check directory")
+    def checkTemplate(self):
+        jhsTemplate = resource_path("templates\\card_temp_JHSver2.xlsx")
+        shsTemplate = resource_path("templates\\card_temp_SHSver2.xlsx")
+        if os.path.exists(jhsTemplate) and os.path.exists(shsTemplate):
+            return True
         else:
-            print("Please select directory")
+            return False
+
+    def exportCard(self):
+        filePath = self.txtFilePath.text().strip()
+        if filePath != "" and self.checkTemplate():
+            if os.path.exists(filePath) and os.path.isdir(filePath):
+                self.loading = loadingWindow.LoadingWindow(filePath, self.getGrades())
+                self.loading.show()
+                self.loading.doneLoading.connect(lambda: self.close())
+                self.loading.processLoading()
+                self.expBtn.setEnabled(False)
+                self.btnFilePath.setEnabled(False)
+            else:
+                self.showMessage("Not Valid Path", "The selected folder is not valid", QMessageBox.Icon.Warning)
+
+        elif filePath == "":
+            self.showMessage("No Directory", "Please select a directory/folder to save", QMessageBox.Icon.Warning)
+        elif not self.checkTemplate():
+            self.showMessage("No Template", "Excel template does not found or has been moved.", QMessageBox.Icon.Warning)
+
+    def showMessage(self, title, message, icon):  # warning message box
+        msgBox = QMessageBox(text=message, parent=self)
+        msgBox.setWindowTitle(title)
+        # icons (QMessageBox.Icon.Question, QMessageBox.Icon.Information,
+        # QMessageBox.Icon.Warning, QMessageBox.Icon.Critical)
+        msgBox.setIcon(icon)
+        msgBox.setDefaultButton(QMessageBox.StandardButton.Ok)
+        msgBox.exec()
 

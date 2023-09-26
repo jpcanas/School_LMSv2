@@ -114,6 +114,9 @@ QLabel{
        <property name="text">
         <string>SELECT ALL LEARNERS</string>
        </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
       </widget>
       <widget class="QRadioButton" name="radioBtnSelectFew">
        <property name="geometry">
@@ -155,6 +158,11 @@ border: 1px solid rgb(100, 100, 100);
 	background-color: rgb(255, 255, 255);
 }</string>
        </property>
+       <item>
+        <property name="text">
+         <string>-- Select Learner --</string>
+        </property>
+       </item>
       </widget>
       <widget class="QPushButton" name="addBtn">
        <property name="geometry">
@@ -186,7 +194,7 @@ QPushButton:hover, QPushButton:focus{
 }</string>
        </property>
        <property name="text">
-        <string>Add learner</string>
+        <string>Add to List</string>
        </property>
       </widget>
       <widget class="QPushButton" name="clrBtn">
@@ -255,6 +263,9 @@ border-radius: 5px;
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <widget class="QPushButton" name="expBtn">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="minimumSize">
            <size>
             <width>130</width>
@@ -281,10 +292,14 @@ border-radius: 5px;
 	border-bottom: 2px solid rgb(17, 130, 107);
 	border-radius: 5px;
 	color: rgb(255, 255, 255);
-	background-color: rgb(26, 194, 161);
+	background-color:rgb(26, 194, 161);
 }
-QPushButton:focus{
-	border-style: inset;
+
+QPushButton:disabled, QPushButton:focus{
+	border: 2px solid rgb(200, 200, 200);
+	border-radius: 5px;
+	background-color: rgb(255, 255, 255);
+	color: rgb(200, 200, 200);
 }</string>
           </property>
           <property name="text">
@@ -294,6 +309,9 @@ QPushButton:focus{
         </item>
         <item>
          <widget class="QPushButton" name="btnCancel">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="minimumSize">
            <size>
             <width>130</width>
@@ -324,6 +342,11 @@ QPushButton:focus{
 }
 QPushButton:focus{
 	border-style: inset;
+}
+QPushButton:disabled{
+	border: 1px solid rgb(200, 200, 200);
+	background-color: rgb(255, 255, 255);
+	color: rgb(200, 200, 200);
 }</string>
           </property>
           <property name="text">
@@ -360,6 +383,9 @@ QPushButton:focus{
         </property>
         <item>
          <widget class="QPushButton" name="btnFilePath">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
           <property name="minimumSize">
            <size>
             <width>60</width>
@@ -382,7 +408,11 @@ QPushButton:focus{
            <string notr="true">QPushButton{
 	color: rgb(100, 100, 100);
 }
-</string>
+QPushButton:disabled{
+	border: 1px solid rgb(200, 200, 200);
+	background-color: rgb(255, 255, 255);
+	color: rgb(200, 200, 200);
+}</string>
           </property>
           <property name="text">
            <string>File path</string>
